@@ -18,6 +18,7 @@ export class NhapXuatTonKhoComponent implements OnInit {
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
   
   public  isDateRangeVisible: boolean = false;
+  public  isAccVisible: boolean = false;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
@@ -33,6 +34,7 @@ export class NhapXuatTonKhoComponent implements OnInit {
   public filter: string = '';
   public nhapkhos: any[];
   public nametable= 'BÁO CÁO NHẬP XUẤT TỒN KHO';
+  public ma_tk: string;
 
   bsModalRef: BsModalRef;
   

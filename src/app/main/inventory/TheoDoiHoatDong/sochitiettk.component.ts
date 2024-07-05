@@ -17,11 +17,12 @@ export class SoChiTietTKComponent implements OnInit {
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
   
   public  isDateRangeVisible: boolean = false;
+  public  isAccVisible: boolean = true;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
-  public ma_tk: string = '111';
+  public ma_tk: string;
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
@@ -62,7 +63,9 @@ export class SoChiTietTKComponent implements OnInit {
     try {
     
       const response: any = await this.dataService.postCanDoiKeToan('/SoChiTietTaiKhoan', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate), MA_TK : this.ma_tk
+      { TU_NGAY:this.getNowUTC(this.fromDate), 
+        DEN_NGAY : this.getNowUTC(this.toDate), 
+        MA_TK : this.ma_tk
 
       }).toPromise();
       this.nhapkhos = response;
@@ -125,13 +128,13 @@ export class SoChiTietTKComponent implements OnInit {
     {
       "Name": "NGAY_CT",
       "Caption": "Ngày CT",
-      "Width": 50,
+      "Width": 80,
       "Format": "d"
     },
     {
         "Name": "SO_CT",
         "Caption": "Số chứng từ",
-        "Width": 50,
+        "Width": 80,
         "Format": ""
       },
       {
@@ -143,13 +146,13 @@ export class SoChiTietTKComponent implements OnInit {
       {
         "Name": "MA_TK_DU",
         "Caption": "TK Đ/Ứng",
-        "Width": 50,
+        "Width": 80,
         "Format": ""
       },
       {
         "Name": "PS_NO",
         "Caption": "Phát sinh nợ",
-        "Width": 50,
+        "Width": 90,
         "Format": "#,##0.##;(#,##0.##);#"
       },
       {

@@ -19,12 +19,14 @@ export class CanDoiKeToanComponent2 implements OnInit {
 
     @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
   public  isDateRangeVisible: boolean = false;
+  public  isAccVisible: boolean = false;
 
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
+  public ma_tk: string;
 
   public nhapkhos: any[];
   public pageNumber: number = 1;

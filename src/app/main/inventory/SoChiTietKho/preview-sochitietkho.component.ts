@@ -9,6 +9,7 @@ import { AuthenService } from 'src/app/core/services/authen.service';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
   selector: 'app-printSCTK',
@@ -27,8 +28,12 @@ export class PreviewSCTKComponent implements OnInit {
   public ma_tk: string = '1331';
   
   public nametable :string ;
-  public namewh :string="Kho hàng"; 
-  public tenhang :string = "BIENBAOCAO-Biển báo cáo";
+  public ma_nl :string; 
+  public ma_kho :string;
+
+  public namekho :string; 
+  public namehang :string;
+
 
   
   public stringheadtable:string =`
@@ -63,14 +68,17 @@ export class PreviewSCTKComponent implements OnInit {
   `;
   public headHtml: SafeHtml;
   public rowHtml: SafeHtml;
+  data: any;
 
 
    
 
-  constructor(private _dataService: DataService,
+  constructor(
+    private dataService: DataService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private columnInfoService: ColuminfoService,
+    private sharedDataService: SharedDataService,
     private _authenService: AuthenService) {
       this.headHtml = this.sanitizer.bypassSecurityTrustHtml(this.stringheadtable);
 
@@ -81,24 +89,54 @@ export class PreviewSCTKComponent implements OnInit {
     var user = this._authenService.getLoggedInUser();
     this.getUserIdLogin(user.username);
 
-
-  
-    //get param from component
-
-    this.route.queryParams.subscribe(params => {
-      this.fromDate =params['fromDate']
-      this.toDate = params['toDate']
-      this.nametable = params['nametable']
-      
-      
-      // .split('-').reverse().join('/')
-     
+    this.sharedDataService.currentData.subscribe(data => {
+      if (data) {
+        this.data = data;
+      }
     });
+
+
+      this.fromDate =this.data.fromDate;
+      this.toDate = this.data.toDate;
+      this.nametable = this.data.nametable;
+      
+      this.ma_nl = this.data.ma_nl;
+      this.ma_kho = this.data.ma_kho;
+      
+      
+    
+  
 
     this.chungtus = history.state.chungtus;
     this.chungtus.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0));
-    //this.loadData();
+    this.loadKho();
+    this.loadNguonLuc();
 
+  }
+
+  async loadKho() {
+  
+    const uri = `/Kho/${this.ma_kho}`;
+    this.dataService.getKho(uri).subscribe(response => {
+      this.namekho = response['MA_KHO'] +"-"+response['TEN_KHO'];
+    
+    }, error => {
+      console.error('There was an error retrieving the warehouse name', error);
+    });
+    
+  }
+ 
+
+  async loadNguonLuc() {
+  
+    const uri = `/NguonLuc/${this.ma_nl}`;
+    this.dataService.getKho(uri).subscribe(response => {
+      this.namehang = response['MA_NL'] +"-"+response['TEN_NL'];
+    
+    }, error => {
+      console.error('There was an error retrieving the warehouse name', error);
+    });
+    
   }
 
   
@@ -113,7 +151,7 @@ export class PreviewSCTKComponent implements OnInit {
       let data = [];
       data.push("@UserName", userName);
       let params = { "CommandText": "uspDoiTuong___FindUserName", "CommandType": 1025, "Parameters": data }
-      await this._dataService.post('/commands', params).subscribe((response: any) => {
+      await this.dataService.post('/commands', params).subscribe((response: any) => {
         if (response.Data) {
           this.userLoginId = response.Data[0].ID_DT;
         }

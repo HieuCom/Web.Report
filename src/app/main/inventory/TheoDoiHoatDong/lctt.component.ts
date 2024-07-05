@@ -18,6 +18,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
   
   public  isDateRangeVisible: boolean = true;
+  public  isAccVisible: boolean = false;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
@@ -33,6 +34,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
   public filter: string = '';
   public nhapkhos: any[];
   public nametable= 'BÁO CÁO LƯU CHUYỂN TIỀN TỆ';
+  public ma_tk: string;
 
   bsModalRef: BsModalRef;
   

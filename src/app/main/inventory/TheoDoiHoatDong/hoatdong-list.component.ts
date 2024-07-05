@@ -19,6 +19,7 @@ export class HoaDongListComponent implements OnInit {
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
 
  public  isDateRangeVisible: boolean = true;
+ public  isAccVisible: boolean = false;
 
   public keyword: string = "";
   public dateRange: Date[];
@@ -35,6 +36,7 @@ export class HoaDongListComponent implements OnInit {
   public filter: string = '';
   public nhapkhos: any[];
   public nametable= 'BÁO CÁO KẾT QUẢ HOẠT ĐỘNG SẢN XUẤT KINH DOANH';
+  public ma_tk: string;
 
   bsModalRef: BsModalRef;
   

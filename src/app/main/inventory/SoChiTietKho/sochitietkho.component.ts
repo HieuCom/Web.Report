@@ -6,6 +6,11 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { KhoDialogComponent } from '../Dialog/kho-dialog.component';
+import { NguonLucDialogComponent } from '../Dialog/nguonluc-dialog.component';
+
+
 @Component({
   selector: 'app-sochitietkho',
   templateUrl: './sochitietkho.component.html',
@@ -31,12 +36,17 @@ export class SoChiTietKhoComponent implements OnInit {
   public totalRow: number;
   public filter: string = '';
   public nhapkhos: any[];
+  public danhSachKho: any[] = [];
   public nametable= 'SỔ CHI TIẾT HÀNG HÓA';
 
   public ID_KHO: number = 0;
 
   public ma_tk: number = 1331 ;
- 
+  public ma_kho: string = "23"  ;
+  public ma_nl: string = "839"  ;
+
+  public namekho: string ;
+  public namewh: string ;
 
 
 
@@ -46,13 +56,18 @@ export class SoChiTietKhoComponent implements OnInit {
     private _notificationService: NotificationService,
     private router: Router,
     private columnInfoService: ColuminfoService,
+    private sharedDataService: SharedDataService,
+   
     private modalService: BsModalService) { }
+   
+
 
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate;
     this.updateColumnInfo();
     this.loadData();
+    
   }
 
   updateColumnInfo() {
@@ -68,7 +83,16 @@ export class SoChiTietKhoComponent implements OnInit {
     try {
     
       const response: any = await this.dataService.postCanDoiKeToan('/SoChiTietKho', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate)
+      { 
+        TU_NGAY:this.getNowUTC(this.fromDate), 
+        DEN_NGAY : this.getNowUTC(this.toDate),
+        ID_DV:"1",
+        ID_KHO:this.ma_kho,    
+        ID_NHOM_NL:"0",
+        ID_NL:this.ma_nl,
+        BIT_LOAI_NL: 0,
+        ID_HDONG: 0,
+        ID_LO: 0
 
       }).toPromise();
       this.nhapkhos = response;
@@ -78,22 +102,29 @@ export class SoChiTietKhoComponent implements OnInit {
       console.error('An error occurred:', error); 
     }
     
- 
   }
+
+  
 
   chuyen(){
     let navigationExtras: NavigationExtras = {
-      queryParams: {
-        'fromDate':this.fromDate.toISOString().slice(0, 10),
-        'toDate':this.toDate.toISOString().slice(0, 10),
-        'nametable': this.nametable,
-  
-        
-      } ,
       state: {
         chungtus: this.nhapkhos.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
       }
     };
+
+    const data = {
+      fromDate: this.fromDate.toISOString().slice(0, 10),
+      toDate: this.toDate.toISOString().slice(0, 10),
+      nametable: this.nametable,
+      chungtus: this.nhapkhos,
+      ma_kho: this.ma_kho,
+      ma_nl: this.ma_nl
+    };
+
+    
+
+    this.sharedDataService.updateData(data);
     this.router.navigate(['/main/inventory/printSCTK'], navigationExtras);
    
     
@@ -103,6 +134,27 @@ export class SoChiTietKhoComponent implements OnInit {
       .filter(chungtu => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
 }
+
+openKhoDialog() {
+  const dialogRef = this.modalService.show(KhoDialogComponent);
+  dialogRef.content.khoSelected.subscribe((idKho: string) => {
+    this.ma_kho = idKho;
+    // Close the dialog if needed
+    dialogRef.hide();
+  });
+}
+
+openNLDialog() {
+  const dialogRef = this.modalService.show(NguonLucDialogComponent);
+  dialogRef.content.khoSelected.subscribe((idKho: string) => {
+    this.ma_nl = idKho;
+    // Close the dialog if needed
+    dialogRef.hide();
+  });
+}
+
+
+
 
 
 
@@ -136,12 +188,7 @@ export class SoChiTietKhoComponent implements OnInit {
 
   
   public columnInfonhapkho: any[] = [
-    {
-      "Name": "NHAP",
-      "Caption": "Nhập",
-      "Width": 50,
-      "Format": ""
-    },
+   
     {
       "Name": "NGAY_CT",
       "Caption": "Ngày CT",
