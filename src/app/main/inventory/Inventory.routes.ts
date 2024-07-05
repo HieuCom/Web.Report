@@ -38,6 +38,8 @@ import { ToKhaiThueComponent } from './ToKhaiThue/tokhaithue.component';
 import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
 import { KhoDialogComponent } from './Dialog/kho-dialog.component';
 import { NguonLucDialogComponent } from './Dialog/nguonluc-dialog.component';
+import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
+import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
 
 const routes: Routes = [
     { path: 'banhang', component: BanHangListComponent },
@@ -79,8 +81,11 @@ const routes: Routes = [
     {path: 'printBKBH', component: PreviewBKBHComponent},
     {path: 'printTKT', component: PreviewToKhaiThueComponent},
     {path: 'previewnogr', component: PreViewNoGr},
+    // test layout
     {path: 'kho', component: KhoDialogComponent},
     {path: 'nguonluc', component: NguonLucDialogComponent},
+    {path: 'taikhoan', component: TaiKhoanDialogComponent},
+    {path: 'taikhoanCN', component: TaiKhoanCNDialogComponent},
     
     
 

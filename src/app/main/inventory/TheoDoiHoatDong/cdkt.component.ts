@@ -123,6 +123,9 @@ export class CanDoiKeToanComponent2 implements OnInit {
     this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
     
   }
+  openDialog() {
+    
+  }
 
   reloaddata() {
     console.log(this.fromDate.toISOString().slice(0, 10),);   

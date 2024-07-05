@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
 @Component({
   selector: 'app-sochitiettk',
   templateUrl: './hoatdong-list.component.html',
@@ -110,6 +111,15 @@ export class SoChiTietTKComponent implements OnInit {
   
   reloaddata() {
     this.loadData();
+  }
+  
+  openDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+    dialogRef.content.khoSelected.subscribe((idKho: string) => {
+      this.ma_tk = idKho;
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
   }
   
 

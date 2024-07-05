@@ -102,6 +102,9 @@ export class NhapXuatTonKhoComponent implements OnInit {
       this.loadData();
     }
   }
+  openDialog() {
+    
+  }
   
   reloaddata() {
     this.loadData();

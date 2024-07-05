@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NhapKhoComponent } from '../NhapKho/nhapkho.component';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
 
 @Component({
   selector: 'app-hoatdong-list',
@@ -120,6 +121,15 @@ export class HoaDongListComponent implements OnInit {
   }
   onChangePageSize() {
     this.loadData();
+  }
+
+  openDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+    dialogRef.content.khoSelected.subscribe((idKho: string) => {
+      this.ma_tk = idKho;
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
   }
 
 

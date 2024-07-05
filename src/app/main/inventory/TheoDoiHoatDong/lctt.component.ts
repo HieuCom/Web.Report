@@ -100,6 +100,9 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
       this.loadData();
     }
   }
+  openDialog() {
+    
+    }
   
   reloaddata() {
     this.loadData();

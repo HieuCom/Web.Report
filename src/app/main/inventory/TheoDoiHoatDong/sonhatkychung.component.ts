@@ -106,6 +106,9 @@ export class SoNhatKyChungComponent implements OnInit {
   reloaddata() {
     this.loadData();
   }
+  openDialog() {
+    
+  }
   
 
   pageChanged(event: any): void {
