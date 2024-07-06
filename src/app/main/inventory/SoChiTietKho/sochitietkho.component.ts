@@ -42,8 +42,10 @@ export class SoChiTietKhoComponent implements OnInit {
   public ID_KHO: number = 0;
 
   public ma_tk: number = 1331 ;
-  public ma_kho: string = "23"  ;
-  public ma_nl: string = "839"  ;
+  public ma_kho: string = ""  ;
+  public ten_kho: string = ""  ;
+  public ma_nl: string = ""  ;
+  public ten_nl: string = ""  ;
 
   public namekho: string ;
   public namewh: string ;
@@ -137,8 +139,10 @@ export class SoChiTietKhoComponent implements OnInit {
 
 openKhoDialog() {
   const dialogRef = this.modalService.show(KhoDialogComponent);
-  dialogRef.content.khoSelected.subscribe((idKho: string) => {
-    this.ma_kho = idKho;
+  dialogRef.content.khoSelected.subscribe((selectedKho: object) => {
+    this.ma_kho = selectedKho["ID_KHO"];
+    this.ten_kho = selectedKho["TEN_KHO"];
+
     // Close the dialog if needed
     dialogRef.hide();
   });
@@ -146,8 +150,11 @@ openKhoDialog() {
 
 openNLDialog() {
   const dialogRef = this.modalService.show(NguonLucDialogComponent);
-  dialogRef.content.khoSelected.subscribe((idKho: string) => {
-    this.ma_nl = idKho;
+  dialogRef.content.khoSelected.subscribe((selectedKho: object) => {
+   
+    this.ma_nl = selectedKho["ID_NL"];
+    this.ten_nl = selectedKho["TEN_NL"];
+    //console.log(selectedKho);
     // Close the dialog if needed
     dialogRef.hide();
   });

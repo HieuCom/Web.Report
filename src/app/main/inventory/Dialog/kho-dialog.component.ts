@@ -73,9 +73,14 @@ export class KhoDialogComponent implements OnInit {
   ]
 
   chonKho(maKho: string) {
-    const selectedKho = this.danhSachKho.find(kho => kho.MA_KHO === maKho);
+    const selectedKho  = this.danhSachKho.find(
+      kho => kho.MA_KHO === maKho
+    );
+   // console.log(selectedKho);
     if (selectedKho) {
-      this.khoSelected.emit(selectedKho.ID_KHO);
+      this.khoSelected.emit(
+        selectedKho
+      );
     }
   }
 }

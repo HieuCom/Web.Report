@@ -76,7 +76,7 @@ export class NguonLucDialogComponent implements OnInit {
   chonKho(maKho: string) {
     const selectedKho = this.danhSachKho.find(kho => kho.MA_NL === maKho);
     if (selectedKho) {
-      this.khoSelected.emit(selectedKho.ID_NL);
+      this.khoSelected.emit(selectedKho);
     }
   }
 
