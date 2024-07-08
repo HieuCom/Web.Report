@@ -49,6 +49,12 @@ export class DataService {
       .pipe(catchError(this.handleError));
   }
 
+  getKho(uri: string) {
+
+    return this._http.get(this.BASE_API + uri, { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+
   get(uri: string) {
 
     return this._http.get(environment.BASE_API + uri, { headers: this.headers })

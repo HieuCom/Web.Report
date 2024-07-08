@@ -56,6 +56,11 @@ import { PreviewBKBHComponent } from './BangKeBanHang/preview-bangkebanhang.comp
 import { PreviewToKhaiThueComponent } from './ToKhaiThue/preview-tokhaithue.component';
 import { ToKhaiThueComponent } from './ToKhaiThue/tokhaithue.component';
 import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { KhoDialogComponent } from './Dialog/kho-dialog.component';
+import { NguonLucDialogComponent } from './Dialog/nguonluc-dialog.component';
+import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
+import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
 
 
 @NgModule({
@@ -66,6 +71,7 @@ import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
     PaginationModule,
     FormsModule,
     ReactiveFormsModule,
+   
     inventoryRouter,
     SharedModule,
     EditorModule,
@@ -100,6 +106,10 @@ import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
     BaoCaoLaiLoComponent,
     BangKeBanHangComponent,
     ToKhaiThueComponent,
+    KhoDialogComponent,
+    NguonLucDialogComponent,
+   TaiKhoanDialogComponent,
+   TaiKhoanCNDialogComponent,
 
 
     PreviewSQTMComponent,
@@ -124,8 +134,9 @@ import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    DataService, UtilityService, UploadService,ColuminfoService
+    DataService, UtilityService, UploadService,ColuminfoService,SharedDataService
   ]
 })
 export class inventoryModule {
+  
 }

@@ -17,6 +17,7 @@ export class SoNhatKyChungComponent implements OnInit {
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
   
   public  isDateRangeVisible: boolean = false;
+  public  isAccVisible: boolean = false;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
@@ -34,6 +35,7 @@ export class SoNhatKyChungComponent implements OnInit {
   public nametable= 'Sổ Nhật Ký Chung';
 
   bsModalRef: BsModalRef;
+  public ma_tk: string;
   
   constructor(private dataService: DataService,
     private _notificationService: NotificationService,
@@ -103,6 +105,9 @@ export class SoNhatKyChungComponent implements OnInit {
   
   reloaddata() {
     this.loadData();
+  }
+  openDialog() {
+    
   }
   
 

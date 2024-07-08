@@ -7,10 +7,9 @@
   <div class="row">
 
     <div class="col-md-3 col-sm-6 col-xs-12 form-group">
-      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
-        <p for="">Từ Ngày - Đến Ngày</p>
-      </div>
+    
       <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <p for="">Từ Ngày - Đến Ngày</p>
         <div class="col-md-7 col-sm-6 col-xs-12 form-group">
           <input type="text" placeholder="{{'FromDate| translate'}}" class="media" bsDatepicker
             [(ngModel)]="this.fromDate"
@@ -23,6 +22,23 @@
           <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
         </div>
       </div>   
+
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <p for="">Mã kho</p>
+          <input type="text"[(ngModel)]="this.ten_kho">
+          <button (click)="openKhoDialog()">...</button>
+      </div>  
+
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <p for="">Mã nguồn lực</p>
+          <input type="text"[(ngModel)]="this.ten_nl">
+          <button (click)="openNLDialog()">...</button>
+      </div> 
+
     </div>
     
     <div *ngIf="isDateRangeVisible" #dateRangeSection   class="col-md-3 col-sm-6 col-xs-12 form-group">
@@ -72,6 +88,7 @@
   <table class="table table-bordered">
     <thead>
       <tr>
+        <th>Nhập</th>
         <th *ngFor="let colInfo of columnInfonhapkho ">
           <div [style.width.px]="colInfo.Width">
             {{colInfo.Caption}}
@@ -81,7 +98,16 @@
     </thead>
     <tbody>
       <tr *ngFor="let chungtu of nhapkhos ; let i = index" class="select-item">
+
+        <td>
+          <ng-container *ngIf="chungtu.NHAP; else noIcon">
+            &#10003; <!-- Dấu tích -->
+          </ng-container>
+          <ng-template #noIcon></ng-template> <!-- Không hiển thị gì nếu false -->
+        </td>
+
         <td *ngFor="let colInfo of columnInfonhapkho">
+
           <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
           <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
           

@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { TaiKhoanCNDialogComponent } from '../Dialog/taikhoanCN-dialog.component';
 @Component({
   selector: 'app-sochitietcongno',
   templateUrl: './sochitietcongno.component.html',
@@ -122,7 +123,16 @@ export class SoChiTietCongNoComponent implements OnInit {
       this.loadData();
     }
   }
-  
+
+  openDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanCNDialogComponent);
+    dialogRef.content.khoSelected.subscribe((idKho: string) => {
+      this.ma_tk = idKho;
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
+  }
+
   reloaddata() {
     this.loadData();
   }
@@ -135,9 +145,6 @@ export class SoChiTietCongNoComponent implements OnInit {
   onChangePageSize() {
     this.loadData();
   }
-
-
-
   
   public columnInfonhapkho: any[] = [
   
