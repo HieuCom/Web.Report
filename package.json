@@ -1,6 +1,8 @@
 {
   "name": "CNS-CRM",
   "version": "0.0.0",
+  "BASE_URL":"http://apps.cnsvietnam.com.vn/demo",
+  "BASE_API":"http://apps.cnsvietnam.com.vn/demo/api",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

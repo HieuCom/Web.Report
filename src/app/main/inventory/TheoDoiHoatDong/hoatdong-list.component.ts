@@ -4,7 +4,6 @@ import { MessageContstants } from 'src/app/core/common/message.constants';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NhapKhoComponent } from '../NhapKho/nhapkho.component';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
@@ -17,10 +16,10 @@ import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
 export class HoaDongListComponent implements OnInit {
 
   @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
-  @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
+  @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
 
- public  isDateRangeVisible: boolean = true;
- public  isAccVisible: boolean = false;
+  public isDateRangeVisible: boolean = true;
+  public isAccVisible: boolean = false;
 
   public keyword: string = "";
   public dateRange: Date[];
@@ -35,12 +34,13 @@ export class HoaDongListComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = '';
-  public nhapkhos: any[];
-  public nametable= 'BÁO CÁO KẾT QUẢ HOẠT ĐỘNG SẢN XUẤT KINH DOANH';
+  public chungtus: any[];
+  public Taikhoans: any;
+  public nametable = 'BÁO CÁO KẾT QUẢ HOẠT ĐỘNG SẢN XUẤT KINH DOANH';
   public ma_tk: string;
 
   bsModalRef: BsModalRef;
-  
+
   constructor(private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -51,52 +51,64 @@ export class HoaDongListComponent implements OnInit {
 
     this.fromDate.setDate(1)
     this.toDate.setDate
-    console.log(this.fromDate.toISOString().slice(0, 10),);   
+    console.log(this.fromDate.toISOString().slice(0, 10),);
 
     //update columnInfo for table in service
     this.updateColumnInfo();
-
+    //load danh mục tài khoản
+    this.loadTaiKhoan();
     this.loadData();
-   
+
   }
 
   updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+    this.columnInfoService.changeColumnInfo(this.columnInfo);
   }
 
-  private getNowUTC(now : Date ) {
-   
+  private getNowUTC(now: Date) {
+
     return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
   }
   async loadData() {
     try {
-      const response: any = await this.dataService.postCanDoiKeToan('/KQHDSXKD', 
-      { TU_NGAY:this.getNowUTC(this.fromDate),
-         DEN_NGAY: this.getNowUTC(this.toDate),
-         TU_NGAY_TR:this.getNowUTC(this.fromDateTR), 
-         DEN_NGAY_TR:this.getNowUTC(this.toDateTR) }).toPromise();
-      this.nhapkhos = response;
-      console.log(this.nhapkhos[0].BOLD);
+      const response: any = await this.dataService.postCanDoiKeToan('/KQHDSXKD',
+        {
+          TU_NGAY: this.getNowUTC(this.fromDate),
+          DEN_NGAY: this.getNowUTC(this.toDate),
+          TU_NGAY_TR: this.getNowUTC(this.fromDateTR),
+          DEN_NGAY_TR: this.getNowUTC(this.toDateTR)
+        }).toPromise();
+      this.chungtus = response;
+      console.log(this.chungtus[0].BOLD);
     } catch (error) {
       console.error('An error occurred:', error);
     }
   }
-  chuyen(){
+
+  async loadTaiKhoan() {
+    try {
+      const response: any = await this.dataService.get('/TaiKhoan').toPromise();
+      this.Taikhoans = response;
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  }
+  chuyen() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'fromDate':this.fromDate.toISOString().slice(0, 10),
-        'toDate':this.toDate.toISOString().slice(0, 10),
+        'fromDate': this.fromDate.toISOString().slice(0, 10),
+        'toDate': this.toDate.toISOString().slice(0, 10),
         'nametable': this.nametable
-      } ,
+      },
       state: {
-        chungtus: this.nhapkhos
+        chungtus: this.chungtus
       }
     };
     this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
-    
+
   }
- 
-  
+
+
   onValueChangeDateRange(rangeDate) {
     if (rangeDate != undefined) {
       this.fromDate = rangeDate;
@@ -125,8 +137,8 @@ export class HoaDongListComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    dialogRef.content.khoSelected.subscribe((idKho: string) => {
-      this.ma_tk = idKho;
+    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+      this.ma_tk = ma_tk;
       // Close the dialog if needed
       dialogRef.hide();
     });
@@ -135,8 +147,8 @@ export class HoaDongListComponent implements OnInit {
 
 
 
-  
-  public columnInfonhapkho: any[] = [
+
+  public columnInfo: any[] = [
     {
       "Name": "TEN_CHI_TIEU",
       "Caption": "Tên Chỉ Tiêu",
@@ -181,8 +193,8 @@ export class HoaDongListComponent implements OnInit {
       "Format": "#,##0.##;(#,##0.##);#"
     },
 
-    
+
   ]
 
-  
+
 }

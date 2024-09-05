@@ -65,7 +65,10 @@
 .small-column {
     max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
 }
-
+.center{
+    text-align: center;
+    vertical-align: middle;
+}
 /* .caption{
     
     display: flex;

@@ -4,7 +4,6 @@ import { MessageContstants } from 'src/app/core/common/message.constants';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { BanHangComponent } from '../BanHang/banhang.component';
 
 @Component({
   selector: 'app-kho-dialog',
@@ -16,34 +15,39 @@ export class KhoDialogComponent implements OnInit {
   @Output() khoSelected = new EventEmitter<number>();
   danhSachKho: any[];
 
-  
- 
+
+
 
   constructor(private dataService: DataService,
     private _notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     //this.loadDanhSachKho();
     this.loadDataKho();
-   
+
   }
 
   async loadDataKho() {
-  
+
     try {
-    
-      const response: any = await this.dataService.getKho('/Kho', 
+
+      const response: any = await this.dataService.getKho('/Kho',
       ).toPromise();
       this.danhSachKho = response;
-    
+
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
-    
+
+  }
+  chonKho(ID_KHO: number) {
+    const selectedKho = this.danhSachKho.find(kho => kho.ID_KHO === ID_KHO);
+    if (selectedKho) {
+      this.khoSelected.emit(selectedKho);
+    }    
   }
 
-  
 
   public columnInfonhapkho: any[] = [
     {
@@ -64,23 +68,5 @@ export class KhoDialogComponent implements OnInit {
       "Width": 80,
       "Format": ""
     },
-   
-     
-    
-      
-      
-    
   ]
-
-  chonKho(maKho: string) {
-    const selectedKho  = this.danhSachKho.find(
-      kho => kho.MA_KHO === maKho
-    );
-   // console.log(selectedKho);
-    if (selectedKho) {
-      this.khoSelected.emit(
-        selectedKho
-      );
-    }
-  }
 }

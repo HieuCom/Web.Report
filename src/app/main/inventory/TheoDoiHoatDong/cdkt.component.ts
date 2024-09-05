@@ -27,8 +27,8 @@ export class CanDoiKeToanComponent2 implements OnInit {
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
   public ma_tk: string;
-
-  public nhapkhos: any[];
+  public Taikhoans: any;
+  public chungtus: any[];
   public pageNumber: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
@@ -55,7 +55,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
   
    // update columnInfo to show in table
   updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+    this.columnInfoService.changeColumnInfo(this.columnInfo);
   }
 
   async getUserIdLogin(userName) {
@@ -101,7 +101,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
     
       const response: any = await this._dataService.postCanDoiKeToan('/CanDoiKeToan', 
       { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate)}).toPromise();
-      this.nhapkhos = response;
+      this.chungtus = response;
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -117,7 +117,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
         'nametable': this.nametable
       } ,
       state: {
-        chungtus: this.nhapkhos
+        chungtus: this.chungtus
      }
     };
     this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
@@ -131,7 +131,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
     console.log(this.fromDate.toISOString().slice(0, 10),);   
     this.loadData()
   }
-  public columnInfonhapkho: any[] = [
+  public columnInfo: any[] = [
     {
       "Name": "TEN_CHI_TIEU",
       "Caption": "Tên chỉ tiêu",

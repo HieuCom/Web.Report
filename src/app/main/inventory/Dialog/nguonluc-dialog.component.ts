@@ -4,7 +4,6 @@ import { MessageContstants } from 'src/app/core/common/message.constants';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { BanHangComponent } from '../BanHang/banhang.component';
 
 @Component({
   selector: 'app-nguonluc-dialog',
@@ -13,40 +12,58 @@ import { BanHangComponent } from '../BanHang/banhang.component';
 })
 export class NguonLucDialogComponent implements OnInit {
 
-  @Output() khoSelected = new EventEmitter<number>();
-  danhSachKho: any[];
+  @Output() nguonLucSelected = new EventEmitter<number>();
+  danhSachNguonLuc: any[];
   public searchTerm: string = '';
 
-  
- 
+
+
 
   constructor(private dataService: DataService,
     private _notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    //this.loadDanhSachKho();
-    this.loadDataKho();
-   
+    //this.loadDanhSachNguonLuc();
+    this.loadDataNguonLuc();
+
   }
 
-  async loadDataKho() {
-  
+  async loadDataNguonLuc() {
+
     try {
-    
-      const response: any = await this.dataService.getKho('/NguonLuc', 
+
+      const response: any = await this.dataService.get('/NguonLuc',
       ).toPromise();
-      this.danhSachKho = response;
-    
+      this.danhSachNguonLuc = response;
+
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
-    
+
+  }
+  chonNguonLuc(ID_NL: number) {
+    const selectedNguonLuc = this.danhSachNguonLuc.find(nguonLuc => nguonLuc.ID_NL === ID_NL);
+    if (selectedNguonLuc) {
+      this.nguonLucSelected.emit(selectedNguonLuc);
+    }
+  }
+  normalizeString(str: string): string {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   }
 
-  
+  filterDanhSachNguonLuc() {
+    if (!this.searchTerm) {
+      this.loadDataNguonLuc(); // Reload the original list if the search term is empty
+    } else {
+      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
+      this.danhSachNguonLuc = this.danhSachNguonLuc.filter(nguonLuc =>
+        this.normalizeString(nguonLuc.TEN_NL).includes(normalizedSearchTerm)
+      );
+    }
+  }
 
-  public columnInfonhapkho: any[] = [
+  public columnInfonhapnguonLuc: any[] = [
     {
       "Name": "ID_NL",
       "Caption": "ID",
@@ -65,33 +82,11 @@ export class NguonLucDialogComponent implements OnInit {
       "Width": 80,
       "Format": ""
     },
-   
-     
-    
-      
-      
-    
+
+
+
+
+
+
   ]
-
-  chonKho(maKho: string) {
-    const selectedKho = this.danhSachKho.find(kho => kho.MA_NL === maKho);
-    if (selectedKho) {
-      this.khoSelected.emit(selectedKho);
-    }
-  }
-
-  normalizeString(str: string): string {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-  }
-  
-  filterDanhSachKho() {
-    if (!this.searchTerm) {
-      this.loadDataKho(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachKho = this.danhSachKho.filter(kho =>
-        this.normalizeString(kho.TEN_NL).includes(normalizedSearchTerm)
-      );
-    }
-  }
 }

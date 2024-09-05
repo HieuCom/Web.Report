@@ -8,8 +8,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-import { BanHangComponent } from './BanHang/banhang.component';
-import { BanHangListComponent } from './BanHangList/banhang-list.component';
 import { UtilityService } from 'src/app/core/services/utility.service';
 import { SignalrService } from 'src/app/core/services/signalr.service';
 import { DataService } from 'src/app/core/services/data.service';
@@ -17,8 +15,6 @@ import { AuthenService } from 'src/app/core/services/authen.service';
 import { UploadService } from 'src/app/core/services/upload.service';
 import { inventoryRouter } from './Inventory.routes';
 import { CommonpipeModule } from '../pipe/commonpipe.module';
-import { NhapKhoComponent } from './NhapKho/nhapkho.component';
-import { NhapKhoListComponent } from './NhapKhoList/nhapkho-list.component';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { SelectTonKhoComponent } from './SelectTonKho/selecttonkho.component';
 import { TheoDoiChungTuComponent } from './TheoDoiChungTu/theodoichungtu.component';
@@ -27,7 +23,6 @@ import { PrintCanDoiKeToanComponent } from './PrintCDKT/CanDoiKeToan/TheoDoiChun
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 import { CanDoiKeToanComponent2 } from './TheoDoiHoatDong/cdkt.component';
 import { LuuChuyenTienTeListComponent2 } from './TheoDoiHoatDong/lctt.component';
-import { NhapXuatTonKhoComponent } from './TheoDoiHoatDong/nhapxuattonkho.component';
 import { PrintTKComponent } from './PrintTonKho/printtk.component';
 import { SoNhatKyChungComponent } from './TheoDoiHoatDong/sonhatkychung.component';
 import { PreviewComponent } from './Preview/preview.component';
@@ -61,6 +56,8 @@ import { KhoDialogComponent } from './Dialog/kho-dialog.component';
 import { NguonLucDialogComponent } from './Dialog/nguonluc-dialog.component';
 import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
 import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
+import { NhapXuatTonComponent } from './NhapXuatTon/nhapxuatton.component';
+import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component';
 
 
 @NgModule({
@@ -81,16 +78,12 @@ import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component'
     TypeaheadModule.forRoot()
   ],
   declarations: [
-    BanHangListComponent,
-    BanHangComponent,
-    NhapKhoComponent,
-    NhapKhoListComponent,
     SelectTonKhoComponent,
     TheoDoiChungTuComponent,
     CanDoiKeToanComponent2,
     HoaDongListComponent,
     LuuChuyenTienTeListComponent2,
-    NhapXuatTonKhoComponent,
+    NhapXuatTonComponent,
     SoNhatKyChungComponent,
     SoChiTietTKComponent,
     SoQuyTienMatComponent,
@@ -125,8 +118,8 @@ import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component'
     PreviewBCLLComponent,
     PreviewBKBHComponent,
     PreviewToKhaiThueComponent,
-    PreViewNoGr
-    
+    PreViewNoGr,
+    PreviewNXTComponent,
    
 
     

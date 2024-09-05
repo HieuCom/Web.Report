@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { KhoDialogComponent } from '../Dialog/kho-dialog.component';
 @Component({
   selector: 'app-thekho',
   templateUrl: './thekho.component.html',
@@ -14,9 +15,9 @@ import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 export class TheKhoComponent implements OnInit {
 
   @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
-  @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
-  
-  public  isDateRangeVisible: boolean = false;
+  @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
+
+  public isDateRangeVisible: boolean = false;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
@@ -31,7 +32,7 @@ export class TheKhoComponent implements OnInit {
   public totalRow: number;
   public filter: string = '';
   public nhapkhos: any[];
-  public nametable= 'THẺ KHO';
+  public nametable = 'THẺ KHO';
 
   public ID_KHO: number = 0;
 
@@ -43,7 +44,7 @@ export class TheKhoComponent implements OnInit {
 
 
   bsModalRef: BsModalRef;
-  
+
   constructor(private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -60,52 +61,58 @@ export class TheKhoComponent implements OnInit {
   updateColumnInfo() {
     this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
   }
-  private getNowUTC(now : Date ) {
-   
+  private getNowUTC(now: Date) {
+
     return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
   }
 
   async loadData() {
-  
-    try {
-    
-      const response: any = await this.dataService.postCanDoiKeToan('/TheKho', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate), ID_KHO : this.ID_KHO
 
-      }).toPromise();
+    try {
+
+      const response: any = await this.dataService.postCanDoiKeToan('/TheKho',
+        {
+          TU_NGAY: this.getNowUTC(this.fromDate), DEN_NGAY: this.getNowUTC(this.toDate), ID_KHO: this.ID_KHO
+        }).toPromise();
       this.nhapkhos = response;
-      this.nhapkhos.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
-    
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
-    
- 
+
+
   }
 
-  chuyen(){
+  chuyen() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'fromDate':this.fromDate.toISOString().slice(0, 10),
-        'toDate':this.toDate.toISOString().slice(0, 10),
+        'fromDate': this.fromDate.toISOString().slice(0, 10),
+        'toDate': this.toDate.toISOString().slice(0, 10),
         'nametable': this.nametable,
         'ma_kho': this.ma_kho,
         'ten_kho': this.ten_kho,
-      } ,
+      },
       state: {
-        chungtus: this.nhapkhos.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
+        chungtus: this.nhapkhos
       }
     };
     this.router.navigate(['/main/inventory/printTheKho'], navigationExtras);
-   
-    
+
+
   }
   getTotal(chungtus, groupName, field) {
     return chungtus
       .filter(chungtu => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
-}
-
+  }
+  openDialog() {
+    const dialogRef = this.modalService.show(KhoDialogComponent);
+    dialogRef.content.khoSelected.subscribe((kho: any) => {
+      this.ID_KHO = kho.ID_KHO;
+      this.ma_kho = kho.MA_KHO
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
+  }
 
 
   onValueChangeDateRange(rangeDate) {
@@ -120,11 +127,11 @@ export class TheKhoComponent implements OnInit {
       this.loadData();
     }
   }
-  
+
   reloaddata() {
     this.loadData();
   }
-  
+
 
   pageChanged(event: any): void {
     this.pageNumber = event.page;
@@ -136,60 +143,51 @@ export class TheKhoComponent implements OnInit {
 
 
 
-  
+
   public columnInfonhapkho: any[] = [
     {
+      "Name": "SO_CT",
+      "Caption": "Số CT",
+      "Width": 10,
+      "Format": ""
+    },
+    {
       "Name": "NGAY_CT",
-      "Caption": "Ngày chứng từ",
-      "Width": 50,
+      "Caption": "Ngày CT",
+      "Width": 10,
       "Format": "d"
     },
     {
       "Name": "MA_NL",
       "Caption": "Ma HH'VT ",
-      "Width": 50,
+      "Width": 10,
+      "Format": ""
+    },       
+    {
+      "Name": "DIEN_GIAI",
+      "Caption": "Diễn giải",
       "Format": ""
     },
     {
-        "Name": "SO_CT",
-        "Caption": "Số chứng từ",
-        "Width": 50,
-        "Format": ""
-      },
-      {
-        "Name": "DIEN_GIAI",
-        "Caption": "Diễn giải", 
-        "Width": 500,
-        "Format": ""
-      },
+      "Name": "SO_LUONG_NHAP",
+      "Caption": "Số lượng nhập",
+      "Width": 15,
+      "Format": ""
+    },
+    {
+      "Name": "SO_LUONG_XUAT",
+      "Caption": "Số lượng xuất",
+      "Width": 15,
+      "Format": ""
+    },
+    {
+      "Name": "SO_LUONG_TON",
+      "Caption": "Số lượng tồn",
+      "Width": 15,
+      "Format": ""
+    },
 
-      {
-        "Name": "TEN_NL",
-        "Caption": "Tên hàng hóa , vật tư",
-        "Width": 90,
-        "Format": ""
-      },
 
-      {
-        "Name": "SO_LUONG_NHAP",
-        "Caption": "Số lượng nhập",
-        "Width": 50,
-        "Format": ""
-      },
-      {
-        "Name": "SO_LUONG_XUAT",
-        "Caption": "Số lượng xuất",
-        "Width": 50,
-        "Format": ""
-      },
-      {
-        "Name": "TK_DOI_UNG",
-        "Caption": "Số lượng tồn",
-        "Width": 50,
-        "Format": ""
-      },
-      
-    
   ]
-  
+
 }

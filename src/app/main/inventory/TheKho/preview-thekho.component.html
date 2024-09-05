@@ -28,29 +28,28 @@
       
         <!-- <thead [innerHTML]="headHtml" > -->
           <thead > 
-          <tr>
+          <tr >
            
-             <th colspan="2" style="text-align: center;" class="large-column">
+             <th colspan="2" style="text-align: center;vertical-align: middle;"  class="large-column">
                Chứng từ
              </th>
         
-             <th rowspan="2" class="small-column">
+             <th rowspan="2" style="text-align: center;vertical-align: middle;" class="small-column">
                DIỄN GIẢI
              </th>
             
-             <th colspan="3" style="text-align: center;" class="large-column">
+             <th colspan="3" style="text-align: center;vertical-align: middle;" class="large-column">
                SỐ LƯỢNG
              </th>
              
            </tr>
        
-           <tr>
-             <th>SỐ</th>
-             <th>NGÀY</th>
-             <th>NHẬP</th>
-             <th>XUẤT</th>
-             <th>TỒN</th>
-            
+           <tr >
+             <th [style.width.%]="10" class="center">SỐ</th>
+             <th [style.width.%]="10" class="center">NGÀY</th>
+             <th [style.width.%]="12" class="center">NHẬP</th>
+             <th [style.width.%]="12" class="center">XUẤT</th>
+             <th [style.width.%]="12" class="center">TỒN</th>            
            </tr>
 
         </thead>
@@ -59,22 +58,13 @@
       
           <!-- tên nhóm vật tư -->
           <ng-container *ngFor="let chungtu of chungtus ; let i = index">
-        
-            <!-- Thêm hàng mới để hiển thị tên nhóm -->
-            <tr >
-              <td><strong>{{ chungtu.MA_NL }} -{{ chungtu.TEN_NL }}  </strong> </td>
-              
-           
-            </tr>
-
-            <tr *ngIf="i == 0 || chungtus[i].MA_NL != chungtus[i-1].MA_NL">
-              <td><strong>{{ chungtu.MA_NL }} -{{ chungtu.TEN_NL }}  </strong> </td>
-               
+            <tr *ngIf="i == 0 || chungtus[i].ID_NL != chungtus[i-1].ID_NL">
+              <td><strong>{{ chungtu.MA_NL }} -{{ chungtu.TEN_NL }}  </strong> </td>               
             </tr>
           
             <!-- Hiển thị thông tin của từng mục -->
             <tr class="select-item">
-              <td *ngFor="let colInfo of columnInfonhapkho">
+              <td *ngFor="let colInfo of columnInfo">
                 <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
                 <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
                 

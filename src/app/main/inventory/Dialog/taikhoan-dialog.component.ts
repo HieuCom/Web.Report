@@ -4,7 +4,6 @@ import { MessageContstants } from 'src/app/core/common/message.constants';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { BanHangComponent } from '../BanHang/banhang.component';
 
 @Component({
   selector: 'app-taikhoan-dialog',
@@ -13,8 +12,8 @@ import { BanHangComponent } from '../BanHang/banhang.component';
 })
 export class TaiKhoanDialogComponent implements OnInit {
 
-  @Output() khoSelected = new EventEmitter<number>();
-  danhSachKho: any[];
+  @Output() taikhoanSelected = new EventEmitter<number>();
+  danhSachTaiKhoan: any[];
   public searchTerm: string = '';
 
   
@@ -25,18 +24,18 @@ export class TaiKhoanDialogComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    //this.loadDanhSachKho();
-    this.loadDataKho();
+    //this.loadDanhSachTaiKhoan();
+    this.loadDataTaiKhoan();
    
   }
 
-  async loadDataKho() {
+  async loadDataTaiKhoan() {
   
     try {
     
-      const response: any = await this.dataService.getKho('/TaiKhoan', 
+      const response: any = await this.dataService.get('/TaiKhoan', 
       ).toPromise();
-      this.danhSachKho = response;
+      this.danhSachTaiKhoan = response;
     
     } catch (error) {
       console.error('An error occurred:', error); 
@@ -46,7 +45,7 @@ export class TaiKhoanDialogComponent implements OnInit {
 
   
 
-  public columnInfonhapkho: any[] = [
+  public columnInfonhapTaiKhoan: any[] = [
     {
       "Name": "MA_TK",
       "Caption": "Mã TK",
@@ -68,10 +67,10 @@ export class TaiKhoanDialogComponent implements OnInit {
     
   ]
 
-  chonKho(maKho: string) {
-    const selectedKho = this.danhSachKho.find(kho => kho.MA_TK === maKho);
-    if (selectedKho) {
-      this.khoSelected.emit(selectedKho.MA_TK);
+  chonTaiKhoan(maTaiKhoan: string) {
+    const selectedTaiKhoan = this.danhSachTaiKhoan.find(TaiKhoan => TaiKhoan.MA_TK === maTaiKhoan);
+    if (selectedTaiKhoan) {
+      this.taikhoanSelected.emit(selectedTaiKhoan.MA_TK);
     }
   }
 
@@ -79,13 +78,13 @@ export class TaiKhoanDialogComponent implements OnInit {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   }
   
-  filterDanhSachKho() {
+  filterDanhSachTaiKhoan() {
     if (!this.searchTerm) {
-      this.loadDataKho(); // Reload the original list if the search term is empty
+      this.loadDataTaiKhoan(); // Reload the original list if the search term is empty
     } else {
       const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachKho = this.danhSachKho.filter(kho =>
-        this.normalizeString(kho.TEN_TK).includes(normalizedSearchTerm)
+      this.danhSachTaiKhoan = this.danhSachTaiKhoan.filter(TaiKhoan =>
+        this.normalizeString(TaiKhoan.TEN_TK).includes(normalizedSearchTerm)
       );
     }
   }

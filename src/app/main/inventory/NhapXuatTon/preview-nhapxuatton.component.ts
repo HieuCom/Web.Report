@@ -9,13 +9,14 @@ import { AuthenService } from 'src/app/core/services/authen.service';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { SharedDataService } from 'src/app/core/services/shared-data.service';
 
 @Component({
-  selector: 'app-printSQTM',
-  templateUrl: './preview-thekho.component.html',
-  styleUrls: ['./thekho.component.css']
+  selector: 'app-printNXT',
+  templateUrl: './preview-nhapxuatton.component.html',
+  styleUrls: ['./nhapxuatton.component.css']
 })
-export class PreviewTheKhoComponent implements OnInit {
+export class PreviewNXTComponent implements OnInit {
   public fromDate: string ='';
   public toDate: string = '';
   public chungtus: any[];
@@ -24,10 +25,16 @@ export class PreviewTheKhoComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public userLoginId: number;
-  public ma_tk: string = 'Kho công ty';
+  public ma_tk: string = '1331';
   
   public nametable :string ;
-  public namewh :string ;
+  public ID_NL :string; 
+  public ID_KHO :string;
+
+  public namekho :string; 
+  public namehang :string;
+
+
   
   public stringheadtable:string =`
   <tr>
@@ -61,14 +68,17 @@ export class PreviewTheKhoComponent implements OnInit {
   `;
   public headHtml: SafeHtml;
   public rowHtml: SafeHtml;
+  data: any;
 
 
    
 
-  constructor(private _dataService: DataService,
+  constructor(
+    private dataService: DataService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private columnInfoService: ColuminfoService,
+    private sharedDataService: SharedDataService,
     private _authenService: AuthenService) {
       this.headHtml = this.sanitizer.bypassSecurityTrustHtml(this.stringheadtable);
 
@@ -79,23 +89,54 @@ export class PreviewTheKhoComponent implements OnInit {
     var user = this._authenService.getLoggedInUser();
     this.getUserIdLogin(user.username);
 
-
-  
-    //get param from component
-
-    this.route.queryParams.subscribe(params => {
-      this.fromDate =params['fromDate']
-      this.toDate = params['toDate']
-      this.nametable = params['nametable']
-      this.namewh = params['ten_kho']
-      // .split('-').reverse().join('/')
-     
+    this.sharedDataService.currentData.subscribe(data => {
+      if (data) {
+        this.data = data;
+      }
     });
 
-    this.chungtus = history.state.chungtus;
-    // this.chungtus.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0));
-    //this.loadData();
 
+      this.fromDate =this.data.fromDate;
+      this.toDate = this.data.toDate;
+      this.nametable = this.data.nametable;
+      
+      this.ID_NL = this.data.ID_NL;
+      this.ID_KHO = this.data.ID_KHO;
+      
+      
+    
+  
+
+    this.chungtus = history.state.chungtus;
+    this.chungtus.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0));
+    this.loadKho();
+    this.loadNguonLuc();
+
+  }
+
+  async loadKho() {
+  
+    const uri = `/Kho/${this.ID_KHO}`;
+    this.dataService.getKho(uri).subscribe(response => {
+      this.namekho = response['MA_KHO'] +"-"+response['TEN_KHO'];
+    
+    }, error => {
+      console.error('There was an error retrieving the warehouse name', error);
+    });
+    
+  }
+ 
+
+  async loadNguonLuc() {
+  
+    const uri = `/NguonLuc/${this.ID_NL}`;
+    this.dataService.getKho(uri).subscribe(response => {
+      this.namehang = response['MA_NL'] +"-"+response['TEN_NL'];
+    
+    }, error => {
+      console.error('There was an error retrieving the warehouse name', error);
+    });
+    
   }
 
   
@@ -110,7 +151,7 @@ export class PreviewTheKhoComponent implements OnInit {
       let data = [];
       data.push("@UserName", userName);
       let params = { "CommandText": "uspDoiTuong___FindUserName", "CommandType": 1025, "Parameters": data }
-      await this._dataService.post('/commands', params).subscribe((response: any) => {
+      await this.dataService.post('/commands', params).subscribe((response: any) => {
         if (response.Data) {
           this.userLoginId = response.Data[0].ID_DT;
         }
@@ -118,43 +159,63 @@ export class PreviewTheKhoComponent implements OnInit {
     }
   }
 
-  public columnInfo: any[] = [
+  public columnInfonhapkho: any[] = [
     {
-      "Name": "SO_CT",        
-      "Caption": "Số",    
-      "Width": 30,
+      "Name": "NGAY_CT",
+      "Width": 20,
       "Format": ""
     },
     {
-      "Name": "NGAY_CT",        
-      "Caption": "Ngày ",   
-      "Width": 30 ,
-      "Format": "d"
-    },
-    {
-      "Name": "DIEN_GIAI",               
-      "Caption": "Diễn Giải",  
+      "Name": "SO_CT",
       "Width": 50,
       "Format": ""
     },
     {
-      "Name": "SO_LUONG_NHAP",      
-      "Caption": "Nhập",     
+      "Name": "SO_CT",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "DIEN_GIAI",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "GIA_VON",
+     
       "Width": 50,
       "Format": "#,##0.##;(#,##0.##);#"
     },
     {
-      "Name": "SO_LUONG_XUAT",        
-      "Caption": "Xuất",   
+      "Name": "SO_LUONG_NHAP",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "TIEN_NHAP",
       "Width": 50,
       "Format": "#,##0.##;(#,##0.##);#"
     },
     {
-      "Name": "SO_LUONG_TON",      
-      "Caption": "Tồn",     
+      "Name": "SO_LUONG_XUAT",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "TIEN_XUAT",
       "Width": 50,
       "Format": "#,##0.##;(#,##0.##);#"
     },
+    {
+      "Name": "SO_LUONG_TON",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "TIEN_TON",
+      "Width": 50,
+      "Format": "#,##0.##;(#,##0.##);#"
+    }
       
     
   ]

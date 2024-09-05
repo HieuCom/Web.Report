@@ -25,13 +25,13 @@ export class SoNhatKyChungComponent implements OnInit {
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
-
+  public Taikhoans: any;
   public pageNumber: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = '';
-  public nhapkhos: any[];
+  public chungtus: any[];
   public nametable= 'Sổ Nhật Ký Chung';
 
   bsModalRef: BsModalRef;
@@ -64,8 +64,8 @@ export class SoNhatKyChungComponent implements OnInit {
     
       const response: any = await this.dataService.postCanDoiKeToan('/SoNhatKyChung', 
       { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate)}).toPromise();
-      this.nhapkhos = response;
-      console.log(this.nhapkhos.length);
+      this.chungtus = response;
+      console.log(this.chungtus.length);
     } catch (error) {
       console.error('An error occurred:', error); 
     }
@@ -81,7 +81,7 @@ export class SoNhatKyChungComponent implements OnInit {
         'nametable': this.nametable
       } ,
       state: {
-        chungtus: this.nhapkhos
+        chungtus: this.chungtus
       }
     };
     this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
@@ -119,10 +119,7 @@ export class SoNhatKyChungComponent implements OnInit {
     this.loadData();
   }
 
-
-
-  
-  public columnInfonhapkho: any[] = [
+  public columnInfo: any[] = [
     {
       "Name": "NGAY_CT",
       "Caption": "Ngày CT",
@@ -145,7 +142,7 @@ export class SoNhatKyChungComponent implements OnInit {
       {
         "Name": "TEN_TK",
         "Caption": "Tên tài khoản",
-        "Width": 400,
+        "Width": 70,
         "Format": ""
       },
       {
@@ -175,7 +172,7 @@ export class SoNhatKyChungComponent implements OnInit {
       {
         "Name": "ONG_BA",
         "Caption": "Ông bà",
-        "Width": 300,
+        "Width": 100,
         "Format": ""
       },
       {
@@ -187,69 +184,21 @@ export class SoNhatKyChungComponent implements OnInit {
       {
         "Name": "TEN_DT",
         "Caption": "Tên đối tượng",
-        "Width": 300,
+        "Width": 100,
         "Format": ""
       },
     {
       "Name": "DIEN_GIAI",
       "Caption": "Diễn giải", 
-      "Width": 400,
+      "Width": 200,
       "Format": ""
     },
     {
       "Name": "mDIEN_GIAI",
       "Caption": "Diễn giải tổng", 
-      "Width": 400,
+      "Width": 200,
       "Format": ""
-    },
-    {
-      "Name": "mDIEN_GIAI",
-      "Caption": "Diễn giải tổng", 
-      "Width": 400,
-      "Format": ""
-    },
-    
+    }    
   ]
 
-  //column preview
-  public columnInfo: any[] = [
-    {
-      "Name": "SO_CT",
-      "Caption": "Số chứng từ ", 
-      "Width": 50,
-      "Format": ""
-    },
-    {
-      "Name": "NGAY_CT",
-      "Caption": "Tên Hàng Hóa ,Vật Tư ", 
-      "Width": 70,
-      "Format": "d"
-    },
-    {
-      "Name": "DIEN_GIAI",
-      "Caption": "Đơn Vị Tính",
-      "Width": 50,
-      "Format": ""
-    },
-    {
-      "Name": "MA_TK",
-      "Caption": "Lượng Đầu Kỳ",
-      "Width": 50,
-      "Format": ""
-    },
-    {
-      "Name": "PS_NO",
-      "Caption": "Tiền Đầu Kỳ",
-      "Width": 50,
-      "Format": "#,##0.##;(#,##0.##);"
-    },
-    {
-        "Name": "PS_CO",
-        "Caption": "Lượng nhập",
-        "Width": 50,
-        "Format": "#,##0.##;(#,##0.##);#"
-      },
-      
-    
-  ]
 } 

@@ -11,16 +11,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let chungtu of danhSachKho" (click)="chonKho(chungtu.MA_KHO)" class="select-item">
+      <tr *ngFor="let kho of danhSachKho" (click)="chonKho(kho.ID_KHO)" class="select-item">
         <td *ngFor="let colInfo of columnInfonhapkho">
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
+          <strong *ngIf="kho.BOLD == true && colInfo.Format == 'd' ">{{kho[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
+          <span *ngIf="kho.BOLD != true && colInfo.Format == 'd' ">{{kho[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
           
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
+          <strong *ngIf="kho.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{kho[colInfo.Name]|number }}</strong>
+          <span *ngIf="kho.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{kho[colInfo.Name]|number }}</span>
           
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+          <strong *ngIf="kho.BOLD == true && colInfo.Format == '' ">{{kho[colInfo.Name] }}</strong>
+          <span *ngIf="kho.BOLD != true && colInfo.Format == '' ">{{kho[colInfo.Name] }}</span>
         </td>
       </tr>
     </tbody>

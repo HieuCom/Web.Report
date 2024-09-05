@@ -21,37 +21,33 @@ export class DataService {
     this.headers = this.headers.set('Authorization', 'Bearer ' + _authenService.getLoggedInUser().access_token);
   }
 
-
-
-  private BASE_API = 'http://apps.cnsvietnam.com.vn/demo/api';
-
   postCanDoiKeToan(uri: string, data?: any) {
 
-    return this._http.post(this.BASE_API + uri, data)
+    return this._http.post(environment.BASE_API + uri, data, { headers: this.headers })
       .pipe(catchError(this.handleError));
   }
 
   // err hoatdong-list.component.ts:43 apps.cnsvietnam.com.vn/demo/api/KQHDSXKD 415 (Unsupported Media Type)
   getHDSXKD(uri: string, data?: any) {
 
-    return this._http.get(this.BASE_API + uri, data)
+    return this._http.get(environment.BASE_API + uri, data)
       .pipe(catchError(this.handleError));
   }
 
   post2CanDoiKeToan(uri: string, data: { TU_NGAY: Date, DEN_NGAY: Date }) {
-    return this._http.post(this.BASE_API + uri, data, { headers: this.headers })
+    return this._http.post(environment.BASE_API + uri, data, { headers: this.headers })
       .pipe(catchError(this.handleError));
   }
   
   getCanDoiKeToan(uri: string) {
 
-    return this._http.get(this.BASE_API + uri, { headers: this.headers })
+    return this._http.get(environment.BASE_API + uri, { headers: this.headers })
       .pipe(catchError(this.handleError));
   }
 
   getKho(uri: string) {
 
-    return this._http.get(this.BASE_API + uri, { headers: this.headers })
+    return this._http.get(environment.BASE_API + uri, { headers: this.headers })
       .pipe(catchError(this.handleError));
   }
 

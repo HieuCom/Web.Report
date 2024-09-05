@@ -28,8 +28,8 @@ export class PreviewSCTKComponent implements OnInit {
   public ma_tk: string = '1331';
   
   public nametable :string ;
-  public ma_nl :string; 
-  public ma_kho :string;
+  public ID_NL :string; 
+  public ID_KHO :string;
 
   public namekho :string; 
   public namehang :string;
@@ -100,8 +100,8 @@ export class PreviewSCTKComponent implements OnInit {
       this.toDate = this.data.toDate;
       this.nametable = this.data.nametable;
       
-      this.ma_nl = this.data.ma_nl;
-      this.ma_kho = this.data.ma_kho;
+      this.ID_NL = this.data.ID_NL;
+      this.ID_KHO = this.data.ID_KHO;
       
       
     
@@ -116,7 +116,7 @@ export class PreviewSCTKComponent implements OnInit {
 
   async loadKho() {
   
-    const uri = `/Kho/${this.ma_kho}`;
+    const uri = `/Kho/${this.ID_KHO}`;
     this.dataService.getKho(uri).subscribe(response => {
       this.namekho = response['MA_KHO'] +"-"+response['TEN_KHO'];
     
@@ -129,7 +129,7 @@ export class PreviewSCTKComponent implements OnInit {
 
   async loadNguonLuc() {
   
-    const uri = `/NguonLuc/${this.ma_nl}`;
+    const uri = `/NguonLuc/${this.ID_NL}`;
     this.dataService.getKho(uri).subscribe(response => {
       this.namehang = response['MA_NL'] +"-"+response['TEN_NL'];
     

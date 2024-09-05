@@ -22,12 +22,18 @@
             [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
           <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
         </div>
-      </div>   
+      </div>
     </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <p for="">Mã tài khoản</p>
+        <input type="text"[(ngModel)]="this.ma_tk ">
+        <button (click)="openDialog()">...</button>
+    </div> 
     
-    <div *ngIf="isDateRangeVisible" #dateRangeSection   class="col-md-3 col-sm-6 col-xs-12 form-group">
+    <div *ngIf="isDateRangeVisible" #dateRangeSection class="col-md-3 col-sm-6 col-xs-12 form-group">
       <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
-        <p >Từ Ngày TR - Đến Ngày TR</p>
+        <p>Từ Ngày TR - Đến Ngày TR</p>
       </div>
       <div class="col-md-10 col-sm-6 col-xs-12 form-group">
         <div class="col-md-7 col-sm-6 col-xs-12 form-group">
@@ -37,11 +43,12 @@
           <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
         </div>
         <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'ToDateTR| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDateTR"
+          <input type="text" placeholder="{{'ToDateTR| translate'}}" class="media" bsDatepicker
+            [(ngModel)]="this.toDateTR"
             [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
           <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
         </div>
-      </div>   
+      </div>
     </div>
 
     <div>
@@ -52,8 +59,7 @@
 
       <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
         <button class="btn btn-primary" type="button" (click)="chuyen()">
-          <span 
-            aria-hidden="true">
+          <span aria-hidden="true">
           </span> Pre
         </button>
       </div>
@@ -62,76 +68,86 @@
   </div>
 </div>
 <hr>
-<!-- <div class="btn-add-new">
-  <button class="btn btn-primary" type="button" (click)="showCreatenhapkhoModel()"><span
-      class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'add_new'| translate}}
-    </button>
-</div> -->
-<div class="nametb" >{{this.nametable}}</div>
-
-<div class="account">
-  <div>Dư nợ đầu ngày:{{this.nodauky | number}}</div>
-  <div>Phát sinh nợ: {{this.psno|number}}</div>
-  <div>Phát sinh có: {{this.psco|number}}</div>
-  <div>Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
- </div>
-
 <div class="table-responsive">
+  <h2 class="nametb">{{this.nametable}}</h2>
+  <h4 class="matk">Tài khoản:{{this.ma_tk}}</h4>
+  <p class="time">Từ ngày:{{ this.fromDate| date:'dd/MM/yyyy' }} đến ngày: {{ this.toDate| date:'dd/MM/yyyy'}} </p>
+  <div class="account">
+    <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+    <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div> -->
+    <div>Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+    <div>Phát sinh nợ: {{this.psno|number}}</div>
+    <div>Phát sinh có: {{this.psco|number}}</div>
+    <div>Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
+    <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
+    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th *ngFor="let colInfo of columnInfonhapkho ">
-          <div [style.width.px]="colInfo.Width">
-            {{colInfo.Caption}}
-          </div>
+        <th rowspan="2" class="small-column">
+          Ngày CT
+        </th>
+        <th colspan="2" style="text-align: center;" class="large-column">
+          SỐ CT
+        </th>
+
+        <th rowspan="2" class="small-column">
+          DIỄN GIẢI
+        </th>
+        <th rowspan="2" class="small-column">
+          TK ĐƯ
+        </th>
+        <th colspan="2" style="text-align: center;" class="large-column">
+          SỐ TIỀN
+        </th>
+        <th rowspan="2" class="small-column">
+          DƯ CUỐI
         </th>
       </tr>
+
+      <tr>
+        <th>BÁO CÓ</th>
+        <th>BÁO NỢ</th>
+        <th>GỬI</th>
+        <th>RÚT</th>
+
+      </tr>
+
     </thead>
+
     <tbody>
 
-    <ng-container *ngFor="let chungtu of nhapkhos ; let i = index">
-        
+      <!-- tên nhóm vật tư -->
+      <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+
         <!-- Thêm hàng mới để hiển thị tên nhóm -->
-        <tr >
+        <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i-1].SO_CT">
           <td><strong>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </strong> </td>
-          <td><strong>{{ chungtu.SO_CT }} </strong> </td>
-        
-          <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
-          <td><strong>{{ chungtu.ONG_BA }} </strong> </td>
-          <td><strong>{{ chungtu.TK_DOI_UNG }} </strong> </td>
-          <td>{{  chungtu.PS_NO |number }}</td>
-          <td>{{chungtu.PS_CO|number }}</td>
-            
-          
-            <td><strong>{{ chungtu.DU_CUOI}} </strong> </td>
-        </tr>
-      
-        <!-- Hiển thị thông tin của từng mục -->
-        <!-- <tr class="select-item">
-          <td *ngFor="let colInfo of columnInfonhapkho">
-            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
-            <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
-            
-            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
-            <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
-            
-            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
-            <span *ngIf="chungtu.BOLD !=  true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+
+
+          <!-- If chungtu.CRDB is not true, display value in PC column -->
+          <td>
+            <strong *ngIf="chungtu.CRDB==true">{{ chungtu.SO_CT }}</strong>
+            <strong *ngIf="chungtu.CRDB==false"></strong>
           </td>
-        </tr> -->
-      
+
+          <td>
+            <strong *ngIf="chungtu.CRDB==false">{{ chungtu.SO_CT }}</strong>
+            <strong *ngIf="chungtu.CRDB==true"></strong>
+          </td>
+
+
+          <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
+          <td><strong>{{ chungtu.MA_TK_DU}} </strong> </td>
+          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</td>
+          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO')|number }}</td>
+          <td>{{ chungtu.DU_CUOI | number}}</td>
+
+        </tr>
+
       </ng-container>
 
     </tbody>
-
   </table>
-  <div *ngIf="nhapkhos && nhapkhos.length == 0" class="col-md-12">
-    <div class="alert alert-info">
-      <strong>{{'dialog_alert_title'| translate }}!</strong> {{'task_manager_task_notice_list_empty'| translate }}
-    </div>
-
-  </div>
-  
- 
-
 </div>

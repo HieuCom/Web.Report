@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
 @Component({
   selector: 'app-soquytienguinh',
   templateUrl: './soquytienguinh.component.html',
@@ -14,9 +15,9 @@ import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 export class SoQuyTienGuiNHComponent implements OnInit {
 
   @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
-  @ViewChild('dateRangeSection') dateRangeSection: ElementRef; 
-  
-  public  isDateRangeVisible: boolean = false;
+  @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
+
+  public isDateRangeVisible: boolean = false;
   public keyword: string = "";
   public dateRange: Date[];
   public fromDate: Date = new Date();
@@ -30,19 +31,23 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = '';
-  public nhapkhos: any[];
-  public nametable= 'Sổ Quỹ Tiền Gửi Ngân Hàng';
+  public chungtus: any[];
+  public nametable = 'Sổ Quỹ Tiền Gửi Ngân Hàng';
   public ma_tk: string = '112';
 
   public psco: number = 0;
   public psno: number = 0;
 
-  
-  public nodauky: number = 0;
-  public nocuoiky: number = 0;
 
+  public nodauky: number = 0;
+  public codauky: number = 0;
+
+  public dauky: number = 0;
+
+  public nocuoiky: number = 0;
+  public cocuoiky: number = 0;
   bsModalRef: BsModalRef;
-  
+
   constructor(private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -52,61 +57,64 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate;
-    this.updateColumnInfo();
     this.loadData();
-    this.loadnodauky();
-    this.loadnocuoiky();
   }
 
-  updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
-  }
-  private getNowUTC(now : Date ) {
-   
+  private getNowUTC(now: Date) {
+
     return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
   }
 
   async loadData() {
-  
+    this.dauky = 0;
+    await this.loadnodauky();
+    await this.loadnocuoiky();
     try {
-    
-      const response: any = await this.dataService.postCanDoiKeToan('/SoQuyTienGuiNH', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate), MA_TK : this.ma_tk
 
-      }).toPromise();
-      this.nhapkhos = response;
-      this.psco = this.nhapkhos.reduce((sum, nhapkho) => sum + nhapkho.PS_CO, 0);
-      this.psno = this.nhapkhos.reduce((sum, nhapkho) => sum + nhapkho.PS_NO, 0);
-    
+      const response: any = await this.dataService.postCanDoiKeToan('/SoQuyTienGuiNH',
+        {
+          TU_NGAY: this.getNowUTC(this.fromDate), DEN_NGAY: this.getNowUTC(this.toDate), MA_TK: this.ma_tk
+
+        }).toPromise();
+      this.chungtus = response;
+      this.psco = this.chungtus.reduce((sum, chungtu) => sum + chungtu.PS_CO, 0);
+      this.psno = this.chungtus.reduce((sum, chungtu) => sum + chungtu.PS_NO, 0);
+      this.TotalDuCuoi()
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
-    
- 
+
+
   }
 
-  chuyen(){
+  chuyen() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'fromDate':this.fromDate.toISOString().slice(0, 10),
-        'toDate':this.toDate.toISOString().slice(0, 10),
+        'fromDate': this.fromDate.toISOString().slice(0, 10),
+        'toDate': this.toDate.toISOString().slice(0, 10),
         'nametable': this.nametable
-      } ,
+      },
       state: {
-        chungtus: this.nhapkhos.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
+        chungtus: this.chungtus.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
       }
     };
     this.router.navigate(['/main/inventory/printSQTGNH'], navigationExtras);
-   
-    
+
+
   }
   getTotal(chungtus, groupName, field) {
     return chungtus
       .filter(chungtu => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
-}
+  }
 
-
+  TotalDuCuoi() {
+    let dk = this.dauky;
+    this.chungtus.forEach(chungtu => {
+      chungtu.DU_CUOI = dk + chungtu.PS_NO - chungtu.PS_CO;
+      dk = chungtu.DU_CUOI;
+    });
+  }
 
   onValueChangeDateRange(rangeDate) {
     if (rangeDate != undefined) {
@@ -122,48 +130,52 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   }
 
   async loadnodauky() {
-  
-    try {
-    
-      const response: any = await this.dataService.postCanDoiKeToan('/DauKyTaiKhoan', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), 
-        DEN_NGAY : this.getNowUTC(this.toDate), 
-        ID_DV:1  ,
-        ID_DT:0    ,
-        MA_TK : this.ma_tk
 
-      }).toPromise();
+    try {
+
+      const response: any = await this.dataService.postCanDoiKeToan('/DauKyTaiKhoan',
+        {
+          TU_NGAY: this.getNowUTC(this.fromDate),
+          DEN_NGAY: this.getNowUTC(this.toDate),
+          ID_DV: 1,
+          ID_DT: 0,
+          MA_TK: this.ma_tk
+
+        }).toPromise();
       this.nodauky = response.DKN;
-      console.log(this.nodauky);
+      this.codauky = response.DKC;
+      this.dauky = response.DKN - response.DKC;
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
- 
+
   }
 
   async loadnocuoiky() {
-  
-    try {
-    
-      const response: any = await this.dataService.postCanDoiKeToan('/CuoiKyTaiKhoan', 
-      { TU_NGAY:this.getNowUTC(this.fromDate), 
-        DEN_NGAY : this.getNowUTC(this.toDate), 
-        ID_DV:1  ,
-        ID_DT:0    ,
-        MA_TK : this.ma_tk
 
-      }).toPromise();
+    try {
+
+      const response: any = await this.dataService.postCanDoiKeToan('/CuoiKyTaiKhoan',
+        {
+          TU_NGAY: this.getNowUTC(this.fromDate),
+          DEN_NGAY: this.getNowUTC(this.toDate),
+          ID_DV: 1,
+          ID_DT: 0,
+          MA_TK: this.ma_tk
+
+        }).toPromise();
       this.nocuoiky = response.CKN;
+      this.cocuoiky = response.CKC;
     } catch (error) {
-      console.error('An error occurred:', error); 
+      console.error('An error occurred:', error);
     }
- 
+
   }
-  
+
   reloaddata() {
     this.loadData();
   }
-  
+
 
   pageChanged(event: any): void {
     this.pageNumber = event.page;
@@ -173,9 +185,15 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     this.loadData();
   }
 
+  openDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+      this.ma_tk = ma_tk;
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
+  }
 
-
-  
   public columnInfonhapkho: any[] = [
     {
       "Name": "NGAY_CT",
@@ -184,51 +202,51 @@ export class SoQuyTienGuiNHComponent implements OnInit {
       "Format": "d"
     },
     {
-        "Name": "SO_CT",
-        "Caption": "Số chứng từ",
-        "Width": 50,
-        "Format": ""
-      },
-      {
-        "Name": "DIEN_GIAI",
-        "Caption": "Diễn giải", 
-        "Width": 70,
-        "Format": ""
-      },
+      "Name": "SO_CT",
+      "Caption": "Số chứng từ",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "DIEN_GIAI",
+      "Caption": "Diễn giải",
+      "Width": 70,
+      "Format": ""
+    },
 
-      {
-        "Name": "ONG_BA",
-        "Caption": "Ông bà",
-        "Width": 50,
-        "Format": ""
-      },
+    {
+      "Name": "ONG_BA",
+      "Caption": "Ông bà",
+      "Width": 50,
+      "Format": ""
+    },
 
-      {
-        "Name": "TK_DOI_UNG",
-        "Caption": "TK đối ứng",
-        "Width": 50,
-        "Format": ""
-      },
-      {
-        "Name": "PS_NO",
-        "Caption": "Thu tiền",
-        "Width": 50,
-        "Format": "#,##0.##;(#,##0.##);#"
-      },
-      {
-        "Name": "PS_CO",
-        "Caption": "Chi tiền",
-        "Width": 50,
-        "Format": "#,##0.##;(#,##0.##);#"
-      },
-      {
-        "Name": "DU_CUOI",
-        "Caption": "Dư cuối",
-        "Width": 50,
-        "Format": "#,##0.##;(#,##0.##);#"
-      },
-      
-    
+    {
+      "Name": "TK_DOI_UNG",
+      "Caption": "TK đối ứng",
+      "Width": 50,
+      "Format": ""
+    },
+    {
+      "Name": "PS_NO",
+      "Caption": "Thu tiền",
+      "Width": 50,
+      "Format": "#,##0.##;(#,##0.##);#"
+    },
+    {
+      "Name": "PS_CO",
+      "Caption": "Chi tiền",
+      "Width": 50,
+      "Format": "#,##0.##;(#,##0.##);#"
+    },
+    {
+      "Name": "DU_CUOI",
+      "Caption": "Dư cuối",
+      "Width": 50,
+      "Format": "#,##0.##;(#,##0.##);#"
+    },
+
+
   ]
-  
+
 }

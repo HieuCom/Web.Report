@@ -4,7 +4,6 @@ import { MessageContstants } from 'src/app/core/common/message.constants';
 import { DataService } from 'src/app/core/services/data.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NhapKhoComponent } from '../NhapKho/nhapkho.component';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
 @Component({
@@ -26,13 +25,13 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
-
+  public Taikhoans: any;
   public pageNumber: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = '';
-  public nhapkhos: any[];
+  public chungtus: any[];
   public nametable= 'BÁO CÁO LƯU CHUYỂN TIỀN TỆ';
   public ma_tk: string;
 
@@ -52,7 +51,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
   }
 
   updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+    this.columnInfoService.changeColumnInfo(this.columnInfo);
   }
   private getNowUTC(now : Date ) {
    
@@ -66,7 +65,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
         DEN_NGAY: this.getNowUTC(this.toDate),
         TU_NGAY_TR:this.getNowUTC(this.fromDateTR), 
         DEN_NGAY_TR:this.getNowUTC(this.toDateTR) }).toPromise();
-      this.nhapkhos = response;
+      this.chungtus = response;
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -80,7 +79,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
         'nametable': this.nametable
       } ,
       state: {
-        chungtus: this.nhapkhos
+        chungtus: this.chungtus
       }
     };
     this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
@@ -120,7 +119,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
 
 
   
-  public columnInfonhapkho: any[] = [
+  public columnInfo: any[] = [
     {
       "Name": "TEN_CHI_TIEU",
       "Caption": "Tên Chỉ Tiêu",

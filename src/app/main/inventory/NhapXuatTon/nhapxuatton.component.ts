@@ -12,11 +12,11 @@ import { NguonLucDialogComponent } from '../Dialog/nguonluc-dialog.component';
 
 
 @Component({
-  selector: 'app-sochitietkho',
-  templateUrl: './sochitietkho.component.html',
-  styleUrls: ['./sochitietkho.component.css']
+  selector: 'app-nhapxuatton',
+  templateUrl: './nhapxuatton.component.html',
+  styleUrls: ['./nhapxuatton.component.css']
 })
-export class SoChiTietKhoComponent implements OnInit {
+export class NhapXuatTonComponent implements OnInit {
 
   @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
   @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
@@ -84,18 +84,14 @@ export class SoChiTietKhoComponent implements OnInit {
 
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/SoChiTietKho',
+      const response: any = await this.dataService.postCanDoiKeToan('/NhapXuatTon',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           ID_DV: "1",
           ID_KHO: this.ID_KHO,
           ID_NHOM_NL: "0",
-          ID_NL: this.ID_NL,
-          BIT_LOAI_NL: 0,
-          ID_HDONG: 0,
-          ID_LO: 0
-
+          ID_NL: this.ID_NL
         }).toPromise();
       this.nhapkhos = response;
       this.nhapkhos.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0))
@@ -127,7 +123,7 @@ export class SoChiTietKhoComponent implements OnInit {
 
 
     this.sharedDataService.updateData(data);
-    this.router.navigate(['/main/inventory/printSCTK'], navigationExtras);
+    this.router.navigate(['/main/inventory/printNXT'], navigationExtras);
 
 
   }
@@ -199,46 +195,45 @@ export class SoChiTietKhoComponent implements OnInit {
   public columnInfonhapkho: any[] = [
 
     {
-      "Name": "NGAY_CT",
-      "Caption": "Ngày CT",
-      "Width": 50,
-      "Format": "d"
+      "Name": "MA_NHOM_NL",
+      "Caption": "Nhóm NL",
+      "Width": 50
     },
 
     {
-      "Name": "SO_CT",
-      "Caption": "Số chứng từ",
+      "Name": "MA_NL",
+      "Caption": "Mã HH/VT",
       "Width": 50,
       "Format": ""
     },
     {
-      "Name": "DIEN_GIAI",
-      "Caption": "Diễn giải",
+      "Name": "TEN_NL",
+      "Caption": "Tên HH/VT",
       "Width": 50,
       "Format": ""
     },
 
     {
-      "Name": "SO_LUONG",
-      "Caption": "Số lượng",
+      "Name": "TEN_DVT",
+      "Caption": "ĐVT",
       "Width": 30,
       "Format": ""
     },
     {
-      "Name": "GIA_VON",
-      "Caption": "Giá",
+      "Name": "LUONG_DK",
+      "Caption": "Lượng đầu kỳ",
       "Width": 50,
       "Format": "#,##0.##;(#,##0.##);#"
     },
     {
-      "Name": "TIEN_VON",
-      "Caption": "Tiền",
+      "Name": "TIEN_DK",
+      "Caption": "Tiền ĐK",
       "Width": 50,
       "Format": "#,##0.##;(#,##0.##);#"
     },
 
     {
-      "Name": "SO_LUONG_NHAP",
+      "Name": "LUONG_NHAP",
       "Caption": "Số lượng nhập",
       "Width": 30,
       "Format": ""
@@ -251,7 +246,7 @@ export class SoChiTietKhoComponent implements OnInit {
       "Format": "#,##0.##;(#,##0.##);#"
     },
     {
-      "Name": "SO_LUONG_XUAT",
+      "Name": "LUONG_XUAT",
       "Caption": "Số lượng xuất",
       "Width": 50,
       "Format": ""
@@ -263,22 +258,17 @@ export class SoChiTietKhoComponent implements OnInit {
       "Format": "#,##0.##;(#,##0.##);#"
     },
     {
-      "Name": "TEN_KH_HD",
+      "Name": "LUONG_TON",
       "Caption": "Số lượng tồn",
       "Width": 30,
       "Format": ""
     },
     {
-      "Name": "TEN_KH_HD",
+      "Name": "TIEN_TON",
       "Caption": "Tiền tồn",
       "Width": 30,
       "Format": "#,##0.##;(#,##0.##);#"
     },
-
-
-
-
-
   ]
 
 }

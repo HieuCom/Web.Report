@@ -5,6 +5,15 @@
 
 <div class="panel-filter">
   <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
+        <p for="">Kho</p>
+      </div>
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <input type="text" [(ngModel)]="this.ma_kho">
+        <button (click)="openDialog()">...</button> 
+      </div>
+    </div>
 
     <div class="col-md-3 col-sm-6 col-xs-12 form-group">
       <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
@@ -19,25 +28,6 @@
         </div>
         <div class="col-md-7 col-sm-6 col-xs-12 form-group">
           <input type="text" placeholder="{{'ToDate| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDate"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
-        </div>
-      </div>   
-    </div>
-    
-    <div *ngIf="isDateRangeVisible" #dateRangeSection   class="col-md-3 col-sm-6 col-xs-12 form-group">
-      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
-        <p >Từ Ngày TR - Đến Ngày TR</p>
-      </div>
-      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'FromDateTR| translate'}}" class="media" bsDatepicker
-            [(ngModel)]="this.fromDateTR"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
-        </div>
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'ToDateTR| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDateTR"
             [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
           <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
         </div>
@@ -71,9 +61,9 @@
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
-      <tr>
-        <th *ngFor="let colInfo of columnInfonhapkho ">
-          <div [style.width.px]="colInfo.Width">
+      <tr >
+        <th *ngFor="let colInfo of columnInfonhapkho " >
+          <div >
             {{colInfo.Caption}}
           </div>
         </th>
@@ -81,7 +71,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let chungtu of nhapkhos ; let i = index" class="select-item">
-        <td *ngFor="let colInfo of columnInfonhapkho">
+        <td *ngFor="let colInfo of columnInfonhapkho" [style.width.%]="colInfo.Width">
           <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
           <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
           

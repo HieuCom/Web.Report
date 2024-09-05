@@ -1,28 +1,14 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
   <div class="menu_section">
     <ul class="nav side-menu">
-      <!-- <li><a routerLink="/main" routerLinkActive="active"><i class="fa fa-home"></i> {{'home_page' | translate}}</a></li> -->
-      <!-- <li><a routerLink="/main/dashboard" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' | translate}}</a></li> -->
       <li><a routerLink="" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' | translate}}</a>
       </li>
-      <!-- 
-       <li ><a routerLink="inventory/nhapkho" routerLinkActive="active">Phiếu nhập hàng</a></li>
-      <li ><a routerLink="inventory/banhang" routerLinkActive="active">Phiếu xuất hàng</a></li>
-      <li ><a routerLink="inventory/candoi" routerLinkActive="active">Cân Đối Kế Toán</a></li> 
-       <li ><a routerLink="inventory/hoatdong" routerLinkActive="active">Kết Quả Hoạt Động Sản Xuất Kinh Doanh </a></li>
-      <li ><a routerLink="inventory/luuchuyentt" routerLinkActive="active">Lưu Chuyển Tiền Tệ </a></li>
-      <li ><a routerLink="inventory/nhapxuattk" routerLinkActive="active">Nhập Xuất Tồn Kho </a></li>
-      <li ><a routerLink="inventory/sochitiettk" routerLinkActive="active">Sổ Chi Tiết Tài Khoản </a></li> -->
-      <!-- <li class="menu_dropdown"  >
- -->
 
       <div class="menu_dropdown">
 
         <div class="item">
 
           <a (click)="toggleSubmenu('showSubmenu')" routerLink="inventory/tonghopbaocao" routerLinkActive="active">
-            <!-- <i  class="fa fa-chevron-down " aria-hidden="true"></i> -->
-            <!-- <i class="fa fa-chevron-right" aria-hidden="true"></i> -->
             <i [class]="submenus.showSubmenu ? 'fa fa-chevron-down' : 'fa fa-chevron-right'" aria-hidden="true"></i>
             BÁO CÁO
 
@@ -36,7 +22,6 @@
                 <ul>
                   <li><a routerLink="inventory/soquytienmat" routerLinkActive="active">Sổ quỹ tiền
                       mặt</a></li>
-
                 </ul>
               </div>
 
@@ -74,8 +59,7 @@
               <div [style.display]="submenus.showInventory ? 'block' : 'none'" class="sub__menu-lv2">
                 <ul>
                   <li><a routerLink="inventory/thekho" routerLinkActive="active">Thẻ Kho</a></li>
-                  <li><a routerLink="inventory/nhapxuattk" routerLinkActive="active">Tổng hợp nhập
-                      xuất</a></li>
+                  <li><a routerLink="inventory/nhapxuaton" routerLinkActive="active">Nhập xuất tồn</a></li>
                   <li><a routerLink="inventory/sochitietkho" routerLinkActive="active">Sổ chi
                       tiết</a></li>
                 </ul>
