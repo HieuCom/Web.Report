@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { NavigationExtras, Router } from '@angular/router';
 import { ColuminfoService } from 'src/app/core/services/columinfo.service';
+import { TaiKhoanDialogComponent } from '../Dialog/taikhoan-dialog.component';
 @Component({
   selector: 'app-soquytonghop',
   templateUrl: './soquytienguinh.component.html',
@@ -30,16 +31,21 @@ export class SoQuyTongHopComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = '';
-  public nhapkhos: any[];
+  public chungtus: any[];
   public nametable= 'Sổ Quỹ Tổng Hợp';
   public ma_tk: string = '111';
+
 
   public psco: number = 0;
   public psno: number = 0;
 
-  
   public nodauky: number = 0;
+  public codauky: number = 0;
+
+  public dauky: number = 0;
+
   public nocuoiky: number = 0;
+  public cocuoiky: number = 0;
 
   bsModalRef: BsModalRef;
   
@@ -72,8 +78,8 @@ export class SoQuyTongHopComponent implements OnInit {
       { TU_NGAY:this.getNowUTC(this.fromDate), DEN_NGAY : this.getNowUTC(this.toDate), MA_TK : this.ma_tk
 
       }).toPromise();
-      this.nhapkhos = response;
-     console.log(this.nhapkhos[1]);
+      this.chungtus = response;
+     console.log(this.chungtus[1]);
     
     } catch (error) {
       console.error('An error occurred:', error); 
@@ -90,7 +96,7 @@ export class SoQuyTongHopComponent implements OnInit {
         'nametable': this.nametable
       } ,
       state: {
-        chungtus: this.nhapkhos
+        chungtus: this.chungtus
       }
     };
     this.router.navigate(['/main/inventory/printSQTGNH'], navigationExtras);
@@ -130,7 +136,14 @@ export class SoQuyTongHopComponent implements OnInit {
   onChangePageSize() {
     this.loadData();
   }
-
+  openDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+      this.ma_tk = ma_tk;
+      // Close the dialog if needed
+      dialogRef.hide();
+    });
+  }
 
 
   

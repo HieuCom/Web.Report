@@ -67,14 +67,11 @@ export class NhapXuatTonComponent implements OnInit {
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate;
-    this.updateColumnInfo();
     this.loadData();
 
   }
 
-  updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
-  }
+
   private getNowUTC(now: Date) {
 
     return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
@@ -197,7 +194,8 @@ export class NhapXuatTonComponent implements OnInit {
     {
       "Name": "MA_NHOM_NL",
       "Caption": "Nhóm NL",
-      "Width": 50
+      "Width": 50,
+      "Format": ""
     },
 
     {

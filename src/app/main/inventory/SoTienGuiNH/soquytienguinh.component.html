@@ -27,10 +27,10 @@
 
     <div class="col-md-3 col-sm-6 col-xs-12 form-group">
       <p for="">Mã tài khoản</p>
-        <input type="text"[(ngModel)]="this.ma_tk ">
-        <button (click)="openDialog()">...</button>
-    </div> 
-    
+      <input type="text" [(ngModel)]="this.ma_tk ">
+      <button (click)="openDialog()">...</button>
+    </div>
+
     <div *ngIf="isDateRangeVisible" #dateRangeSection class="col-md-3 col-sm-6 col-xs-12 form-group">
       <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
         <p>Từ Ngày TR - Đến Ngày TR</p>
@@ -73,14 +73,14 @@
   <h4 class="matk">Tài khoản:{{this.ma_tk}}</h4>
   <p class="time">Từ ngày:{{ this.fromDate| date:'dd/MM/yyyy' }} đến ngày: {{ this.toDate| date:'dd/MM/yyyy'}} </p>
   <div class="account">
-    <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
-    <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div> -->
-    <div>Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+    <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+    <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div>
+    <!-- <div>Dư nợ đầu ngày:{{this.nodauky | number}}</div> -->
     <div>Phát sinh nợ: {{this.psno|number}}</div>
     <div>Phát sinh có: {{this.psco|number}}</div>
-    <div>Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
-    <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
-    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
+    <!-- <div>Dư nợ cuối ngày:{{this.nocuoiky | number}}</div> -->
+    <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
+    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div>
   </div>
   <table class="table table-bordered">
     <thead>
@@ -125,7 +125,6 @@
         <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i-1].SO_CT">
           <td><strong>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </strong> </td>
 
-
           <!-- If chungtu.CRDB is not true, display value in PC column -->
           <td>
             <strong *ngIf="chungtu.CRDB==true">{{ chungtu.SO_CT }}</strong>
@@ -137,12 +136,11 @@
             <strong *ngIf="chungtu.CRDB==true"></strong>
           </td>
 
-
           <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
           <td><strong>{{ chungtu.MA_TK_DU}} </strong> </td>
-          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</td>
-          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO')|number }}</td>
-          <td>{{ chungtu.DU_CUOI | number}}</td>
+          <td><strong>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</strong></td>
+          <td><strong>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO') | number }}</strong></td>
+          <td><strong>{{ chungtu.DU_CUOI | number}}</strong></td>
 
         </tr>
 

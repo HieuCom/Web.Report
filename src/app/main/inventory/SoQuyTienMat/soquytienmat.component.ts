@@ -40,8 +40,9 @@ export class SoQuyTienMatComponent implements OnInit {
 
   public dauky: number = 0;
   public nodauky: number = 0;
+  public codauky: number = 0;
   public nocuoiky: number = 0;
-
+  public cocuoiky: number = 0;
   public showDiv: boolean = true;
 
   bsModalRef: BsModalRef;
@@ -78,7 +79,7 @@ export class SoQuyTienMatComponent implements OnInit {
     await this.loadnocuoiky();
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/SoQuyTienMat',
+      const response: any = await this.dataService.post('/SoQuyTienMat',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
@@ -106,7 +107,7 @@ export class SoQuyTienMatComponent implements OnInit {
 
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/DauKyTaiKhoan',
+      const response: any = await this.dataService.post('/DauKyTaiKhoan',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
@@ -115,9 +116,9 @@ export class SoQuyTienMatComponent implements OnInit {
           MA_TK: this.ma_tk
 
         }).toPromise();
-      this.nodauky = response.DKN;
+      this.nodauky = response.DKN ?? 0;
+      this.codauky = response.DKC ?? 0;
       this.dauky = response.DKN - response.DKC;
-      console.log(this.nodauky);
     } catch (error) {
       console.error('An error occurred:', error);
     }
@@ -128,7 +129,7 @@ export class SoQuyTienMatComponent implements OnInit {
 
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/CuoiKyTaiKhoan',
+      const response: any = await this.dataService.post('/CuoiKyTaiKhoan',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
@@ -137,7 +138,8 @@ export class SoQuyTienMatComponent implements OnInit {
           MA_TK: this.ma_tk
 
         }).toPromise();
-      this.nocuoiky = response.CKN;
+      this.nocuoiky = response.CKN ?? 0;
+      this.cocuoiky = response.CKC ?? 0;
     } catch (error) {
       console.error('An error occurred:', error);
     }

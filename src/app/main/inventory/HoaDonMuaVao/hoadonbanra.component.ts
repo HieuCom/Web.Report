@@ -144,13 +144,13 @@ export class HoaDonBanRaComponent implements OnInit {
     },
     {
       "Name": "MAU_SO",
-      "Caption": "MAU_SO",
+      "Caption": "Mẫu số",
       "Width": 100,
       "Format": ""
     },
     {
       "Name": "SO_SERI",
-      "Caption": "SO_SERI",
+      "Caption": "Ký hiệu",
       "Width": 50,
       "Format": ""
     },
@@ -174,13 +174,13 @@ export class HoaDonBanRaComponent implements OnInit {
     },
     {
         "Name": "NGAY_HD",
-        "Caption": "NGAY_HD",
+        "Caption": "Ngày  HD",
         "Width": 60,
         "Format": "d"
       },
       {
         "Name": "TEN_KH_HD",
-        "Caption": "TEN_KH_HD",
+        "Caption": "Tên KH",
         "Width": 150,
         "Format": ""
       },
@@ -200,7 +200,7 @@ export class HoaDonBanRaComponent implements OnInit {
       },
       {
         "Name": "TIEN_TRTHUE",
-        "Caption": "Tiên Trc.Thuế",
+        "Caption": "Tiên trước thuế",
         "Width": 100,
         "Format": "#,##0.##;(#,##0.##);#"
       },

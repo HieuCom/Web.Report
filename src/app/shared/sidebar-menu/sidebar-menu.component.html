@@ -1,116 +1,15 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-  <div class="menu_section">
-    <ul class="nav side-menu">
-      <li><a routerLink="" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' | translate}}</a>
-      </li>
-
-      <div class="menu_dropdown">
-
-        <div class="item">
-
-          <a (click)="toggleSubmenu('showSubmenu')" routerLink="inventory/tonghopbaocao" routerLinkActive="active">
-            <i [class]="submenus.showSubmenu ? 'fa fa-chevron-down' : 'fa fa-chevron-right'" aria-hidden="true"></i>
-            BÁO CÁO
-
-          </a>
-
-          <div class="sub__menu" [style.display]="submenus.showSubmenu ? 'block' : 'none'">
-
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showSubmenu2')" routerLinkActive="active">Báo cáo tiền mặt</a>
-              <div class="sub__menu-lv2" [style.display]="submenus.showSubmenu2 ? 'block' : 'none'">
-                <ul>
-                  <li><a routerLink="inventory/soquytienmat" routerLinkActive="active">Sổ quỹ tiền
-                      mặt</a></li>
-                </ul>
-              </div>
-
-            </div>
-
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showSubmenuRpbank')" routerLinkActive="active">Báo cáo ngân hàng</a>
-              <div [style.display]="submenus.showSubmenuRpbank ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/sotienguinh" routerLinkActive="active">Sổ tiền gửi
-                      ngân hàng</a></li>
-
-                </ul>
-              </div>
-            </div>
-
-            <div class="sub__menu-item">
-
-              <a (click)="toggleSubmenu('showSubmenujournal')" routerLinkActive="active">Báo cáo nhật ký chung</a>
-              <div [style.display]="submenus.showSubmenujournal ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/sochitiettk" routerLinkActive="active">Sổ chi tiết
-                      tài khoản</a></li>
-                  <li><a routerLink="inventory/sonhatky" routerLinkActive="active">Sổ nhật ký
-                      chung</a></li>
-                  <li><a routerLink="inventory/bangkechungtu" routerLinkActive="active">Bảng kê
-                      chứng từ</a></li>
-
-                </ul>
-              </div>
-            </div>
-
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showInventory')" routerLinkActive="active">Báo cáo hàng tồn kho</a>
-              <div [style.display]="submenus.showInventory ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/thekho" routerLinkActive="active">Thẻ Kho</a></li>
-                  <li><a routerLink="inventory/nhapxuaton" routerLinkActive="active">Nhập xuất tồn</a></li>
-                  <li><a routerLink="inventory/sochitietkho" routerLinkActive="active">Sổ chi
-                      tiết</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showFinace')" routerLinkActive="active">Báo cáo tài chính</a>
-              <div [style.display]="submenus.showFinace ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/candoi" routerLinkActive="active">Bảng cân đối kế
-                      toán</a></li>
-                  <li><a routerLink="inventory/hoatdong" routerLinkActive="active">Báo cáo hoạt
-                      động sản xuất kinh doanh</a></li>
-                  <li><a routerLink="inventory/luuchuyentt" routerLinkActive="active">Báo cáo lưu
-                      chuyển tiền tệ</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showTax')" routerLinkActive="active">Báo cáo thuế</a>
-              <div [style.display]="submenus.showTax ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/hoadonmuavao" routerLinkActive="active">Tờ khai
-                      thuế GTGT mua vào</a></li>
-                  <li><a routerLink="inventory/hoadonbanra" routerLinkActive="active">Tờ khai thuế
-                      GTGT bán ra</a></li>
-                  <li><a routerLink="inventory/tokhaithue" routerLinkActive="active">Tờ khai thuế
-                      GTGT</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showOwe')" routerLinkActive="active">Báo cáo công nợ</a>
-              <div [style.display]="submenus.showOwe ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/sochitietcongno" routerLinkActive="active">Sổ Chi
-                      Tiết Công Nợ</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="sub__menu-item">
-              <a (click)="toggleSubmenu('showCommodity')" routerLinkActive="active">Báo cáo Hàng Hóa Vật Tư</a>
-              <div [style.display]="submenus.showCommodity ? 'block' : 'none'" class="sub__menu-lv2">
-                <ul>
-                  <li><a routerLink="inventory/baocaolailo" routerLinkActive="active">Báo Cáo Lãi
-                      Lỗ</a></li>
-                  <li><a routerLink="inventory/bangkebanhang" routerLinkActive="active">Bảng kê
-                      bán hàng</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <ul class="nav side-menu">
+    <li><a routerLink="/main" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' |
+        translate}}</a>
+    </li>
+    <li *ngFor="let item of functions"><a> <i
+          [ngClass]="item.IconAwesome === null ? 'fa fa-spinner' : 'fa ' + item.IconAwesome"></i> {{item.Name}} <span
+          *ngIf="item.ChildFunctions.length>0" class="fa fa-chevron-down"></span></a>
+      <ul class="nav child_menu">
+        <li *ngFor="let subItem of item.ChildFunctions"><a routerLink="{{subItem.Url}}"
+            routerLinkActive="active">{{subItem.Name}}</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>

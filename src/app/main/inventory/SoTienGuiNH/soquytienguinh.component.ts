@@ -71,7 +71,7 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     await this.loadnocuoiky();
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/SoQuyTienGuiNH',
+      const response: any = await this.dataService.post('/SoQuyTienGuiNH',
         {
           TU_NGAY: this.getNowUTC(this.fromDate), DEN_NGAY: this.getNowUTC(this.toDate), MA_TK: this.ma_tk
 
@@ -99,9 +99,8 @@ export class SoQuyTienGuiNHComponent implements OnInit {
       }
     };
     this.router.navigate(['/main/inventory/printSQTGNH'], navigationExtras);
-
-
   }
+
   getTotal(chungtus, groupName, field) {
     return chungtus
       .filter(chungtu => chungtu.SO_CT === groupName)
@@ -133,17 +132,17 @@ export class SoQuyTienGuiNHComponent implements OnInit {
 
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/DauKyTaiKhoan',
+      const response: any = await this.dataService.post('/DauKyTaiKhoan',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
-          ID_DV: 1,
+          ID_DV: 0,
           ID_DT: 0,
           MA_TK: this.ma_tk
 
         }).toPromise();
-      this.nodauky = response.DKN;
-      this.codauky = response.DKC;
+      this.nodauky = response.DKN ?? 0;
+      this.codauky = response.DKC ?? 0;
       this.dauky = response.DKN - response.DKC;
     } catch (error) {
       console.error('An error occurred:', error);
@@ -155,7 +154,7 @@ export class SoQuyTienGuiNHComponent implements OnInit {
 
     try {
 
-      const response: any = await this.dataService.postCanDoiKeToan('/CuoiKyTaiKhoan',
+      const response: any = await this.dataService.post('/CuoiKyTaiKhoan',
         {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),

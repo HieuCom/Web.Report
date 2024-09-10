@@ -38,8 +38,8 @@ export class TheKhoComponent implements OnInit {
 
 
   // lấy từ api /Kho theo ID_KHO
-  public ma_kho: string = 'KHO CÔNG TY';
-  public ten_kho: string = 'Kho công ty';
+  public ma_kho: string = '';
+  public ten_kho: string = '';
 
 
 

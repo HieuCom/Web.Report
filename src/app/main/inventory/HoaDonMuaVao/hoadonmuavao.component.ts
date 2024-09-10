@@ -144,13 +144,13 @@ export class HoaDonMuaVaoComponent implements OnInit {
     },
     {
       "Name": "MAU_SO",
-      "Caption": "MAU_SO",
+      "Caption": "Mẫu số",
       "Width": 50,
       "Format": ""
     },
     {
       "Name": "SO_SERI",
-      "Caption": "SO_SERI",
+      "Caption": "Ký hiệu",
       "Width": 50,
       "Format": ""
     },
@@ -174,13 +174,13 @@ export class HoaDonMuaVaoComponent implements OnInit {
     },
     {
         "Name": "NGAY_HD",
-        "Caption": "NGAY_HD",
+        "Caption": "Ngày HD",
         "Width": 50,
         "Format": "d"
       },
       {
         "Name": "TEN_KH_HD",
-        "Caption": "TEN_KH_HD",
+        "Caption": "Tên KH",
         "Width": 150,
         "Format": ""
       },
@@ -200,7 +200,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
       },
       {
         "Name": "TIEN_TRTHUE",
-        "Caption": "Tiên Trc.Thuế",
+        "Caption": "Tiên trước thuế",
         "Width": 50,
         "Format": "#,##0.##;(#,##0.##);#"
       },
