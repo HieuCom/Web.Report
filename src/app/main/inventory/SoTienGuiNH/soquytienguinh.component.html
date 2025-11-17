@@ -123,24 +123,14 @@
 
         <!-- Thêm hàng mới để hiển thị tên nhóm -->
         <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i-1].SO_CT">
-          <td><strong>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </strong> </td>
-
-          <!-- If chungtu.CRDB is not true, display value in PC column -->
-          <td>
-            <strong *ngIf="chungtu.CRDB==true">{{ chungtu.SO_CT }}</strong>
-            <strong *ngIf="chungtu.CRDB==false"></strong>
-          </td>
-
-          <td>
-            <strong *ngIf="chungtu.CRDB==false">{{ chungtu.SO_CT }}</strong>
-            <strong *ngIf="chungtu.CRDB==true"></strong>
-          </td>
-
-          <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
-          <td><strong>{{ chungtu.MA_TK_DU}} </strong> </td>
-          <td><strong>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</strong></td>
-          <td><strong>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO') | number }}</strong></td>
-          <td><strong>{{ chungtu.DU_CUOI | number}}</strong></td>
+          <td>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </td>
+          <td>{{ chungtu.SO_CT }} </td>
+          <td>{{ chungtu.SO_CT }} </td>
+          <td>{{ chungtu.DIEN_GIAI}} </td>
+          <td>{{ chungtu.MA_TK_DU}} </td>
+          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</td>
+          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO') | number }}</td>
+          <td>{{ chungtu.DU_CUOI | number}}</td>
 
         </tr>
 

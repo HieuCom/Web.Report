@@ -40,6 +40,8 @@ import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
 import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
 import { NhapXuatTonComponent } from './NhapXuatTon/nhapxuatton.component';
 import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component';
+import { SoCaiTKComponent } from './TheoDoiHoatDong/socaitk.component';
+import { CanDoiCongNoComponent } from './TheoDoiHoatDong/cdcn.component';
 
 const routes: Routes = [
     { path: 'baocao', component: TheoDoiChungTuComponent },
@@ -63,8 +65,9 @@ const routes: Routes = [
     { path: 'bangkebanhang', component: BangKeBanHangComponent },
     { path: 'tokhaithue', component: ToKhaiThueComponent },
     { path: 'nhapxuaton', component: NhapXuatTonComponent },
-
-
+    { path: 'socaitk', component: SoCaiTKComponent },
+    { path: 'cdcn', component: CanDoiCongNoComponent },
+    
 
     { path: 'printCDKT', component: PrintCanDoiKeToanComponent },
     { path: 'printTK', component: PrintTKComponent },

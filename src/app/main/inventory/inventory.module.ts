@@ -1,4 +1,4 @@
-import {  NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateModule } from '@ngx-translate/core';
@@ -58,6 +58,8 @@ import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
 import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
 import { NhapXuatTonComponent } from './NhapXuatTon/nhapxuatton.component';
 import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component';
+import { SoCaiTKComponent } from './TheoDoiHoatDong/socaitk.component';
+import { CanDoiCongNoComponent } from './TheoDoiHoatDong/cdcn.component';
 
 
 @NgModule({
@@ -68,7 +70,7 @@ import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component
     PaginationModule,
     FormsModule,
     ReactiveFormsModule,
-   
+
     inventoryRouter,
     SharedModule,
     EditorModule,
@@ -101,10 +103,11 @@ import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component
     ToKhaiThueComponent,
     KhoDialogComponent,
     NguonLucDialogComponent,
-   TaiKhoanDialogComponent,
-   TaiKhoanCNDialogComponent,
-
-
+    TaiKhoanDialogComponent,
+    TaiKhoanCNDialogComponent,
+    SoCaiTKComponent,
+    CanDoiCongNoComponent,
+    
     PreviewSQTMComponent,
     PrintTKComponent,
     PrintCanDoiKeToanComponent,
@@ -120,16 +123,16 @@ import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component
     PreviewToKhaiThueComponent,
     PreViewNoGr,
     PreviewNXTComponent,
-   
 
-    
+
+
     // SimpleTinyComponent
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    DataService, UtilityService, UploadService,ColuminfoService,SharedDataService
+    DataService, UtilityService, UploadService, ColuminfoService, SharedDataService
   ]
 })
 export class inventoryModule {
-  
+
 }

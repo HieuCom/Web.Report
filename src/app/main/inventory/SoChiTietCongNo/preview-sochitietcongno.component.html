@@ -4,8 +4,8 @@
     <div class="title" >
       
       <div class="temp">
-        <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
-        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
+        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p> -->
       
     </div>
     
@@ -21,7 +21,7 @@
     <!-- <div [innerHTML]="safeHtml"></div> -->
     <div class="table-responsive">
       <h2 class="nametb" >{{this.nametable}}</h2>
-      <p class="time" >Từ ngày:{{ this.fromDate}} đến ngày: {{ this.toDate }} </p>
+      <p class="time" >Từ ngày:{{ this.fromDate| date:'dd/MM/yyyy'}} đến ngày: {{ this.toDate | date:'dd/MM/yyyy'}} </p>
      
       <p class="nametb" >Tên tài khoản:{{this.ma_tk}}</p>
 
