@@ -1,0 +1,27 @@
+{
+    "TaskTodoTemplateForm": {
+        "ColumnInfo": {
+            "Code": {
+                "Name": "Code",
+                "Caption": "Mã nhóm việc",
+                "DataType": "string",
+                "Width": 120,
+                "AllowEditing": true
+            },
+            "CategoryId": {
+                "Name": "CategoryId",
+                "Caption": "Phân loại",
+                "DataType": "number",
+                "Width": 100,
+                "AllowEditing": true
+            },
+            "Description": {
+                "Name": "Description",
+                "Caption": "Diễn giải",
+                "DataType": "string",
+                "Width": 200,
+                "AllowEditing": true
+            }
+        }
+    }
+}

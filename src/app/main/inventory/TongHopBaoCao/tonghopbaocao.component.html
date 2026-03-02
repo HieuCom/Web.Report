@@ -1,0 +1,60 @@
+<div class="mainrp" *ngIf="showMainReports">
+    <ul>
+      <li (click)="toggleReports('money')">Báo cáo tiền mặt</li>  
+      <li (click)="toggleReports('bank')">Báo cáo ngân hàng</li>
+      <li (click)="toggleReports('journal')">Báo cáo nhật ký chung</li>
+      <li (click)="toggleReports('financial')">Báo cáo tài chính</li>
+      <li (click)="toggleReports('inventory')">Báo cáo hàng tồn kho</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!showMainReports && showMoneyReports">
+    <button class="back-button" (click)="goBack()">&#8592;</button>
+    <ul>
+      <li><a routerLink="/main/inventory/soquytienmat">Sổ quỹ tiền mặt</a></li>
+      <li>Bảng kê phiếu thu</li>
+      <li>Bảng kê phiếu chi</li>
+      <li>Bảng kê tổng hợp thu chi</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!showMainReports && showBankReports">
+    <button class="back-button" (click)="goBack()">&#8592;</button>
+    <ul>
+      <li><a routerLink="/main/inventory/sotienguinh">Sổ tiền gửi ngân hàng</a></li>
+      <li>Bảng kê phiếu thu</li>
+      <li>Bảng kê phiếu chi</li>
+      <li>Bảng kê tổng hợp thu chi</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!showMainReports && showJournalReports">
+    <button class="back-button" (click)="goBack()">&#8592;</button>
+    <ul>
+      <li><a routerLink="/main/inventory/sochitiettk">Sổ chi tiết tài khoản</a></li>
+      <li><a routerLink="/main/inventory/sonhatky">Sổ nhật ký chung</a></li>
+      <li>Bảng kê phiếu thu</li>
+      <li>Bảng kê phiếu chi</li>
+      <li>Bảng kê tổng hợp thu chi</li>
+    </ul>
+  </div>
+
+  <div *ngIf="!showMainReports && showFinancialReports">
+    <button class="back-button" (click)="goBack()">&#8592;</button>
+    <ul>
+      <li><a routerLink="/main/inventory/candoi">Bảng cân đối kế toán</a></li>
+      <li><a routerLink="/main/inventory/sonhatky">Báo cáo hoạt động sản xuất kinh doanh</a></li>
+      <li><a routerLink="/main/inventory/hoatdong">Báo cáo lưu chuyển tiền tệ</a></li>
+     
+    </ul>
+  </div>
+
+  <div *ngIf="!showMainReports && showInventoryReports">
+    <button class="back-button" (click)="goBack()">&#8592;</button>
+    <ul>
+      <li><a routerLink="/main/inventory/nhapxuattk">Nhập xuất tồn</a></li>
+  
+     
+    </ul>
+  </div>
+  

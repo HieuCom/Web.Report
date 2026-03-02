@@ -1,0 +1,6 @@
+  @media (min-width: 1200px){
+    ::ng-deep .modal-lg{
+      max-width: 1200px !important;
+      width: 1200px;
+    }
+  }

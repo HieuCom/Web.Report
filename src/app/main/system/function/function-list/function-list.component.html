@@ -1,0 +1,105 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>Danh sách người dùng</h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input type="text" class="form-control" name="filter" (keyup.enter)="search()" [(ngModel)]="filter"
+          placeholder="Gõ tên quyền...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" (click)="search()" type="button">Tìm!</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <ul class="nav navbar-right panel_toolbox">
+          <li>
+            <button class="btn btn-success" (click)="showAddModal()">Thêm mới</button>
+          </li>
+
+        </ul>
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+
+        <!--Show table-->
+        <!-- <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Mã</th>
+              <th>URL</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let fx of _functionHierachy">
+              <td>{{fx.Name}}</td>
+              <td>{{fx.URL}}</td>
+              <td>
+                <button class="btn btn-xs btn-success" (click)="showPermission(fx.ID)"> <i class="fa fa-lock"
+                    aria-hidden="true"></i></button>
+                <button class="btn btn-xs btn-primary" (click)="showEdit(fx.ID)"> <i class="fa fa-pencil-square-o"
+                    aria-hidden="true"></i></button>
+                <button class="btn btn-xs btn-danger" (click)="delete(fx.ID)"><i class="fa fa-trash"
+                    aria-hidden="true"></i></button>
+              </td>
+
+            </tr>
+
+          </tbody>
+        </table> -->
+
+        <!--Show two level menu-->
+        <div>
+          <ul>
+            <li *ngFor="let item of _functionHierachy"><a><i class="fa "></i> {{item.Name}} <span
+                  *ngIf="item.children.length>0" class="fa fa-chevron-down"></span></a>
+
+              <button class="btn btn-xs btn-success" (click)="showPermission(item.ID)"> <i class="fa fa-lock"
+                  aria-hidden="true"></i></button>
+              <button class="btn btn-xs btn-primary" (click)="showEdit(item.ID)"> <i class="fa fa-pencil-square-o"
+                  aria-hidden="true"></i></button>
+              <button class="btn btn-xs btn-danger" (click)="delete(item.ID)"><i class="fa fa-trash"
+                  aria-hidden="true"></i></button>
+
+              <ul>
+                <li *ngFor="let subItem of item.children"><a routerLink="{{subItem.Name}}"
+                    routerLinkActive="active">{{subItem.Name}}</a>
+
+                  <button class="btn btn-xs btn-success" (click)="showPermission(subItem.ID)"> <i class="fa fa-lock"
+                      aria-hidden="true"></i></button>
+                  <button class="btn btn-xs btn-primary" (click)="showEdit(subItem.ID)"> <i
+                      class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                  <button class="btn btn-xs btn-danger" (click)="delete(subItem.ID)"><i class="fa fa-trash"
+                      aria-hidden="true"></i></button>
+
+                </li>
+
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+        <!-- using tree component
+        <tree-root #treeFunction [nodes]="_functionHierachy">
+          <ng-template #treeNodeTemplate let-node let-index="index">
+            <span>{{ node.data.Name }}</span>
+              <button class="btn btn-xs btn-success" (click)="showPermission(node.data.ID)"> <i class="fa fa-lock"  aria-hidden="true"></i></button>
+              <button class="btn btn-xs btn-primary" (click)="showEdit(node.data.ID)"> <i class="fa fa-pencil-square-o"  aria-hidden="true"></i></button>
+              <button class="btn btn-xs btn-danger" (click)="delete(node.data.ID)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+          </ng-template>
+        </tree-root>  -->
+
+      </div>
+    </div>
+  </div>
+</div>

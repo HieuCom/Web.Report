@@ -1,0 +1,119 @@
+﻿{
+  "PSCTForm": {
+    "ColumnInfo": {
+      "DIEN_GIAI": {
+        "Name": "DIEN_GIAI",
+        "Caption": "Tên hàng",
+        "Width": 40,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "SL_TON": {
+        "Name": "SL_TON",
+        "Caption": "Lượng tồn",
+        "Width": 10,
+        "Format": "#,##0.##;(#,##0.##);#",
+        "Enabled": true,
+        "type": "number",
+        "edit": false
+      },     
+      "SO_LUONG": {
+        "Name": "SO_LUONG",
+        "Caption": "Số lượng",
+        "Width": 10,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": true
+      },
+      "SL_YEUCAU": {
+        "Name": "SL_YEUCAU",
+        "Caption": "Số KG",
+        "Width": 10,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": true
+      },
+      "GIA": {
+        "Name": "GIA",
+        "Caption": "Đơn giá",
+        "Width": 15,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": false
+      },
+      "TIEN": {
+        "Name": "TIEN",
+        "Caption": "Thành tiền",
+        "Width": 15,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": false
+      }
+    },
+
+    "TonKhoInfo": {
+      "chonton": {
+        "Name": "chonton",
+        "Caption": "Chọn",
+        "Width": 5,
+        "Enabled": true,
+        "type": "checkbox"
+      },
+      "SO_CT": {
+        "Name": "SO_CT",
+        "Caption": "Số Chứng từ",
+        "Width": 10,
+        "Enabled": true,
+        "type": "string"
+      },
+      "NGAY_CT": {
+        "Name": "NGAY_CT",
+        "Caption": "Ngày Chứng từ",
+        "Width": 10,
+        "Enabled": true,
+        "type": "date"
+      },
+      "TEN_NL": {
+        "Name": "TEN_NL",
+        "Caption": "Tên hàng/Nội dung KH",
+        "Width": 25,
+        "Enabled": true,
+        "type": "string"
+      },
+      "GIA": {
+        "Name": "GIA",
+        "Caption": "Đơn giá",
+        "Width": 10,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": false
+      },     
+      "SL_TON": {
+        "Name": "SL_TON",
+        "Caption": "Lượng tồn",
+        "Width": 15,
+        "Format": "#,##0.##;(#,##0.##);#",
+        "Enabled": true,
+        "type": "number",
+        "edit": false
+      },
+      "SO_LUONG_GUI": {
+        "Name": "SO_LUONG_GUI",
+        "Caption": "Lượng xuất",
+        "Width": 15,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": true
+      },
+      "SL_YEUCAU": {
+        "Name": "SL_YEUCAU",
+        "Caption": "Số KG",
+        "Width": 15,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": true
+      }
+    }
+  }
+}

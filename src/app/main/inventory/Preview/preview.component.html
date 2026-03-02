@@ -1,0 +1,106 @@
+  <div class="print-section">
+
+
+    <div class="title" >
+      
+      <div class="temp">
+        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
+       -->
+    </div>
+    
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p> ngày 22/12/2014</p>
+    
+    </div>
+    
+    </div>
+  
+    <!-- <div [innerHTML]="safeHtml"></div> -->
+    <div class="table-responsive">
+      <h2 class="nametb" >{{this.nametable}}</h2>
+      <p class="time" >Từ ngày:{{ this.fromDate.split('-').reverse().join('/') }} đến ngày: {{ this.toDate.split('-').reverse().join('/') }} </p>
+      <!--   
+      <div class="caption" > 
+        <div class="total"  >Tổng cộng</div>
+        <div  >327.000.000</div>
+        <div >1.327.000.000</div>
+        <div >327.000.000</div>
+        <div>327.000.000</div>
+      </div> -->
+      
+      <table class="table table-bordered">
+      
+        <thead>
+
+        </thead>
+
+        <tbody>
+      
+          <!-- tên nhóm vật tư -->
+      <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+        
+        <!-- Thêm hàng mới để hiển thị tên nhóm -->
+        <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i-1].SO_CT">
+          <td><strong>{{ chungtu.SO_CT }} </strong> </td>
+          <td><strong>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </strong> </td>
+          <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
+          <td><strong>{{ chungtu.MA_TK }} </strong> </td>
+            <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</td>
+            <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO')|number }}</td>
+        </tr>
+      
+        <!-- Hiển thị thông tin của từng mục -->
+        <tr class="select-item">
+          <td *ngFor="let colInfo of columnInfo">
+            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
+            <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
+            
+            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
+            <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
+            
+            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
+            <span *ngIf="chungtu.BOLD !=  true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+          </td>
+        </tr>
+      
+      </ng-container>
+      
+        </tbody>
+      </table>
+      </div>
+
+    <p style="text-align: right; margin-right: 20px;" >
+      Ngày.... tháng.... năm....
+    </p>
+
+    <div class="sign" >
+      <div class="establishment">
+        <p  >
+          <strong>NGƯỜI LẬP</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class=" accountant">
+        <p  >
+          <strong>KẾ TOÁN TRƯỞNG</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="undersecretary">
+        <p  >
+          <strong>THỦ TRƯỞNG ĐƠN VỊ</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+    </div>
+    
+    </div>

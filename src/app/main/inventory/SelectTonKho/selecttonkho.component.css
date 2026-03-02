@@ -1,0 +1,33 @@
+.check-affects{
+    padding-top: 30px;
+}
+.button-submit{
+    margin-bottom: 0;
+}
+.task-todo-action-delete{
+    float: right;
+    font-size: 12px;
+}
+.task-todo-action{
+    font-size: 12px;
+}
+.progress {
+    height: 10px;
+}
+.todo-title{
+    width: 100%;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.list-task-todo{
+    line-height: 2.5;
+}
+.task-todo{
+    margin-top: 15px;
+}
+.progressbar-panel{
+    margin-top: 10px;
+}
+.table-task-item tr {
+    white-space: nowrap;
+}

@@ -1,0 +1,15 @@
+.notification-readed{
+    background-color: #fff;
+}
+.notification-new{
+    background-color: #eee;
+}
+.notice-title{
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 11px;
+}
+.notification-list{
+    max-height: 300px;
+    overflow: auto;
+}

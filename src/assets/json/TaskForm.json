@@ -1,0 +1,268 @@
+﻿{
+  "TaskForm": {
+    "ColumnInfo": {
+      "Title": {
+        "Name": "Title",
+        "Caption": "Mã công việc",
+        "Width": 120
+      },
+      "TaskDate": {
+        "Name": "TaskDate",
+        "Caption": "Ngày khởi tạo công việc",
+        "Width": 120
+      },
+      "Status": {
+        "Name": "Status",
+        "Caption": "Trạng thái",
+        "Width": 120
+      },
+      "TargetDate": {
+        "Name": "TargetDate",
+        "Caption": "Ngày bắt đầu(dự kiến)",
+        "Width": 120
+      },
+      "ActualDate": {
+        "Name": "ActualDate",
+        "Caption": "Ngày bắt đầu(thực tế)",
+        "Width": 120
+      },
+      "DueDate": {
+        "Name": "DueDate",
+        "Caption": "Ngày kết thúc",
+        "Width": 120
+      },
+      "Description": {
+        "Name": "Description",
+        "Caption": "Diễn giải",
+        "Width": 120
+      },
+
+      "Add": { "Caption": "New(F4)" },
+      "Edit": { "Caption": "Modify(F3)" },
+      "Delete": { "Caption": "Xóa(Ctrl+F8)" },
+      "Save": { "Caption": "Lưu(F12)" },
+      "Cancel": { "Caption": "Hủy(Esc)" },
+      "Close": { "Caption": "Đóng" },
+      "ShowAll": { "Caption": "Tất cả" },
+      "Rejected": { "Caption": "Đã hủy" },
+      "Approved": { "Caption": "Đã kiểm duyệt" },
+      "Completed": { "Caption": "Đã hoàn thành" },
+      "Acept": { "Caption": "Chọn(F12)" },
+      "OK": { "Caption": "Chọn(F12)" },
+      "Load": { "Caption": "Nạp" }
+
+
+
+    },
+    "ColumnInfoTaskItem": {
+      "JobItemId": {
+        "Name": "JobItemId",
+        "Caption": "Mã số",
+        "Width": 120,
+        "type": "string",
+        "edit": false
+      },
+      "TaskItemDate": {
+        "Name": "TaskItemDate",
+        "Caption": "Ngày phát sinh",
+        "Width": 120,
+        "type": "date",
+        "edit": false
+      },
+      "JobFileId": {
+        "Name": "JobFileId",
+        "Caption": "Số lô hàng",
+        "Width": 120,
+        "type": "string",
+        "edit": false
+      },
+      "JobFileDate": {
+        "Name": "JobFileDate",
+        "Caption": "Ngày lô hàng",
+        "Width": 120,
+        "type": "date",
+        "edit": false
+      },
+      
+      "ItemName": {
+        "Name": "ItemName",
+        "Caption": "Tên hàng hóa",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+     
+      "CustomerId": {
+        "Name": "CustomerId",
+        "Caption": "Khách hàng",
+        "Width": 120,
+        "type": "select",
+        "edit": true
+      },
+      "CustomsCode": {
+        "Name": "CustomsCode",
+        "Caption": "Khách hàng",
+        "Width": 120,
+        "type": "string",
+        "edit": false
+      },
+      "CustomerName": {
+        "Name": "CustomerName",
+        "Caption": "Tên Khách hàng",
+        "Width": 120,
+        "type": "string",
+        "edit": false
+      },
+      "Description": {
+        "Name": "Description",
+        "Caption": "Diễn giải",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      }
+    },
+    "ColumnInfoTaskItemAir": {
+      
+      "DepartureFlight": {
+        "Name": "DepartureFlight",
+        "Caption": "Mã chuyến bay",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+      "DepartureDate": {
+        "Name": "DepartureDate",
+        "Caption": "Ngày bay",
+        "Width": 120,
+        "type": "date",
+        "edit": true
+      },
+      "ConnectingPort": {
+        "Name": "ConnectingPort",
+        "Caption": "Sân bay trung chuyển",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+      "ConnectingFlight": {
+        "Name": "ConnectingFlight",
+        "Caption": "Mã chuyến bay trung chuyển",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+      "ConectingDate": {
+        "Name": "ConectingDate",
+        "Caption": "Ngày bay trung chuyển",
+        "Width": 120,
+        "type": "date",
+        "edit": true
+      },
+      
+      "FreightCost": {
+        "Name": "FreightCost",
+        "Caption": "Chi phí bay",
+        "Width": 120,
+        "type": "number",
+        "edit": true
+      },
+      "Surcharge": {
+        "Name": "Surcharge",
+        "Caption": "Phụ phí sân bay",
+        "Width": 120,
+        "type": "number",
+        "edit": true
+      },
+      "AirlinesSurcharge": {
+        "Name": "AirlinesSurcharge",
+        "Caption": "Phụ phí hàng không",
+        "Width": 120,
+        "type": "number",
+        "edit": true
+      },
+      "LocalCharge": {
+        "Name": "LocalCharge",
+        "Caption": "Phí nội địa",
+        "Width": 120,
+        "type": "number",
+        "edit": true
+      },
+      "DeliveryCharge": {
+        "Name": "DeliveryCharge",
+        "Caption": "Phí giao hàng",
+        "Width": 120,
+        "type": "number",
+        "edit": true
+      },
+      "BookingNo": {
+        "Name": "BookingNo",
+        "Caption": "Số Booking",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      }
+      
+    },
+    "ColumnInfoTaskItemSea": {
+      
+      "EmptyPickUpCY": {
+        "Name": "EmptyPickUpCY",
+        "Caption": "Địa điểm lấy vỏ Cont",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+      "FullReturnCY": {
+        "Name": "FullReturnCY",
+        "Caption": "Địa điểm hạ cảng Cont",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      },
+      "PortCargoCutOff": {
+        "Name": "PortCargoCutOff",
+        "Caption": "Ngày-Giờ cắt máng",
+        "Width": 120,
+        "type": "date",
+        "edit": true
+      },
+      "DocCutOff": {
+        "Name": "DocCutOff",
+        "Caption": "Hạn cuối có mặt",
+        "Width": 120,
+        "type": "date",
+        "edit": true
+      },
+      "EquipmentType": {
+        "Name": "EquipmentType",
+        "Caption": "Loại Cont",
+        "Width": 120,
+        "type": "string",
+        "edit": true
+      }
+      
+    },
+    "ColumnInfoTaskTodo": {
+      "Finished": {
+        "Name": "Finished",
+        "Caption": "Hoàn thành",
+        "Width": 120
+      },
+      "Code": {
+        "Name": "Code",
+        "Caption": "Mã",
+        "Width": 120
+      },
+      "Status": {
+        "Name": "Status",
+        "Caption": "Trạng thái",
+        "Width": 120
+      },
+      "Description": {
+        "Name": "Description",
+        "Caption": "Diễn giải",
+        "Width": 120
+      }
+    }
+  }
+}

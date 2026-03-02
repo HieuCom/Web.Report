@@ -1,0 +1,88 @@
+<div class="clearfix">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
+        <p for="">Kho</p>
+      </div>
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <input type="text" [(ngModel)]="this.ma_kho">
+        <button (click)="openDialog()">...</button>
+      </div>
+    </div>
+
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
+        <p for="">Từ Ngày - Đến Ngày</p>
+      </div>
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
+          <input type="text" placeholder="{{'FromDate| translate'}}" class="media" bsDatepicker
+            [(ngModel)]="this.fromDate"
+            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
+          <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
+        </div>
+        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
+          <input type="text" placeholder="{{'ToDate| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDate"
+            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
+          <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
+        <button class="btn btn-primary" type="button" (click)="reloaddata()"><span class="glyphicon glyphicon-search"
+            aria-hidden="true"></span></button>
+      </div>
+
+      <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
+        <button class="btn btn-primary" type="button" (click)="chuyen()">
+          <span aria-hidden="true">
+          </span> Pre
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="nametb">{{this.nametable}}</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapkho ">
+          <div>
+            {{colInfo.Caption}}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let chungtu of nhapkhos ; let i = index">
+        <td *ngFor="let colInfo of columnInfonhapkho" [style.width.%]="colInfo.Width">
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] |
+            date:'dd/MM/yyyy'}}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] |
+            date:'dd/MM/yyyy'}}</span>
+
+          <strong
+            *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number
+            }}</strong>
+          <span
+            *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number
+            }}</span>
+
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+        </td>
+      </tr>
+    </tbody>
+
+  </table>
+  <div *ngIf="nhapkhos && nhapkhos.length == 0" class="col-md-12">
+    <div class="alert alert-info">
+      <strong>{{'dialog_alert_title'| translate }}!</strong> {{'task_manager_task_notice_list_empty'| translate }}
+    </div>
+
+  </div>
+</div>

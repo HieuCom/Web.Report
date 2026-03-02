@@ -1,0 +1,123 @@
+<div class="panel-filter">
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <p for="">Mã tài khoản</p>
+      <input type="text" [(ngModel)]="this.ma_tk ">
+      <button (click)="openDialog()">...</button>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
+      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
+        <p for="">Từ Ngày - Đến Ngày</p>
+      </div>
+      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
+        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
+          <input type="text" placeholder="{{'FromDate| translate'}}" class="media" bsDatepicker
+            [(ngModel)]="this.fromDate"
+            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
+          <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
+        </div>
+        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
+          <input type="text" placeholder="{{'ToDate| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDate"
+            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
+          <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
+        <button class="btn btn-primary" type="button" (click)="reloaddata()"><span class="glyphicon glyphicon-search"
+            aria-hidden="true"></span></button>
+      </div>
+
+      <!-- <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
+        <button class="btn btn-primary" type="button" (click)="chuyen()">
+          <span 
+            aria-hidden="true">
+          </span> Pre
+        </button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
+<div class="print-section">
+
+  <div class="table-responsive">
+    <h2 class="nametb">{{this.nametable}}</h2>
+    <h4 class="nametb">Tài khoản:{{this.ma_tk}}</h4>
+    <p class="time">Từ ngày:{{ this.fromDate| date:'dd/MM/yyyy'}} - đến ngày: {{ this.toDate| date:'dd/MM/yyyy'}} </p>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th *ngFor="let colInfo of columnInfo ">
+            <div >
+              {{colInfo.Caption}}
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      <tbody>
+        
+          <!-- tên nhóm vật tư -->
+          <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+            <tr *ngIf="i == 0 || chungtus[i].ID_TK_DU != chungtus[i-1].ID_TK_DU">
+              <td colspan="4"><strong>{{ chungtu.MA_TK_DU }} - {{ chungtu.TEN_TK_DU }}  </strong> </td>      
+              <td>{{ getTotal(chungtus, chungtu.ID_TK_DU,'PS_NO') |number }}</td>
+              <td>{{ getTotal(chungtus, chungtu.ID_TK_DU,'PS_CO')|number }}</td>         
+            </tr>
+          
+            <!-- Hiển thị thông tin của từng mục -->
+            <tr class="select-item">
+              <td *ngFor="let colInfo of columnInfo">
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
+                <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
+                
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
+                <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
+                
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
+                <span *ngIf="chungtu.BOLD !=  true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+              </td>
+            </tr>
+          
+          </ng-container>
+      
+      </tbody>
+    </table>
+  </div>
+
+  <p style="text-align: right; margin-right: 20px;">
+    Ngày.... tháng.... năm....
+  </p>
+
+  <div class="sign">
+    <div class="establishment">
+      <p>
+        <strong>NGƯỜI LẬP</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class=" accountant">
+      <p>
+        <strong>KẾ TOÁN TRƯỞNG</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="undersecretary">
+      <p>
+        <strong>GIÁM ĐỐC</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+  </div>
+
+</div>

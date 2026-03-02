@@ -1,0 +1,134 @@
+  <div class="print-section">
+
+
+    <div class="title" >
+      
+      <div class="temp">
+        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
+       -->
+    </div>
+    
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p> ngày 22/12/2014</p>
+    
+    </div>
+    
+    </div>
+  
+    <!-- <div [innerHTML]="safeHtml"></div> -->
+    <div class="table-responsive">
+      <h2 class="nametb" >{{this.nametable}}</h2>
+      <p class="time" >Từ ngày:{{ this.fromDate.split('-').reverse().join('/') }} đến ngày: {{ this.toDate.split('-').reverse().join('/') }} </p>
+      <h2 class="nametb" >Tên kho:{{this.namewh}}</h2>
+      
+      <table class="table table-bordered">
+      
+        <!-- <thead [innerHTML]="headHtml" > -->
+          <thead > 
+          <tr>
+           
+             <th rowspan="2" style="text-align: center;" class="small-column">
+               STT
+             </th>
+
+             <th colspan="2" style="text-align: center;" class="large-column">
+              Hóa đơn ,chứng từ chứng từ biên lại nộp thuế
+            </th>
+        
+             <th rowspan="2" class="small-column">
+               Tên người bán
+             </th>
+
+             <th rowspan="2" class="small-column">
+               MÃ số thuế của người bán
+             </th>
+
+             <th rowspan="2" class="small-column">
+              Giá trị HHDV mua vào chưa có thuế
+            </th>
+
+            <th rowspan="2" class="small-column">
+              Thuế GTGT đủ điều kiện khấu trừ thuế
+            </th>
+            
+            <th rowspan="2" class="small-column">
+              Ghi chú
+            </th>
+             
+           </tr>
+       
+           <tr>
+             <th>Số hóa đơn </th>
+             <th>Ngày,tháng,năm lâp hóa đơn</th>
+             
+            
+           </tr>
+
+        </thead>
+
+        <tbody>
+      
+          <!-- tên nhóm vật tư -->
+          <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+        
+            <!-- Thêm hàng mới để hiển thị tên nhóm -->
+            
+            <tr *ngIf="i == 0 || chungtus[i].TEN_NHOM_VAT != chungtus[i-1].TEN_NHOM_VAT">
+              <td><strong>{{ chungtu.TEN_NHOM_VAT }}  </strong> </td>
+            </tr>
+          
+            <!-- Hiển thị thông tin của từng mục -->
+            <tr class="select-item">
+              <td *ngFor="let colInfo of columnInfonhapkho">
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
+                <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
+                
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
+                <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
+                
+                <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
+                <span *ngIf="chungtu.BOLD !=  true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+              </td>
+            </tr>
+          
+          </ng-container>
+      
+        </tbody>
+      </table>
+      </div>
+
+    <p style="text-align: right; margin-right: 20px;" >
+      Ngày.... tháng.... năm....
+    </p>
+
+    <div class="sign" >
+      <div class="establishment">
+        <p  >
+          <strong>NGƯỜI LẬP</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class=" accountant">
+        <p  >
+          <strong>KẾ TOÁN TRƯỞNG</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="undersecretary">
+        <p  >
+          <strong>THỦ TRƯỞNG ĐƠN VỊ</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+    </div>
+    
+    </div>

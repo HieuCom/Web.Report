@@ -1,0 +1,32 @@
+.panel-search{
+    display: inline-flex;
+}
+.panel-filter button{
+    border-radius: 0;
+    margin-right: 0;
+}
+.filter-service-type div{
+    display: inline-block;
+    padding-right: 10px ;
+}
+.btn-add-new{
+    text-align: right;
+}
+.view-options{
+    text-align:right;
+    margin-top: 20px;
+}
+.view-options select{
+    width: auto;
+    display: inline-block;
+
+}
+.label-created-date{
+    padding-top: 5px;
+}
+.select-item{
+    cursor: pointer;
+}
+.select-item:hover{
+    background-color: #e6e6e6;
+}

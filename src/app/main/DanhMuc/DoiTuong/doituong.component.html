@@ -1,0 +1,163 @@
+<div class="x_title">
+  <h3><i class="fa fa-tasks"></i> Danh sách đối tượng</h3>
+</div>
+<br>
+
+<div class="modal-body">
+
+  <!-- Display doituong -->
+  <form class="form-horizontal form-label-left input_mask" [formGroup]="doituongModel" autocomplete="off">
+
+    <!-- <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+          <p><strong>Nhóm đối tượng</strong></p>
+          <select class="form-control" formControlName="ID_DT_ME" [(ngModel)]="doituong.ID_DT_ME">
+            <option *ngFor="let item of nhomDoiTuongList" [value]="item.ID_DT_ME">{{item.MA_NHOM_DT}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+          <p><strong>Tên nhóm đối tượng</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="MA_DT" [(ngModel)]="doituong.MA_DT"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="row">
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+          <p><strong>Mã số thuế</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="MS_THUE" [(ngModel)]="doituong.MS_THUE"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="form-group">
+          <p><strong>Mã đối tượng</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="MA_DT" [(ngModel)]="doituong.MA_DT"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12" style="width: 100%;">
+        <div class="form-group">
+          <p><strong>Tên Đối tượng</strong></p>
+          <div>
+            <input type="text" required minlength="3" class="form-control" formControlName="TEN_DT"
+              [(ngModel)]="doituong.TEN_DT" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12" style="width: 100%;">
+        <div class="form-group">
+          <p><strong>Địa chỉ</strong></p>
+          <div>
+            <input type="text" required minlength="3" class="form-control" formControlName="DIA_CHI"
+              [(ngModel)]="doituong.DIA_CHI" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <p><strong>Điện thoại</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="TEL" [(ngModel)]="doituong.TEL"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="form-group">
+          <p><strong>Email</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="E_MAIL" [(ngModel)]="doituong.E_MAIL"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <p><strong>Ghi chú</strong></p>
+          <div>
+            <input type="text" required minlength="3" formControlName="GHI_CHU" [(ngModel)]="doituong.GHI_CHU"
+              class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <button type="button" class="btn btn-default" (click)="onCreate()">Thêm mới</button>
+  <button type="button" class="btn btn-default" (click)="saveData()">Lưu</button>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let column of doituongColumn | jsonToArray" [style.width.%]="column.obj.Width"
+          style="background-color: aqua;">
+          {{column.obj.Caption}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of doituongList; let i = index" class="select-item" (click)="showEdit(item.ID_DT)">
+        <td *ngFor="let column of doituongColumn | jsonToArray" >
+          <span>{{item[column.key]}}</span>
+
+          <!-- <span *ngIf="column.obj.type != 'date' && !column.obj.edit">{{item[column.key]}}</span>
+        <span *ngIf="column.obj.type == 'date' && !column.obj.edit">{{item[column.key]
+          | date:
+          'dd/MM/yyyy'}}</span>
+        <input *ngIf="column.obj.type == 'string' && column.obj.edit" [(ngModel)]="item[column.key]" type="text"
+          [style.width.%]="100" required>
+        <input *ngIf="column.obj.type == 'date' && column.obj.edit" type="text" [(ngModel)]="item[column.key]"
+          bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', adaptivePosition: true }" [style.width.%]="100"
+          required>
+        <input *ngIf="column.obj.type == 'number' && column.obj.edit" [(ngModel)]="item[column.key]" type="number"
+          [style.width.%]="100" required> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="doituongList && doituongList.length > 0" class="col-md-12">
+  <div class="col-md-8">
+    <pagination [boundaryLinks]="true" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"
+      [totalItems]="totalRow" [(ngModel)]="pageNumber" class="pagination-sm" previousText="&lsaquo;" nextText="&rsaquo;"
+      firstText="&laquo;" lastText="&raquo;"></pagination>
+  </div>
+  <div class="col-md-4">
+    <div class="form-group view-options">
+      <label for="">{{'show_row' | translate}} &nbsp;</label>
+      <select class="form-control" name="page-size" [(ngModel)]="pageSize" (change)="onChangePageSize()">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+</div>

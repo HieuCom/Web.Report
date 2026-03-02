@@ -1,0 +1,37 @@
+
+ul {
+    list-style-type: none;
+      display: flex;
+    flex-direction: column;
+    align-content: space-between;
+  }
+  
+  li {
+    cursor: pointer;
+    margin: 5px 0;
+    
+  }
+  
+  li:hover {
+    text-decoration: underline;
+  }
+  .back-button {
+    background-color: transparent;
+    border: none;
+    color: #222323;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; 
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px;
+  }
+  
+  .back-button:hover {
+    background-color: #e0e0e0; /* Thêm màu nền khi hover */
+  }
+  
+  

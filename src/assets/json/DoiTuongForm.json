@@ -1,0 +1,63 @@
+﻿{
+  "DoiTuongForm": {
+    "ColumnInfo": {
+      "MA_DT": {
+        "Name": "MA_DT",
+        "Caption": "Mã đối tượng",
+        "Width": 15,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "TEN_DT": {
+        "Name": "TEN_DT",
+        "Caption": "Tên đối tượng",
+        "Width": 30,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "MS_THUE": {
+        "Name": "MS_THUE",
+        "Caption": "Mã số thuế",
+        "Width": 10,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "DIA_CHI": {
+        "Name": "DIA_CHI",
+        "Caption": "Địa chỉ",
+        "Width": 15,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "TEL": {
+        "Name": "TEL",
+        "Caption": "Điện thoại",
+        "Width": 10,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "Email": {
+        "Name": "Email",
+        "Caption": "Email",
+        "Width": 10,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      },
+      "GHI_CHU": {
+        "Name": "GHI_CHU",
+        "Caption": "Ghi chú",
+        "Width": 10,
+        "Enabled": true,
+        "type": "string",
+        "edit": true
+      }      
+    }
+  }
+}
+
