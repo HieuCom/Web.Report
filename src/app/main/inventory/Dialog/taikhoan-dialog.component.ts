@@ -26,13 +26,11 @@ export class TaiKhoanDialogComponent implements OnInit {
   ngOnInit() {
     //this.loadDanhSachTaiKhoan();
     this.loadDataTaiKhoan();
-   
   }
 
   async loadDataTaiKhoan() {
-  
     try {
-    
+
       const response: any = await this.dataService.get('/TaiKhoan', 
       ).toPromise();
       this.danhSachTaiKhoan = response;
