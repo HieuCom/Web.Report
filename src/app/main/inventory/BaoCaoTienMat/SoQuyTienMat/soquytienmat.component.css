@@ -1,91 +1,79 @@
-.panel-search{
-    display: inline-flex;
+.filter-service-type div {
+  display: inline-block;
+  padding-right: 10px;
 }
-.panel-filter button{
-    border-radius: 0;
-    margin-right: 0;
+.btn-add-new {
+  text-align: right;
 }
-.filter-service-type div{
-    display: inline-block;
-    padding-right: 10px ;
+.view-options {
+  text-align: right;
+  margin-top: 20px;
 }
-.btn-add-new{
-    text-align: right;
+.view-options select {
+  width: auto;
+  display: inline-block;
 }
-.view-options{
-    text-align:right;
-    margin-top: 20px;
+.label-created-date {
+  margin: 10px;
+  padding-top: 5px;
 }
-.view-options select{
-    width: auto;
-    display: inline-block;
-
+.select-item {
+  cursor: pointer;
 }
-.label-created-date{
-    padding-top: 5px;
+.select-item:hover {
+  background-color: #e6e6e6;
 }
-.select-item{
-    cursor: pointer;
-}
-.select-item:hover{
-    background-color: #e6e6e6;
-}
-.matk,
-.time,
-.nametb{
-    text-align: center;
-    margin-bottom: 20px;
+.matk {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
+.time {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.nametb {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 .title {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 100px;
-  }
-  .table-responsive{
-    width: 100%;
-  }
-.sign{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 100px;
 }
-.caption-flex {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
+.table-responsive {
+  width: 100%;
+}
+.print-sign {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.print-date {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
 
 .large-column {
-    max-width: 90px; /* Điều chỉnh độ rộng của các cột lớn */
+  max-width: 90px; /* Điều chỉnh độ rộng của các cột lớn */
 }
 
 .small-column {
-    max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
+  max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
 }
 
-.account{
-    float: right;;
-    
-    margin-right: 20px;
-
+.account {
+  float: right;
+  margin-right: 20px;
 }
 
-/* .caption{
-    
-    display: flex;
-    justify-content: flex-end;
-    background-color: green;
+.preview-button {
+  margin-left: 10px;
 }
-.total{
-    margin-right: 230px;
-    background-color: #e6e6e6;
-    
-} */
-
-
-
-
-
+.account-detail {
+  margin-bottom: 8px;
+}
