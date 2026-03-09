@@ -1,21 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { MessageContstants } from 'src/app/core/common/message.constants';
-import { DataService } from 'src/app/core/services/data.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NavigationExtras, Router } from '@angular/router';
-import { ColuminfoService } from 'src/app/core/services/columinfo.service';
-import { TaiKhoanDialogComponent } from 'src/app/main/inventory/Dialog/taikhoan-dialog.component';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { MessageContstants } from "src/app/core/common/message.constants";
+import { DataService } from "src/app/core/services/data.service";
+import { NotificationService } from "src/app/core/services/notification.service";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { NavigationExtras, Router } from "@angular/router";
+import { ColuminfoService } from "src/app/core/services/columinfo.service";
+import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
 @Component({
-  selector: 'app-sochitiettk',
-  templateUrl: './sochitiettk.component.html',
-  styleUrls: ['./sochitiettk.component.css']
+  selector: "app-sochitiettk",
+  templateUrl: "./sochitiettk.component.html",
+  styleUrls: ["./sochitiettk.component.css"],
 })
 export class SoChiTietTKComponent implements OnInit {
-
-  @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
-  @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
+  @ViewChild("modalAddEdit", { static: false })
+  public modalAddEdit: ModalDirective;
+  @ViewChild("dateRangeSection") dateRangeSection: ElementRef;
 
   public isDateRangeVisible: boolean = false;
   public isAccVisible: boolean = true;
@@ -32,17 +32,19 @@ export class SoChiTietTKComponent implements OnInit {
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
-  public filter: string = '';
+  public filter: string = "";
   public chungtus: any[];
-  public nametable = 'Sổ Chi Tiết Tài khoản';
+  public nametable = "Sổ Chi Tiết Tài khoản";
 
   bsModalRef: BsModalRef;
 
-  constructor(private dataService: DataService,
+  constructor(
+    private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
     private columnInfoService: ColuminfoService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+  ) {}
 
   ngOnInit() {
     this.fromDate.setDate(1);
@@ -56,16 +58,13 @@ export class SoChiTietTKComponent implements OnInit {
     this.columnInfoService.changeColumnInfo(this.columnInfo);
   }
   private getNowUTC(now: Date) {
-
-    return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
   async loadData() {
-
     try {
-
-      const response: any = await this.dataService.post('/SoChiTietTaiKhoan',
-        {
+      const response: any = await this.dataService
+        .post("/SoChiTietTaiKhoan", {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           MA_TK: this.ma_tk,
@@ -78,40 +77,37 @@ export class SoChiTietTKComponent implements OnInit {
           ID_YTP: 0,
           ID_TT: 0,
           ID_NHOM_DT: 0,
-          ID_NHOM_SP: 0
-        }).toPromise();
+          ID_NHOM_SP: 0,
+        })
+        .toPromise();
       this.chungtus = response;
       console.log(this.chungtus.length);
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
-
-
   }
 
   chuyen() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'fromDate': this.fromDate.toISOString().slice(0, 10),
-        'toDate': this.toDate.toISOString().slice(0, 10),
-        'nametable': this.nametable,
-        'ma_tk': this.ma_tk,
+        fromDate: this.fromDate.toISOString().slice(0, 10),
+        toDate: this.toDate.toISOString().slice(0, 10),
+        nametable: this.nametable,
+        ma_tk: this.ma_tk,
       },
       state: {
-        chungtus: this.chungtus
-      }
+        chungtus: this.chungtus,
+      },
     };
-    this.router.navigate(['/main/inventory/printCDKT'], navigationExtras);
-
+    this.router.navigate(["/main/inventory/printCDKT"], navigationExtras);
   }
   async getListTaiKhoan() {
-    await this.dataService.get('/TaiKhoan').subscribe((response: any) => {
+    await this.dataService.get("/TaiKhoan").subscribe((response: any) => {
       if (response) {
         this.Taikhoans = response;
       }
     });
   }
-
 
   onValueChangeDateRange(rangeDate) {
     if (rangeDate != undefined) {
@@ -139,7 +135,6 @@ export class SoChiTietTKComponent implements OnInit {
     });
   }
 
-
   pageChanged(event: any): void {
     this.pageNumber = event.page;
     this.loadData();
@@ -148,48 +143,42 @@ export class SoChiTietTKComponent implements OnInit {
     this.loadData();
   }
 
-
-
-
   public columnInfo: any[] = [
     {
-      "Name": "NGAY_CT",
-      "Caption": "Ngày CT",
-      "Width": 80,
-      "Format": "d"
+      Name: "NGAY_CT",
+      Caption: "Ngày CT",
+      Width: 80,
+      Format: "d",
     },
     {
-      "Name": "SO_CT",
-      "Caption": "Số chứng từ",
-      "Width": 80,
-      "Format": ""
+      Name: "SO_CT",
+      Caption: "Số chứng từ",
+      Width: 80,
+      Format: "",
     },
     {
-      "Name": "DIEN_GIAI",
-      "Caption": "Diễn giải",
-      "Width": 70,
-      "Format": ""
+      Name: "DIEN_GIAI",
+      Caption: "Diễn giải",
+      Width: 70,
+      Format: "",
     },
     {
-      "Name": "MA_TK_DU",
-      "Caption": "TK Đ/Ứng",
-      "Width": 80,
-      "Format": ""
+      Name: "MA_TK_DU",
+      Caption: "TK Đ/Ứng",
+      Width: 80,
+      Format: "",
     },
     {
-      "Name": "PS_NO",
-      "Caption": "Phát sinh nợ",
-      "Width": 90,
-      "Format": "#,##0.##;(#,##0.##);#"
+      Name: "PS_NO",
+      Caption: "Phát sinh nợ",
+      Width: 90,
+      Format: "#,##0.##;(#,##0.##);#",
     },
     {
-      "Name": "PS_CO",
-      "Caption": "Phát sinh có",
-      "Width": 100,
-      "Format": "#,##0.##;(#,##0.##);#"
-    }
-
-
-  ]
-
+      Name: "PS_CO",
+      Caption: "Phát sinh có",
+      Width: 100,
+      Format: "#,##0.##;(#,##0.##);#",
+    },
+  ];
 }

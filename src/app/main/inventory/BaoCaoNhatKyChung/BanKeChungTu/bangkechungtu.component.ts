@@ -1,24 +1,23 @@
-
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { MessageContstants } from 'src/app/core/common/message.constants';
-import { DataService } from 'src/app/core/services/data.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { NavigationExtras, Router } from '@angular/router';
-import { ColuminfoService } from 'src/app/core/services/columinfo.service';
-import { TaiKhoanDialogComponent } from 'src/app/main/inventory/Dialog/taikhoan-dialog.component';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { MessageContstants } from "src/app/core/common/message.constants";
+import { DataService } from "src/app/core/services/data.service";
+import { NotificationService } from "src/app/core/services/notification.service";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { NavigationExtras, Router } from "@angular/router";
+import { ColuminfoService } from "src/app/core/services/columinfo.service";
+import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
 @Component({
-  selector: 'app-bangkechungtu',
-  templateUrl: './bangkechungtu.component.html',
-  styleUrls: ['./bangkechungtu.component.css']
+  selector: "app-bangkechungtu",
+  templateUrl: "./bangkechungtu.component.html",
+  styleUrls: ["./bangkechungtu.component.css"],
 })
 export class BangKeChungTuComponent implements OnInit {
-
   showDiv: boolean = false;
 
-  @ViewChild('modalAddEdit', { static: false }) public modalAddEdit: ModalDirective;
-  @ViewChild('dateRangeSection') dateRangeSection: ElementRef;
+  @ViewChild("modalAddEdit", { static: false })
+  public modalAddEdit: ModalDirective;
+  @ViewChild("dateRangeSection") dateRangeSection: ElementRef;
 
   public isDateRangeVisible: boolean = false;
   public keyword: string = "";
@@ -33,10 +32,10 @@ export class BangKeChungTuComponent implements OnInit {
   public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
-  public filter: string = '';
+  public filter: string = "";
   public chungtus: any;
-  public nametable = 'Bảng kê chứng từ';
-  public ma_tk: string = '1121';
+  public nametable = "Bảng kê chứng từ";
+  public ma_tk: string = "1121";
 
   public totalPS_NO: number = 0;
   public totalPS_CO: number = 0;
@@ -45,11 +44,13 @@ export class BangKeChungTuComponent implements OnInit {
   public nocuoiky: number = 0;
   bsModalRef: BsModalRef;
 
-  constructor(private dataService: DataService,
+  constructor(
+    private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
     private columnInfoService: ColuminfoService,
-    private modalService: BsModalService) { }
+    private modalService: BsModalService,
+  ) {}
 
   ngOnInit() {
     this.fromDate.setDate(1);
@@ -58,28 +59,24 @@ export class BangKeChungTuComponent implements OnInit {
   }
 
   private getNowUTC(now: Date) {
-
-    return new Date(now.getTime() - (now.getTimezoneOffset() * 60000));
+    return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
   async loadData() {
-
     try {
-
-      const response: any = await this.dataService.postCanDoiKeToan('/BangKeChungTu',
-        {
+      const response: any = await this.dataService
+        .postCanDoiKeToan("/BangKeChungTu", {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           MA_TK: this.ma_tk,
           GroupTKDU: 1,
-        }).toPromise();
+        })
+        .toPromise();
       this.chungtus = response;
       console.log(this.chungtus[0].TEN_TK);
     } catch (error) {
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
-
-
   }
   openDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
@@ -92,25 +89,22 @@ export class BangKeChungTuComponent implements OnInit {
   chuyen() {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        'fromDate': this.fromDate.toISOString().slice(0, 10),
-        'toDate': this.toDate.toISOString().slice(0, 10),
-        'nametable': this.nametable,
-        'show': this.showDiv
+        fromDate: this.fromDate.toISOString().slice(0, 10),
+        toDate: this.toDate.toISOString().slice(0, 10),
+        nametable: this.nametable,
+        show: this.showDiv,
       },
       state: {
-        chungtus: this.chungtus
-      }
+        chungtus: this.chungtus,
+      },
     };
-    this.router.navigate(['/main/inventory/printBKCT'], navigationExtras);
-
+    this.router.navigate(["/main/inventory/printBKCT"], navigationExtras);
   }
   getTotal(chungtus, groupName, field) {
     return chungtus
-      .filter(chungtu => chungtu.ID_TK_DU === groupName)
+      .filter((chungtu) => chungtu.ID_TK_DU === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
   }
-
-
 
   onValueChangeDateRange(rangeDate) {
     if (rangeDate != undefined) {
@@ -129,7 +123,6 @@ export class BangKeChungTuComponent implements OnInit {
     this.loadData();
   }
 
-
   pageChanged(event: any): void {
     this.pageNumber = event.page;
     this.loadData();
@@ -138,49 +131,42 @@ export class BangKeChungTuComponent implements OnInit {
     this.loadData();
   }
 
-
-
-
   public columnInfo: any[] = [
     {
-      "Name": "SO_CT",
-      "Caption": "Số chứng từ",
-      "Width": 50,
-      "Format": ""
+      Name: "SO_CT",
+      Caption: "Số chứng từ",
+      Width: 50,
+      Format: "",
     },
     {
-      "Name": "NGAY_CT",
-      "Caption": "Ngày CT",
-      "Width": 50,
-      "Format": "d"
+      Name: "NGAY_CT",
+      Caption: "Ngày CT",
+      Width: 50,
+      Format: "d",
     },
     {
-      "Name": "DIEN_GIAI",
-      "Caption": "Diễn giải",
-      "Width": 70,
-      "Format": ""
+      Name: "DIEN_GIAI",
+      Caption: "Diễn giải",
+      Width: 70,
+      Format: "",
     },
     {
-      "Name": "MA_TK_DU",
-      "Caption": "TK ĐƯ",
-      "Width": 50,
-      "Format": ""
+      Name: "MA_TK_DU",
+      Caption: "TK ĐƯ",
+      Width: 50,
+      Format: "",
     },
     {
-      "Name": "PS_NO",
-      "Caption": "PS Nợ",
-      "Width": 50,
-      "Format": "#,##0.##;(#,##0.##);#"
+      Name: "PS_NO",
+      Caption: "PS Nợ",
+      Width: 50,
+      Format: "#,##0.##;(#,##0.##);#",
     },
     {
-      "Name": "PS_CO",
-      "Caption": "PS Có",
-      "Width": 50,
-      "Format": "#,##0.##;(#,##0.##);#"
+      Name: "PS_CO",
+      Caption: "PS Có",
+      Width: 50,
+      Format: "#,##0.##;(#,##0.##);#",
     },
-
-
-
-  ]
-
+  ];
 }

@@ -33,15 +33,22 @@ import { PreviewBKBHComponent } from "./BaoCaoBanHang/BangKeBanHang/preview-bang
 import { PreviewToKhaiThueComponent } from "./BaoCaoThue/ToKhaiThue/preview-tokhaithue.component";
 import { ToKhaiThueComponent } from "./BaoCaoThue/ToKhaiThue/tokhaithue.component";
 import { PreViewNoGr } from "./PreviewNoGr/previewnogr.component";
-import { KhoDialogComponent } from "./Dialog/kho-dialog.component";
-import { NguonLucDialogComponent } from "./Dialog/nguonluc-dialog.component";
-import { TaiKhoanDialogComponent } from "./Dialog/taikhoan-dialog.component";
-import { TaiKhoanCNDialogComponent } from "./Dialog/taikhoanCN-dialog.component";
+import { KhoDialogComponent } from "./Dialog/Kho/kho-dialog.component";
+import { NguonLucDialogComponent } from "./Dialog/NguonLuc/nguonluc-dialog.component";
+import { TaiKhoanDialogComponent } from "./Dialog/TaiKhoan/taikhoan-dialog.component";
+import { TaiKhoanCNDialogComponent } from "./Dialog/TaiKhoan/taikhoanCN-dialog.component";
 import { NhapXuatTonComponent } from "./BaoCaoHangHoa/NhapXuatTon/nhapxuatton.component";
 import { PreviewNXTComponent } from "./BaoCaoHangHoa/NhapXuatTon/preview-nhapxuatton.component";
 import { SoCaiTKComponent } from "./BaoCaoNhatKyChung/SoCaiTaiKhoan/socaitk.component";
 import { CanDoiCongNoComponent } from "./BaoCaoCongNo/BangCanDoiCongNo/cdcn.component";
 import { PreviewSQTMComponent } from "./BaoCaoTienMat/SoQuyTienMat/preview-sqtm.component";
+import { VuViecDialogComponent } from "./Dialog/VuViec/vuviec-dialog.component";
+import { SanPhamDialogComponent } from "./Dialog/SanPham/sanpham-dialog.component";
+import { DoiTuongDialogComponent } from "./Dialog/DoiTuong/doituong-dialog.component";
+import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.component";
+import { NhomDoiTuongDialogComponent } from "./Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
+import { NhomNguonLucDialogComponent } from "./Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
+import { NhomSanPhamDialogComponent } from "./Dialog/NhomSanPham/nhomsanpham-dialog.component";
 
 const routes: Routes = [
   { path: "baocao", component: TheoDoiChungTuComponent },
@@ -86,6 +93,13 @@ const routes: Routes = [
   // test layout
   { path: "kho", component: KhoDialogComponent },
   { path: "nguonluc", component: NguonLucDialogComponent },
+  { path: "sanpham", component: SanPhamDialogComponent },
+  { path: "doituong", component: DoiTuongDialogComponent },
+  { path: "nhomdoituong", component: NhomDoiTuongDialogComponent },
+  { path: "nhomsanpham", component: NhomSanPhamDialogComponent },
+  { path: "nhomnguonluc", component: NhomNguonLucDialogComponent },
+  { path: "yeutophi", component: YeuToPhiDialogComponent },
+  { path: "vuviec", component: VuViecDialogComponent },
   { path: "taikhoan", component: TaiKhoanDialogComponent },
   { path: "taikhoanCN", component: TaiKhoanCNDialogComponent },
 ];

@@ -60,10 +60,14 @@
 
 .large-column {
   max-width: 90px; /* Điều chỉnh độ rộng của các cột lớn */
+  text-align: center;
+  vertical-align: middle;
 }
 
 .small-column {
   max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
+  text-align: center;
+  vertical-align: middle;
 }
 
 .account {

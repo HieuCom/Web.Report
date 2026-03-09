@@ -94,12 +94,14 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_vv"
+            [(ngModel)]="this.ten_vv"
             class="form-control"
             id="ma_vv"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openVVDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -214,23 +216,19 @@
     <thead>
       <tr>
         <th rowspan="2" class="small-column">Ngày CT</th>
-        <th colspan="2" style="text-align: center" class="large-column">
-          SỐ CT
-        </th>
+        <th colspan="2" class="large-column">SỐ CT</th>
 
         <th rowspan="2" class="small-column">DIỄN GIẢI</th>
         <th rowspan="2" class="small-column">TK ĐƯ</th>
-        <th colspan="2" style="text-align: center" class="large-column">
-          SỐ TIỀN
-        </th>
+        <th colspan="2" class="large-column">SỐ TIỀN</th>
         <th rowspan="2" class="small-column">DƯ CUỐI</th>
       </tr>
 
       <tr>
-        <th>BÁO CÓ</th>
-        <th>BÁO NỢ</th>
-        <th>GỬI</th>
-        <th>RÚT</th>
+        <th class="small-column">BÁO CÓ</th>
+        <th class="small-column">BÁO NỢ</th>
+        <th class="small-column">GỬI</th>
+        <th class="small-column">RÚT</th>
       </tr>
     </thead>
 

@@ -6,9 +6,12 @@ import { NotificationService } from "src/app/core/services/notification.service"
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
-import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/taikhoan-dialog.component";
-import { NguonLucDialogComponent } from "../../Dialog/nguonluc-dialog.component";
+import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
+import { NguonLucDialogComponent } from "../../Dialog/NguonLuc/nguonluc-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
+import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
+import { NhomSanPhamDialogComponent } from "../../Dialog/NhomSanPham/nhomsanpham-dialog.component";
 @Component({
   selector: "app-soquytienmat",
   templateUrl: "./soquytienmat.component.html",
@@ -38,6 +41,7 @@ export class SoQuyTienMatComponent implements OnInit {
   public ma_tk: string = "111";
   public ma_dt: string = "";
   public ma_nl: string = "";
+  public ma_nhom_nl: string = "";
   public ma_km: string = "";
   public ma_vv: string = "";
   public ma_ytp: string = "";
@@ -240,12 +244,39 @@ export class SoQuyTienMatComponent implements OnInit {
       dialogRef.hide();
     });
   }
+  openDTDialog() {
+    const dialogRef = this.modalService.show(DoiTuongDialogComponent);
+    dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+      this.ID_DT = selectedDT.ID_DT;
+      this.ma_dt = selectedDT.MA_DT;
+      this.ten_dt = selectedDT.TEN_DT;
+      dialogRef.hide();
+    });
+  }
   openNLDialog() {
     const dialogRef = this.modalService.show(NguonLucDialogComponent);
     dialogRef.content.nguonLucSelected.subscribe((selectedNL: any) => {
       this.ID_NL = selectedNL.ID_NL;
       this.ma_nl = selectedNL.MA_NL;
       this.ten_nl = selectedNL.TEN_NL;
+      dialogRef.hide();
+    });
+  }
+  openNSPDialog() {
+    const dialogRef = this.modalService.show(NhomSanPhamDialogComponent);
+    dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
+      this.ID_NHOM_NL = selectedNSP.ID_NHOM_NL;
+      this.ma_nhom_nl = selectedNSP.MA_NHOM_NL;
+      this.ten_nhom_nl = selectedNSP.TEN_NHOM_NL;
+      dialogRef.hide();
+    });
+  }
+  openVVDialog() {
+    const dialogRef = this.modalService.show(VuViecDialogComponent);
+    dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
+      this.ID_VV = selectedVV.ID_VV;
+      this.ma_vv = selectedVV.MA_VV;
+      this.ten_vv = selectedVV.TEN_VV;
       dialogRef.hide();
     });
   }
