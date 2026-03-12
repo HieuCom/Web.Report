@@ -60,13 +60,13 @@ import { SoCaiTKComponent } from "./BaoCaoNhatKyChung/SoCaiTaiKhoan/socaitk.comp
 import { CanDoiCongNoComponent } from "./BaoCaoCongNo/BangCanDoiCongNo/cdcn.component";
 import { VuViecDialogComponent } from "./Dialog/VuViec/vuviec-dialog.component";
 import { SanPhamDialogComponent } from "./Dialog/SanPham/sanpham-dialog.component";
-import { DoiTuongComponent } from "../DanhMuc/DoiTuong/doituong.component";
 import { DoiTuongDialogComponent } from "./Dialog/DoiTuong/doituong-dialog.component";
 import { KhoanMucDialogComponent } from "./Dialog/KhoanMuc/khoanmuc-dialog.component";
 import { NhomDoiTuongDialogComponent } from "./Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
 import { NhomSanPhamDialogComponent } from "./Dialog/NhomSanPham/nhomsanpham-dialog.component";
 import { NhomNguonLucDialogComponent } from "./Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.component";
+import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
 
 @NgModule({
   imports: [
@@ -120,6 +120,7 @@ import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.compo
     NhomSanPhamDialogComponent,
     NhomNguonLucDialogComponent,
     YeuToPhiDialogComponent,
+    TienTeDialogComponent,
     TaiKhoanDialogComponent,
     TaiKhoanCNDialogComponent,
 

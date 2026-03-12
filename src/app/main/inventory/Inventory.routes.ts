@@ -49,6 +49,7 @@ import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.compo
 import { NhomDoiTuongDialogComponent } from "./Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
 import { NhomNguonLucDialogComponent } from "./Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { NhomSanPhamDialogComponent } from "./Dialog/NhomSanPham/nhomsanpham-dialog.component";
+import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
 
 const routes: Routes = [
   { path: "baocao", component: TheoDoiChungTuComponent },
@@ -100,6 +101,7 @@ const routes: Routes = [
   { path: "nhomnguonluc", component: NhomNguonLucDialogComponent },
   { path: "yeutophi", component: YeuToPhiDialogComponent },
   { path: "vuviec", component: VuViecDialogComponent },
+  { path: "tiente", component: TienTeDialogComponent },
   { path: "taikhoan", component: TaiKhoanDialogComponent },
   { path: "taikhoanCN", component: TaiKhoanCNDialogComponent },
 ];

@@ -12,6 +12,11 @@ import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
 import { NhomSanPhamDialogComponent } from "../../Dialog/NhomSanPham/nhomsanpham-dialog.component";
+import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.component";
+import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.component";
+import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
+import { NhomDoiTuongDialogComponent } from "../../Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
+import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
 @Component({
   selector: "app-soquytienmat",
   templateUrl: "./soquytienmat.component.html",
@@ -41,7 +46,9 @@ export class SoQuyTienMatComponent implements OnInit {
   public ma_tk: string = "111";
   public ma_dt: string = "";
   public ma_nl: string = "";
+  public ma_sp: string = "";
   public ma_nhom_nl: string = "";
+  public ma_nhom_sp: string = "";
   public ma_km: string = "";
   public ma_vv: string = "";
   public ma_ytp: string = "";
@@ -50,20 +57,24 @@ export class SoQuyTienMatComponent implements OnInit {
 
   public ID_DT: string = "";
   public ID_NL: string = "";
+  public ID_SP: string = "";
   public ID_KM: string = "";
   public ID_VV: string = "";
   public ID_YTP: string = "";
   public ID_NHOM_DT: string = "";
   public ID_NHOM_NL: string = "";
+  public ID_NHOM_SP: string = "";
   public ID_TT: string = "";
 
   public ten_dt: string = "";
   public ten_nl: string = "";
+  public ten_sp: string = "";
   public ten_km: string = "";
   public ten_vv: string = "";
   public ten_ytp: string = "";
   public ten_nhom_dt: string = "";
   public ten_nhom_nl: string = "";
+  public ten_nhom_sp: string = "";
   public ten_tt: string = "";
 
   public psco: number = 0;
@@ -95,7 +106,6 @@ export class SoQuyTienMatComponent implements OnInit {
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate;
-    this.updateColumnInfo();
     this.loadData();
 
     // this.calculateTotalPsco();
@@ -108,16 +118,11 @@ export class SoQuyTienMatComponent implements OnInit {
     }
   }
 
-  updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
-  }
   private getNowUTC(now: Date) {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
   async loadData() {
-    await this.loadnodauky();
-    await this.loadnocuoiky();
     try {
       const response: any = await this.dataService
         .post("/SoQuyTienMat", {
@@ -253,21 +258,40 @@ export class SoQuyTienMatComponent implements OnInit {
       dialogRef.hide();
     });
   }
-  openNLDialog() {
-    const dialogRef = this.modalService.show(NguonLucDialogComponent);
-    dialogRef.content.nguonLucSelected.subscribe((selectedNL: any) => {
-      this.ID_NL = selectedNL.ID_NL;
-      this.ma_nl = selectedNL.MA_NL;
-      this.ten_nl = selectedNL.TEN_NL;
+  openSPDialog() {
+    const dialogRef = this.modalService.show(SanPhamDialogComponent, {
+      initialState: {
+        bitLoaiNL: 16,
+      },
+      class: "modal-xl",
+    });
+    dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
+      this.ID_SP = selectedSP.ID_NL;
+      this.ma_sp = selectedSP.MA_NL;
+      this.ten_sp = selectedSP.TEN_NL;
+      dialogRef.hide();
+    });
+  }
+  openKMDialog() {
+    const dialogRef = this.modalService.show(KhoanMucDialogComponent);
+    dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
+      this.ID_KM = selectedKM.ID_KM;
+      this.ma_km = selectedKM.MA_KM;
+      this.ten_km = selectedKM.TEN_KM;
       dialogRef.hide();
     });
   }
   openNSPDialog() {
-    const dialogRef = this.modalService.show(NhomSanPhamDialogComponent);
+    const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
+      initialState: {
+        bitLoaiNL: 16,
+      },
+      class: "modal-xl",
+    });
     dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
-      this.ID_NHOM_NL = selectedNSP.ID_NHOM_NL;
-      this.ma_nhom_nl = selectedNSP.MA_NHOM_NL;
-      this.ten_nhom_nl = selectedNSP.TEN_NHOM_NL;
+      this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
+      this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
+      this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
       dialogRef.hide();
     });
   }
@@ -280,61 +304,58 @@ export class SoQuyTienMatComponent implements OnInit {
       dialogRef.hide();
     });
   }
-
+  openYTPDialog() {
+    const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
+    dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
+      this.ID_YTP = selectedYTP.ID_YTP;
+      this.ma_ytp = selectedYTP.MA_YTP;
+      this.ten_ytp = selectedYTP.TEN_YTP;
+      dialogRef.hide();
+    });
+  }
+  openTTDialog() {
+    const dialogRef = this.modalService.show(TienTeDialogComponent);
+    dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
+      this.ID_TT = selectedTT.ID_TT;
+      this.ma_tt = selectedTT.MA_TT;
+      this.ten_tt = selectedTT.TEN_TT;
+      dialogRef.hide();
+    });
+  }
+  openNDTDialog() {
+    const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
+    dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
+      this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
+      this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
+      this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
+      dialogRef.hide();
+    });
+  }
   onChangePageSize() {
     this.loadData();
   }
 
-  public columnInfonhapkho: any[] = [
-    {
-      Name: "NGAY_CT",
-      Caption: "Ngày CT",
-      Width: 50,
-      Format: "d",
-    },
-    {
-      Name: "SO_CT",
-      Caption: "Số chứng từ",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "DIEN_GIAI",
-      Caption: "Diễn giải",
-      Width: 70,
-      Format: "",
-    },
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
 
-    {
-      Name: "ONG_BA",
-      Caption: "Ông bà",
-      Width: 50,
-      Format: "",
-    },
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
 
-    {
-      Name: "TK_DOI_UNG",
-      Caption: "TK đối ứng",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "PS_NO",
-      Caption: "Thu tiền",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-    {
-      Name: "PS_CO",
-      Caption: "Chi tiền",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-    {
-      Name: "TON_QUY",
-      Caption: "Tồn Quỹ",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-  ];
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
+  }
 }

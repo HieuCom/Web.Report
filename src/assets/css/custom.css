@@ -5562,3 +5562,6 @@ ul.notifications {
 }
 
 /** /Dropzone.js **/
+.modal-xl {
+  width: 900px;
+}

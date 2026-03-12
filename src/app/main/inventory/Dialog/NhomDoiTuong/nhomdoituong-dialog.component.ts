@@ -28,6 +28,7 @@ export class NhomDoiTuongDialogComponent implements OnInit {
         .get("/NhomDoiTuong")
         .toPromise();
       this.danhSachNhomDoiTuong = response;
+      this.danhSachNhomDoiTuongGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -48,17 +49,27 @@ export class NhomDoiTuongDialogComponent implements OnInit {
   }
 
   filterDanhSachNhomDoiTuong() {
-    if (!this.searchTerm) {
-      this.loadDataNhomDoiTuong(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachNhomDoiTuong = this.danhSachNhomDoiTuong.filter(
-        (nhomDoiTuong) =>
-          this.normalizeString(nhomDoiTuong.TEN_NHOM_DT).includes(
-            normalizedSearchTerm,
-          ),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    if (!keyword) {
+      this.danhSachNhomDoiTuong = [...this.danhSachNhomDoiTuongGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachNhomDoiTuong = this.danhSachNhomDoiTuongGoc.filter(
+      (nhomDoiTuong) => {
+        const tenRaw = nhomDoiTuong.TEN_NHOM_DT.toLowerCase();
+        const tenNormalized = this.normalizeString(nhomDoiTuong.TEN_NHOM_DT);
+
+        return (
+          tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        );
+      },
+    );
   }
 
   public columnInfonhapnhomDoiTuong: any[] = [

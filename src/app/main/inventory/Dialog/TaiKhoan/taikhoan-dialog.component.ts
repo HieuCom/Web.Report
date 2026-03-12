@@ -1,15 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from "@angular/core";
-import { ModalDirective } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "app-taikhoan-dialog",
@@ -19,12 +9,10 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 export class TaiKhoanDialogComponent implements OnInit {
   @Output() taikhoanSelected = new EventEmitter<number>();
   danhSachTaiKhoan: any[];
+  danhSachTaiKhoanGoc: any[] = [];
   public searchTerm: string = "";
 
-  constructor(
-    private dataService: DataService,
-    private _notificationService: NotificationService,
-  ) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     //this.loadDanhSachTaiKhoan();
@@ -35,6 +23,7 @@ export class TaiKhoanDialogComponent implements OnInit {
     try {
       const response: any = await this.dataService.get("/TaiKhoan").toPromise();
       this.danhSachTaiKhoan = response;
+      this.danhSachTaiKhoanGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -73,13 +62,24 @@ export class TaiKhoanDialogComponent implements OnInit {
   }
 
   filterDanhSachTaiKhoan() {
-    if (!this.searchTerm) {
-      this.loadDataTaiKhoan(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachTaiKhoan = this.danhSachTaiKhoan.filter((TaiKhoan) =>
-        this.normalizeString(TaiKhoan.TEN_TK).includes(normalizedSearchTerm),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    if (!keyword) {
+      this.danhSachTaiKhoan = [...this.danhSachTaiKhoanGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachTaiKhoan = this.danhSachTaiKhoanGoc.filter((taikhoan) => {
+      const tenRaw = taikhoan.TEN_TK.toLowerCase();
+      const tenNormalized = this.normalizeString(taikhoan.TEN_TK);
+
+      return (
+        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 }

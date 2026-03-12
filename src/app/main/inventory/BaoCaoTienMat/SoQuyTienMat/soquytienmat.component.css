@@ -1,28 +1,8 @@
-.filter-service-type div {
-  display: inline-block;
-  padding-right: 10px;
+.panel-filter button {
+  border-radius: 0;
+  margin-right: 0;
 }
-.btn-add-new {
-  text-align: right;
-}
-.view-options {
-  text-align: right;
-  margin-top: 20px;
-}
-.view-options select {
-  width: auto;
-  display: inline-block;
-}
-.label-created-date {
-  margin: 10px;
-  padding-top: 5px;
-}
-.select-item {
-  cursor: pointer;
-}
-.select-item:hover {
-  background-color: #e6e6e6;
-}
+
 .matk {
   text-align: center;
   margin-bottom: 20px;
@@ -36,6 +16,7 @@
 .nametb {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .title {
@@ -80,4 +61,40 @@
 }
 .account-detail {
   margin-bottom: 8px;
+}
+
+/* Dropdown style */
+.dropdown-input {
+  position: relative;
+}
+
+.dropdown-input input {
+  padding-right: 30px;
+  background-color: white;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dropdown-menu-custom {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f2f2f2;
 }

@@ -1,4 +1,4 @@
-<h1>Nhóm Sản Phẩm</h1>
+<h1 class="modal-title">Nhóm Sản Phẩm</h1>
 <div class="search-box">
   <input
     type="text"
@@ -22,7 +22,7 @@
     <tbody>
       <tr
         *ngFor="let nhomSanPham of danhSachNhomSanPham"
-        (click)="chonNhomSanPham(nhomSanPham.ID_NHOM_SP)"
+        (click)="chonNhomSanPham(nhomSanPham.ID_NHOM_NL)"
         class="select-item"
       >
         <td *ngFor="let colInfo of columnInfonhapnhomSanPham">
@@ -36,24 +36,35 @@
           <strong
             *ngIf="
               nhomSanPham.BOLD == true &&
-              colInfo.Format == '#,##0.##;(#,##0.##);#'
+              colInfo.Format == '' &&
+              colInfo.Name !== 'BIT_LOAI_NL'
             "
-            >{{ nhomSanPham[colInfo.Name] | number }}</strong
           >
+            {{ nhomSanPham[colInfo.Name] }}
+          </strong>
+
           <span
             *ngIf="
               nhomSanPham.BOLD != true &&
-              colInfo.Format == '#,##0.##;(#,##0.##);#'
+              colInfo.Format == '' &&
+              colInfo.Name !== 'BIT_LOAI_NL'
             "
-            >{{ nhomSanPham[colInfo.Name] | number }}</span
           >
+            {{ nhomSanPham[colInfo.Name] }}
+          </span>
 
-          <strong *ngIf="nhomSanPham.BOLD == true && colInfo.Format == ''">{{
-            nhomSanPham[colInfo.Name]
-          }}</strong>
-          <span *ngIf="nhomSanPham.BOLD != true && colInfo.Format == ''">{{
-            nhomSanPham[colInfo.Name]
-          }}</span>
+          <!-- HIỂN THỊ TÊN LOẠI NGUỒN LỰC -->
+          <strong
+            *ngIf="nhomSanPham.BOLD == true && colInfo.Name === 'BIT_LOAI_NL'"
+          >
+            {{ getTenLoaiNguonLuc(nhomSanPham[colInfo.Name]) }}
+          </strong>
+
+          <span
+            *ngIf="nhomSanPham.BOLD != true && colInfo.Name === 'BIT_LOAI_NL'"
+          >
+            {{ getTenLoaiNguonLuc(nhomSanPham[colInfo.Name]) }}
+          </span>
         </td>
       </tr>
     </tbody>

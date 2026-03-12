@@ -1,125 +1,316 @@
-<!-- <div class="x_title">
-  <h3><i class="fa fa-tasks"></i> Kết Quả Hoạt Động Sản Xuất Kinh Doanh</h3>
-</div> -->
-<br>
-
 <div class="panel-filter">
   <div class="row">
-
-    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
-      <p for="">Mã tài khoản</p>
-        <input type="text"[(ngModel)]="this.ma_tk ">
-        <button (click)="openDialog()">...</button>
-    </div> 
-
-   
-
-    <div class="col-md-3 col-sm-6 col-xs-12 form-group">
-      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
-        <p for="">Từ Ngày - Đến Ngày</p>
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="startDate">Ngày bắt đầu:</label>
+        <input
+          type="text"
+          placeholder="{{ 'FromDate| translate' }}"
+          id="startDate"
+          class="form-control"
+          bsDatepicker
+          [(ngModel)]="this.fromDate"
+          [bsConfig]="bsConfig"
+        />
+        <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
       </div>
-      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'FromDate| translate'}}" class="media" bsDatepicker
-            [(ngModel)]="this.fromDate"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
+      <div class="form-group">
+        <label for="endDate">Ngày kết thúc:</label>
+        <input
+          type="text"
+          placeholder="{{ 'ToDate| translate' }}"
+          class="form-control"
+          id="endDate"
+          bsDatepicker
+          [(ngModel)]="this.toDate"
+          [bsConfig]="bsConfig"
+        />
+        <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
+      </div>
+      <div class="form-group">
+        <label for="ma_tk">Mã tài khoản:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ma_tk"
+            class="form-control"
+            id="ma_tk"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openDialog()">...</button>
+          </div>
         </div>
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'ToDate| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDate"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
+      </div>
+      <div class="form-group">
+        <label>Mẫu in:</label>
+
+        <div class="dropdown-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="printTemplate"
+            (click)="toggleTemplateDropdown()"
+            readonly
+          />
+          <span class="dropdown-icon" (click)="toggleTemplateDropdown()">
+            ▼
+          </span>
+          <div class="dropdown-menu-custom" *ngIf="showTemplateDropdown">
+            <div class="dropdown-item" (click)="selectTemplate('Tổng hợp')">
+              Tổng hợp
+            </div>
+            <div class="dropdown-item" (click)="selectTemplate('Chi tiết')">
+              Chi tiết
+            </div>
+            <div
+              class="dropdown-item"
+              (click)="selectTemplate('Tổng hợp và chi tiết')"
+            >
+              Tổng hợp và chi tiết
+            </div>
+          </div>
         </div>
-      </div>   
+      </div>
     </div>
-    
-    <div *ngIf="isDateRangeVisible" #dateRangeSection   class="col-md-3 col-sm-6 col-xs-12 form-group">
-      <div class="col-md-5 col-sm-6 col-xs-12 form-group label-created-date">
-        <p >Từ Ngày TR - Đến Ngày TR</p>
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="ma_dt">Đối tượng:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_dt"
+            class="form-control"
+            id="ma_dt"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openDTDialog()">
+              ...
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="col-md-10 col-sm-6 col-xs-12 form-group">
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'FromDateTR| translate'}}" class="media" bsDatepicker
-            [(ngModel)]="this.fromDateTR"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
+      <div class="form-group">
+        <label for="ma_sp">Sản phẩm:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_sp"
+            class="form-control"
+            id="ma_sp"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openSPDialog()">
+              ...
+            </button>
+          </div>
         </div>
-        <div class="col-md-7 col-sm-6 col-xs-12 form-group">
-          <input type="text" placeholder="{{'ToDateTR| translate'}}" class="media" bsDatepicker [(ngModel)]="this.toDateTR"
-            [bsConfig]="{rangeInputFormat: 'DD/MM/YYYY', dateInputFormat: 'DD/MM/YYYY', showWeekNumbers: false }">
-          <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
+      </div>
+      <div class="form-group">
+        <label for="ma_km">Khoản mục:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_km"
+            class="form-control"
+            id="ma_km"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openKMDialog()">
+              ...
+            </button>
+          </div>
         </div>
-      </div>   
+      </div>
+      <div class="form-group">
+        <label>Tùy chọn in:</label>
+
+        <div class="dropdown-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="printOption"
+            (click)="toggleOptionDropdown()"
+            readonly
+          />
+          <span class="dropdown-icon" (click)="toggleOptionDropdown()">
+            ▼
+          </span>
+          <div class="dropdown-menu-custom" *ngIf="showOptionDropdown">
+            <div class="dropdown-item" (click)="selectOption('Xem dạng bảng')">
+              Xem dạng bảng
+            </div>
+            <div class="dropdown-item" (click)="selectOption('Xem và in')">
+              Xem và in
+            </div>
+            <div class="dropdown-item" (click)="selectOption('Lưu Excel')">
+              Lưu Excel
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div>
-      <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
-        <button class="btn btn-primary" type="button" (click)="reloaddata()"><span class="glyphicon glyphicon-search"
-            aria-hidden="true"></span></button>
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="ma_vv">Vụ việc:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_vv"
+            class="form-control"
+            id="ma_vv"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openVVDialog()">
+              ...
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search">
-        <button class="btn btn-primary" type="button" (click)="chuyen()">
-          <span 
-            aria-hidden="true">
-          </span> Pre
-        </button>
+      <div class="form-group">
+        <label for="ma_ytp">Yếu tố:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_ytp"
+            class="form-control"
+            id="ma_ytp"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openYTPDialog()">
+              ...
+            </button>
+          </div>
+        </div>
       </div>
-
+      <div class="form-group">
+        <label for="ma_nhom_dt">Nhóm đối tượng:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_nhom_dt"
+            class="form-control"
+            id="ma_nhom_dt"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openNDTDialog()">
+              ...
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-12">
+      <div class="form-group">
+        <label for="ma_tt">Loại tiền:</label>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="this.ten_tt"
+            class="form-control"
+            id="ma_tt"
+          />
+          <div class="input-group-btn">
+            <button class="btn btn-default" (click)="openTTDialog()">
+              ...
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <button class="btn btn-primary" type="submit" (click)="reloaddata()">
+    <span class="glyphicon glyphicon-search"></span> Tìm kiếm
+  </button>
+  <button
+    class="preview-button btn btn-primary"
+    type="button"
+    (click)="chuyen()"
+  >
+    Preview
+  </button>
 </div>
-<hr>
+<hr />
 <!-- <div class="btn-add-new">
   <button class="btn btn-primary" type="button" (click)="showCreatenhapkhoModel()"><span
       class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{'add_new'| translate}}
     </button>
 </div> -->
-<div class="nametb" >{{this.nametable}}</div>
+<div class="nametb">{{ this.nametable }}</div>
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th *ngFor="let colInfo of columnInfonhapkho ">
-          <div >
-            {{colInfo.Caption}}
+        <th *ngFor="let colInfo of columnInfonhapkho">
+          <div>
+            {{ colInfo.Caption }}
           </div>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let chungtu of nhapkhos ; let i = index" class="select-item">
+      <tr *ngFor="let chungtu of nhapkhos; let i = index" class="select-item">
         <td *ngFor="let colInfo of columnInfonhapkho">
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd' ">{{chungtu[colInfo.Name] | date:'dd/MM/yyyy'}}</span>
-          
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#' ">{{chungtu[colInfo.Name]|number }}</span>
-          
-          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</strong>
-          <span *ngIf="chungtu.BOLD != true && colInfo.Format == '' ">{{chungtu[colInfo.Name] }}</span>
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">{{
+            chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">{{
+            chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ chungtu[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ chungtu[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">{{
+            chungtu[colInfo.Name]
+          }}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">{{
+            chungtu[colInfo.Name]
+          }}</span>
         </td>
       </tr>
     </tbody>
-
   </table>
   <div *ngIf="nhapkhos && nhapkhos.length == 0" class="col-md-12">
     <div class="alert alert-info">
-      <strong>{{'dialog_alert_title'| translate }}!</strong> {{'task_manager_task_notice_list_empty'| translate }}
+      <strong>{{ "dialog_alert_title" | translate }}!</strong>
+      {{ "task_manager_task_notice_list_empty" | translate }}
     </div>
-
   </div>
-  
+
   <div *ngIf="nhapkhos && nhapkhos.length > 0" class="col-md-12">
     <div class="col-md-8">
-      <pagination [boundaryLinks]="true" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"
-        [totalItems]="totalRow" [(ngModel)]="pageNumber" class="pagination-sm" previousText="&lsaquo;"
-        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
-    </div> 
+      <pagination
+        [boundaryLinks]="true"
+        [itemsPerPage]="pageSize"
+        (pageChanged)="pageChanged($event)"
+        [totalItems]="totalRow"
+        [(ngModel)]="pageNumber"
+        class="pagination-sm"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      ></pagination>
+    </div>
     <div class="col-md-4">
       <div class="form-group view-options">
-        <label for="">{{'show_row'| translate}} &nbsp;</label>
-        <select class="form-control" name="page-size" [(ngModel)]="pageSize" (change)="onChangePageSize()">
+        <label for="">{{ "show_row" | translate }} &nbsp;</label>
+        <select
+          class="form-control"
+          name="page-size"
+          [(ngModel)]="pageSize"
+          (change)="onChangePageSize()"
+        >
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
@@ -128,5 +319,4 @@
       </div>
     </div>
   </div>
-
 </div>

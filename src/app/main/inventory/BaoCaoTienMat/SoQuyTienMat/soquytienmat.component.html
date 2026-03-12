@@ -43,6 +43,36 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label>Mẫu in:</label>
+
+        <div class="dropdown-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="printTemplate"
+            (click)="toggleTemplateDropdown()"
+            readonly
+          />
+          <span class="dropdown-icon" (click)="toggleTemplateDropdown()">
+            ▼
+          </span>
+          <div class="dropdown-menu-custom" *ngIf="showTemplateDropdown">
+            <div class="dropdown-item" (click)="selectTemplate('Tổng hợp')">
+              Tổng hợp
+            </div>
+            <div class="dropdown-item" (click)="selectTemplate('Chi tiết')">
+              Chi tiết
+            </div>
+            <div
+              class="dropdown-item"
+              (click)="selectTemplate('Tổng hợp và chi tiết')"
+            >
+              Tổng hợp và chi tiết
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
@@ -50,26 +80,30 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_dt"
+            [(ngModel)]="this.ten_dt"
             class="form-control"
             id="ma_dt"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openDTDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="ma_dt">Sản phẩm:</label>
+        <label for="ma_sp">Sản phẩm:</label>
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_dt"
+            [(ngModel)]="this.ten_sp"
             class="form-control"
-            id="ma_dt"
+            id="ma_sp"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openSPDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -78,12 +112,41 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_km"
+            [(ngModel)]="this.ten_km"
             class="form-control"
             id="ma_km"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openKMDialog()">
+              ...
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tùy chọn in:</label>
+
+        <div class="dropdown-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="printOption"
+            (click)="toggleOptionDropdown()"
+            readonly
+          />
+          <span class="dropdown-icon" (click)="toggleOptionDropdown()">
+            ▼
+          </span>
+          <div class="dropdown-menu-custom" *ngIf="showOptionDropdown">
+            <div class="dropdown-item" (click)="selectOption('Xem dạng bảng')">
+              Xem dạng bảng
+            </div>
+            <div class="dropdown-item" (click)="selectOption('Xem và in')">
+              Xem và in
+            </div>
+            <div class="dropdown-item" (click)="selectOption('Lưu Excel')">
+              Lưu Excel
+            </div>
           </div>
         </div>
       </div>
@@ -110,12 +173,14 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_ytp"
+            [(ngModel)]="this.ten_ytp"
             class="form-control"
             id="ma_ytp"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openYTPDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -124,12 +189,14 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_nhom_dt"
+            [(ngModel)]="this.ten_nhom_dt"
             class="form-control"
             id="ma_nhom_dt"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openNDTDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -140,40 +207,40 @@
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_dt"
+            [(ngModel)]="this.ten_nhom_sp"
             class="form-control"
-            id="ma_dt"
+            id="ma_nhom_sp"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openNSPDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
       <div class="form-group">
-        <label for="ma_td">Tiêu đề:</label>
-        <div class="input-group">
-          <input
-            type="text"
-            [(ngModel)]="this.nametable"
-            class="form-control"
-            id="ma_td"
-          />
-          <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
-          </div>
-        </div>
+        <label for="td">Tiêu đề:</label>
+
+        <input
+          type="text"
+          [(ngModel)]="this.nametable"
+          class="form-control"
+          id="td"
+        />
       </div>
       <div class="form-group">
-        <label for="ma_dt">Loại tiền:</label>
+        <label for="ma_tt">Loại tiền:</label>
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_dt"
+            [(ngModel)]="this.ten_tt"
             class="form-control"
-            id="ma_dt"
+            id="ma_tt"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default">...</button>
+            <button class="btn btn-default" (click)="openTTDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -183,7 +250,7 @@
     <span class="glyphicon glyphicon-search"></span> Tìm kiếm
   </button>
   <button
-    class="preview-button btn btn-primary ml-3"
+    class="preview-button btn btn-primary"
     type="button"
     (click)="chuyen()"
   >

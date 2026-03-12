@@ -10,12 +10,10 @@ import { NotificationService } from "src/app/core/services/notification.service"
 export class KhoanMucDialogComponent implements OnInit {
   @Output() khoanMucSelected = new EventEmitter<number>();
   danhSachKhoanMuc: any[];
+  danhSachKhoanMucGoc: any[] = [];
   public searchTerm: string = "";
 
-  constructor(
-    private dataService: DataService,
-    private _notificationService: NotificationService,
-  ) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.loadDataKhoanMuc();
@@ -25,6 +23,7 @@ export class KhoanMucDialogComponent implements OnInit {
     try {
       const response: any = await this.dataService.get("/KhoanMuc").toPromise();
       this.danhSachKhoanMuc = response;
+      this.danhSachKhoanMucGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -45,14 +44,25 @@ export class KhoanMucDialogComponent implements OnInit {
   }
 
   filterDanhSachKhoanMuc() {
-    if (!this.searchTerm) {
-      this.loadDataKhoanMuc(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachKhoanMuc = this.danhSachKhoanMuc.filter((khoanMuc) =>
-        this.normalizeString(khoanMuc.TEN_KM).includes(normalizedSearchTerm),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    if (!keyword) {
+      this.danhSachKhoanMuc = [...this.danhSachKhoanMucGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachKhoanMuc = this.danhSachKhoanMucGoc.filter((khoanMuc) => {
+      const tenRaw = khoanMuc.TEN_KM.toLowerCase();
+      const tenNormalized = this.normalizeString(khoanMuc.TEN_KM);
+
+      return (
+        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   public columnInfonhapkhoanMuc: any[] = [

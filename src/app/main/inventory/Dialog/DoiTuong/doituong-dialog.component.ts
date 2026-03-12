@@ -31,6 +31,7 @@ export class DoiTuongDialogComponent implements OnInit {
       console.error("An error occurred:", error);
     }
   }
+
   chonDoiTuong(ID_DT: number) {
     const selectedDoiTuong = this.danhSachDoiTuong.find(
       (doiTuong) => doiTuong.ID_DT === ID_DT,
