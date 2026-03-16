@@ -41,7 +41,7 @@ export class SoChiTietCongNoComponent implements OnInit {
   public totalRow: number;
   public filter: string = "";
   public nhapkhos: any[];
-  public nametable = "SỔ CHI TIẾT CÔNG NỢ";
+  public nametable = "Sổ Chi Tiết Công Nợ";
 
   public ID_KHO: number = 0;
 
