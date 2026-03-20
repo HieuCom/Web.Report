@@ -7,6 +7,9 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog.component";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { NhomNguonLucDialogComponent } from "../../Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
+import { NguonLucDialogComponent } from "../../Dialog/NguonLuc/nguonluc-dialog.component";
 @Component({
   selector: "app-thekho",
   templateUrl: "./thekho.component.html",
@@ -35,10 +38,16 @@ export class TheKhoComponent implements OnInit {
   public nametable = "THẺ KHO";
 
   public ID_KHO: number = 0;
+  public ID_NHOM_NL: string = "";
+  public ID_NL: string = "";
 
-  // lấy từ api /Kho theo ID_KHO
+  public ma_nhom_nl: string = "";
+  public ma_nl: string = "";
   public ma_kho: string = "";
+
   public ten_kho: string = "";
+  public ten_nhom_nl: string = "";
+  public ten_nl: string = "";
 
   bsModalRef: BsModalRef;
 
@@ -56,6 +65,12 @@ export class TheKhoComponent implements OnInit {
     this.updateColumnInfo();
     this.loadData();
   }
+
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
 
   updateColumnInfo() {
     this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
@@ -107,6 +122,48 @@ export class TheKhoComponent implements OnInit {
       // Close the dialog if needed
       dialogRef.hide();
     });
+  }
+  openNLDialog() {
+    const dialogRef = this.modalService.show(NguonLucDialogComponent);
+    dialogRef.content.nguonLucSelected.subscribe((selectedNDT: any) => {
+      this.ID_NL = selectedNDT.ID_NL;
+      this.ma_nl = selectedNDT.MA_NL;
+      this.ten_nl = selectedNDT.TEN_NL;
+      dialogRef.hide();
+    });
+  }
+
+  openNNLDialog() {
+    const dialogRef = this.modalService.show(NhomNguonLucDialogComponent);
+    dialogRef.content.nhomNguonLucSelected.subscribe((selectedNDT: any) => {
+      this.ID_NHOM_NL = selectedNDT.ID_NHOM_NL;
+      this.ma_nhom_nl = selectedNDT.MA_NHOM_NL;
+      this.ten_nhom_nl = selectedNDT.TEN_NHOM_NL;
+      dialogRef.hide();
+    });
+  }
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
+
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
   }
 
   onValueChangeDateRange(rangeDate) {

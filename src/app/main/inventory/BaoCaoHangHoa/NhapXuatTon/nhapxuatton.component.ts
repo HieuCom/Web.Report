@@ -9,6 +9,8 @@ import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { SharedDataService } from "src/app/core/services/shared-data.service";
 import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog.component";
 import { NguonLucDialogComponent } from "src/app/main/inventory/Dialog/NguonLuc/nguonluc-dialog.component";
+import { NhomNguonLucDialogComponent } from "../../Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: "app-nhapxuatton",
@@ -39,13 +41,18 @@ export class NhapXuatTonComponent implements OnInit {
   public nametable = "SỔ CHI TIẾT HÀNG HÓA";
 
   public ID_KHO: number = 0;
+  public ID_NL: number = 0;
+  public ID_NHOM_NL: number = 0;
 
   public ma_tk: number = 1331;
   public ma_kho: string = "";
-  public ten_kho: string = "";
   public ma_nl: string = "";
+  public ma_nhom_nl: string = "";
+
+  public ten_kho: string = "";
   public ten_nl: string = "";
-  public ID_NL: number = 0;
+  public ten_nhom_nl: string = "";
+
   public namekho: string;
   public namewh: string;
 
@@ -66,6 +73,12 @@ export class NhapXuatTonComponent implements OnInit {
     this.toDate.setDate;
     this.loadData();
   }
+
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
 
   private getNowUTC(now: Date) {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
@@ -126,21 +139,52 @@ export class NhapXuatTonComponent implements OnInit {
       this.ma_kho = selectedKho.MA_KHO;
       this.ten_kho = selectedKho.TEN_KHO;
 
-      // Close the dialog if needed
       dialogRef.hide();
     });
   }
 
   openNLDialog() {
     const dialogRef = this.modalService.show(NguonLucDialogComponent);
-    dialogRef.content.nguonLucSelected.subscribe((selectedNL: any) => {
-      this.ID_NL = selectedNL.ID_NL;
-      this.ma_nl = selectedNL.MA_NL;
-      this.ten_nl = selectedNL.TEN_NL;
-      //console.log(selectedKho);
-      // Close the dialog if needed
+    dialogRef.content.nguonLucSelected.subscribe((selectedNDT: any) => {
+      this.ID_NL = selectedNDT.ID_NL;
+      this.ma_nl = selectedNDT.MA_NL;
+      this.ten_nl = selectedNDT.TEN_NL;
       dialogRef.hide();
     });
+  }
+
+  openNNLDialog() {
+    const dialogRef = this.modalService.show(NhomNguonLucDialogComponent);
+    dialogRef.content.nhomNguonLucSelected.subscribe((selectedNDT: any) => {
+      this.ID_NHOM_NL = selectedNDT.ID_NHOM_NL;
+      this.ma_nhom_nl = selectedNDT.MA_NHOM_NL;
+      this.ten_nhom_nl = selectedNDT.TEN_NHOM_NL;
+      dialogRef.hide();
+    });
+  }
+
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
+
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
   }
 
   onValueChangeDateRange(rangeDate) {

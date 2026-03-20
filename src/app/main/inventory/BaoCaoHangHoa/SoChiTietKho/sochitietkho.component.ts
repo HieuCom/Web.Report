@@ -8,6 +8,7 @@ import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { SharedDataService } from "src/app/core/services/shared-data.service";
 import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog.component";
 import { NguonLucDialogComponent } from "src/app/main/inventory/Dialog/NguonLuc/nguonluc-dialog.component";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: "app-sochitietkho",
@@ -38,21 +39,19 @@ export class SoChiTietKhoComponent implements OnInit {
   public nametable = "SỔ CHI TIẾT HÀNG HÓA";
 
   public ID_KHO: number = 0;
+  public ID_NL: number = 0;
 
   public ma_tk: number = 1331;
   public ma_kho: string = "";
-  public ten_kho: string = "";
   public ma_nl: string = "";
+
+  public ten_kho: string = "";
   public ten_nl: string = "";
-  public ID_NL: number = 0;
-  public namekho: string;
-  public namewh: string;
 
   bsModalRef: BsModalRef;
 
   constructor(
     private dataService: DataService,
-    private _notificationService: NotificationService,
     private router: Router,
     private columnInfoService: ColuminfoService,
     private sharedDataService: SharedDataService,
@@ -66,6 +65,12 @@ export class SoChiTietKhoComponent implements OnInit {
     this.updateColumnInfo();
     this.loadData();
   }
+
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
 
   updateColumnInfo() {
     this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
@@ -147,6 +152,30 @@ export class SoChiTietKhoComponent implements OnInit {
       // Close the dialog if needed
       dialogRef.hide();
     });
+  }
+
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
+
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
   }
 
   onValueChangeDateRange(rangeDate) {

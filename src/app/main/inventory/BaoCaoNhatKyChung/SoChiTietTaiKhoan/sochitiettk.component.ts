@@ -7,6 +7,15 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
+import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
+import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.component";
+import { NhomDoiTuongDialogComponent } from "../../Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
+import { NhomSanPhamDialogComponent } from "../../Dialog/NhomSanPham/nhomsanpham-dialog.component";
+import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.component";
+import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
+import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
+import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 @Component({
   selector: "app-sochitiettk",
   templateUrl: "./sochitiettk.component.html",
@@ -23,7 +32,6 @@ export class SoChiTietTKComponent implements OnInit {
   public dateRange: Date[];
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
-  public ma_tk: string;
   public Taikhoans: any;
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
@@ -35,6 +43,40 @@ export class SoChiTietTKComponent implements OnInit {
   public filter: string = "";
   public chungtus: any[];
   public nametable = "Sổ Chi Tiết Tài khoản";
+
+  public ma_tk: string;
+  public ma_dt: string = "";
+  public ma_nl: string = "";
+  public ma_sp: string = "";
+  public ma_nhom_nl: string = "";
+  public ma_nhom_sp: string = "";
+  public ma_km: string = "";
+  public ma_vv: string = "";
+  public ma_ytp: string = "";
+  public ma_nhom_dt: string = "";
+  public ma_tt: string = "";
+
+  public ID_DT: string = "";
+  public ID_NL: string = "";
+  public ID_SP: string = "";
+  public ID_KM: string = "";
+  public ID_VV: string = "";
+  public ID_YTP: string = "";
+  public ID_NHOM_DT: string = "";
+  public ID_NHOM_NL: string = "";
+  public ID_NHOM_SP: string = "";
+  public ID_TT: string = "";
+
+  public ten_dt: string = "";
+  public ten_nl: string = "";
+  public ten_sp: string = "";
+  public ten_km: string = "";
+  public ten_vv: string = "";
+  public ten_ytp: string = "";
+  public ten_nhom_dt: string = "";
+  public ten_nhom_nl: string = "";
+  public ten_nhom_sp: string = "";
+  public ten_tt: string = "";
 
   bsModalRef: BsModalRef;
 
@@ -53,6 +95,12 @@ export class SoChiTietTKComponent implements OnInit {
     this.getListTaiKhoan();
     this.loadData();
   }
+
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
 
   updateColumnInfo() {
     this.columnInfoService.changeColumnInfo(this.columnInfo);
@@ -126,13 +174,128 @@ export class SoChiTietTKComponent implements OnInit {
     this.loadData();
   }
 
-  openDialog() {
+  openTKDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
     dialogRef.content.taikhoanSelected.subscribe((idKho: string) => {
       this.ma_tk = idKho;
       // Close the dialog if needed
       dialogRef.hide();
     });
+  }
+
+  // openTKDialog() {
+  //   const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+  //   dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+  //     this.ma_tk = ma_tk;
+  //     // Close the dialog if needed
+  //     dialogRef.hide();
+  //   });
+  // }
+  openDTDialog() {
+    const dialogRef = this.modalService.show(DoiTuongDialogComponent);
+    dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+      this.ID_DT = selectedDT.ID_DT;
+      this.ma_dt = selectedDT.MA_DT;
+      this.ten_dt = selectedDT.TEN_DT;
+      dialogRef.hide();
+    });
+  }
+  openSPDialog() {
+    const dialogRef = this.modalService.show(SanPhamDialogComponent, {
+      initialState: {
+        bitLoaiNL: 16,
+      },
+      class: "modal-xl",
+    });
+    dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
+      this.ID_SP = selectedSP.ID_NL;
+      this.ma_sp = selectedSP.MA_NL;
+      this.ten_sp = selectedSP.TEN_NL;
+      dialogRef.hide();
+    });
+  }
+  openKMDialog() {
+    const dialogRef = this.modalService.show(KhoanMucDialogComponent);
+    dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
+      this.ID_KM = selectedKM.ID_KM;
+      this.ma_km = selectedKM.MA_KM;
+      this.ten_km = selectedKM.TEN_KM;
+      dialogRef.hide();
+    });
+  }
+  openNSPDialog() {
+    const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
+      initialState: {
+        bitLoaiNL: 16,
+      },
+      class: "modal-xl",
+    });
+    dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
+      this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
+      this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
+      this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
+      dialogRef.hide();
+    });
+  }
+  openVVDialog() {
+    const dialogRef = this.modalService.show(VuViecDialogComponent);
+    dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
+      this.ID_VV = selectedVV.ID_VV;
+      this.ma_vv = selectedVV.MA_VV;
+      this.ten_vv = selectedVV.TEN_VV;
+      dialogRef.hide();
+    });
+  }
+  openYTPDialog() {
+    const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
+    dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
+      this.ID_YTP = selectedYTP.ID_YTP;
+      this.ma_ytp = selectedYTP.MA_YTP;
+      this.ten_ytp = selectedYTP.TEN_YTP;
+      dialogRef.hide();
+    });
+  }
+  openTTDialog() {
+    const dialogRef = this.modalService.show(TienTeDialogComponent);
+    dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
+      this.ID_TT = selectedTT.ID_TT;
+      this.ma_tt = selectedTT.MA_TT;
+      this.ten_tt = selectedTT.TEN_TT;
+      dialogRef.hide();
+    });
+  }
+  openNDTDialog() {
+    const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
+    dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
+      this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
+      this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
+      this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
+      dialogRef.hide();
+    });
+  }
+
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
+
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
   }
 
   pageChanged(event: any): void {
