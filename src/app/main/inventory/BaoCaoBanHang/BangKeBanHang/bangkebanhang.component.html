@@ -37,7 +37,7 @@
             id="ma_kho"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default" (click)="openTKDialog()">
+            <button class="btn btn-default" (click)="openKhoDialog()">
               ...
             </button>
           </div>
@@ -168,6 +168,16 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label for="don_vi">Đơn vị:</label>
+
+        <input
+          type="text"
+          [(ngModel)]="this.don_vi"
+          class="form-control"
+          id="don_vi"
+        />
+      </div>
     </div>
   </div>
   <button class="btn btn-primary" type="submit" (click)="reloaddata()">
@@ -184,6 +194,12 @@
 <hr />
 
 <div class="nametb">{{ this.nametable }}</div>
+<h4 class="matk">Tài khoản:{{ this.ma_tk }}</h4>
+<p class="time">
+  Từ ngày:{{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
+  {{ this.toDate | date: "dd/MM/yyyy" }}
+</p>
+
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>

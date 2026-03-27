@@ -43,7 +43,8 @@ export class BangKeChungTuComponent implements OnInit {
   public totalRow: number;
   public filter: string = "";
   public chungtus: any;
-  public nametable = "Bảng kê chứng từ";
+  public nametable = "Bảng Kê Chứng Từ";
+  public don_vi: string = "0103542639";
 
   public ma_tk: string = "1121";
   public ma_dt: string = "";

@@ -12,6 +12,7 @@ import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.c
 import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.component";
 import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.component";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
+import { KhoDialogComponent } from "../../Dialog/Kho/kho-dialog.component";
 @Component({
   selector: "app-bangkebanhang",
   templateUrl: "./bangkebanhang.component.html",
@@ -38,6 +39,7 @@ export class BangKeBanHangComponent implements OnInit {
   public filter: string = "";
   public nhapkhos: any[];
   public nametable = "Bảng Kê Bán Hàng";
+  public don_vi: string = "0103542639";
 
   public ID_KHO: number = 0;
 
@@ -75,6 +77,7 @@ export class BangKeBanHangComponent implements OnInit {
   public ten_nhom_nl: string = "";
   public ten_nhom_sp: string = "";
   public ten_tt: string = "";
+  public ten_kho: string = "";
 
   bsModalRef: BsModalRef;
 
@@ -113,8 +116,10 @@ export class BangKeBanHangComponent implements OnInit {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           ID_DV: "1",
-          ID_KHO: "0",
-          ID_NL: "0",
+          MA_KHO: this.ma_kho,
+          MA_NL: this.ma_nl,
+          TEN_NL: this.ten_nl,
+          ID_VV: this.ID_VV,
           UserID: "1",
           BIT_LOAI_NL: 33,
           ID_LOAI_CT: "5",
@@ -163,10 +168,12 @@ export class BangKeBanHangComponent implements OnInit {
     this.loadData();
   }
 
-  openTKDialog() {
-    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
-      this.ma_tk = ma_tk;
+  openKhoDialog() {
+    const dialogRef = this.modalService.show(KhoDialogComponent);
+    dialogRef.content.khoSelected.subscribe((kho: any) => {
+      this.ID_KHO = kho.ID_KHO;
+      this.ma_kho = kho.MA_KHO;
+      this.ten_kho = kho.TEN_KHO;
       // Close the dialog if needed
       dialogRef.hide();
     });

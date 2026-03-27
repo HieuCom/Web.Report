@@ -43,6 +43,8 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   public filter: string = "";
   public chungtus: any[];
   public nametable = "Sổ Quỹ Tiền Gửi Ngân Hàng";
+  public don_vi: string = "0103542639";
+
   public ma_tk: string = "112";
   public ma_dt: string = "";
   public ma_nl: string = "";

@@ -34,6 +34,7 @@ export class SoNhatKyChungComponent implements OnInit {
   public filter: string = "";
   public chungtus: any[];
   public nametable = "Sổ Nhật Ký Chung";
+  public don_vi: string = "0103542639";
 
   bsModalRef: BsModalRef;
   public ma_tk: string;

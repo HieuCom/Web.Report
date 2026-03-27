@@ -1,37 +1,99 @@
-.panel-search{
-    display: inline-flex;
+.panel-filter button {
+  border-radius: 0;
+  margin-right: 0;
 }
-.panel-filter button{
-    border-radius: 0;
-    margin-right: 0;
-}
-.filter-service-type div{
-    display: inline-block;
-    padding-right: 10px ;
-}
-.btn-add-new{
-    text-align: right;
-}
-.view-options{
-    text-align:right;
-    margin-top: 20px;
-}
-.view-options select{
-    width: auto;
-    display: inline-block;
 
+.matk {
+  text-align: center;
+  margin-bottom: 20px;
 }
-.label-created-date{
-    padding-top: 5px;
+
+.time {
+  text-align: center;
+  margin-bottom: 20px;
 }
-.select-item{
-    cursor: pointer;
+
+.nametb {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
-.select-item:hover{
-    background-color: #e6e6e6;
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 100px;
 }
-.nametable{
-    text-align: center;
-    margin-bottom: 20px;
-    
- }
+.table-responsive {
+  width: 100%;
+}
+.print-sign {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.print-date {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.large-column {
+  max-width: 90px; /* Điều chỉnh độ rộng của các cột lớn */
+  text-align: center;
+  vertical-align: middle;
+}
+
+.small-column {
+  max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
+  text-align: center;
+  vertical-align: middle;
+}
+
+.account {
+  float: right;
+  margin-right: 20px;
+}
+
+.preview-button {
+  margin-left: 10px;
+}
+.account-detail {
+  margin-bottom: 8px;
+}
+/* Dropdown style */
+.dropdown-input {
+  position: relative;
+}
+
+.dropdown-input input {
+  padding-right: 30px;
+  background-color: white;
+}
+
+.dropdown-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dropdown-menu-custom {
+  position: absolute;
+  width: 100%;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f2f2f2;
+}

@@ -149,25 +149,30 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" type="submit" (click)="reloaddata()">
-      <span class="glyphicon glyphicon-search"></span> Tìm kiếm
-    </button>
-    <button
-      class="preview-button btn btn-primary"
-      type="button"
-      (click)="chuyen()"
-    >
-      Preview
-    </button>
   </div>
+  <button class="btn btn-primary" type="submit" (click)="reloaddata()">
+    <span class="glyphicon glyphicon-search"></span> Tìm kiếm
+  </button>
+  <button
+    class="preview-button btn btn-primary"
+    type="button"
+    (click)="chuyen()"
+  >
+    Preview
+  </button>
 </div>
 <hr />
 <div class="nametb">{{ this.nametable }}</div>
+<p class="time">
+  Từ ngày:{{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
+  {{ this.toDate | date: "dd/MM/yyyy" }}
+</p>
+
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th *ngFor="let colInfo of columnInfonhapkho">
+        <th *ngFor="let colInfo of columnInfonhapkho" class="small-column">
           <div>
             {{ colInfo.Caption }}
           </div>

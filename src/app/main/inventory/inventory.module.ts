@@ -31,9 +31,9 @@ import { SoQuyTongHopComponent } from "./BaoCaoNganHang/SoTienGuiNH/tonghop.comp
 import { TongHopBaoCaoComponent } from "./TongHopBaoCao/tonghopbaocao.component";
 import { TheKhoComponent } from "./BaoCaoHangHoa/TheKho/thekho.component";
 import { PreviewTheKhoComponent } from "./BaoCaoHangHoa/TheKho/preview-thekho.component";
-import { HoaDonMuaVaoComponent } from "./HoaDonMuaVao/hoadonmuavao.component";
-import { PreviewHDMVComponent } from "./HoaDonMuaVao/preview-hoadonmuavao.component";
-import { HoaDonBanRaComponent } from "./HoaDonMuaVao/hoadonbanra.component";
+import { HoaDonMuaVaoComponent } from "./BaoCaoThue/HoaDonMuaVao/hoadonmuavao.component";
+import { PreviewHDMVComponent } from "./BaoCaoThue/HoaDonMuaVao/preview-hoadonmuavao.component";
+import { HoaDonBanRaComponent } from "./BaoCaoThue/HoaDonMuaVao/hoadonbanra.component";
 import { SoChiTietKhoComponent } from "./BaoCaoHangHoa/SoChiTietKho/sochitietkho.component";
 import { PreviewSCTKComponent } from "./BaoCaoHangHoa/SoChiTietKho/preview-sochitietkho.component";
 import { SoChiTietCongNoComponent } from "./BaoCaoCongNo/SoChiTietCongNo/sochitietcongno.component";
@@ -76,7 +76,6 @@ import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
     PaginationModule,
     FormsModule,
     ReactiveFormsModule,
-
     inventoryRouter,
     SharedModule,
     EditorModule,

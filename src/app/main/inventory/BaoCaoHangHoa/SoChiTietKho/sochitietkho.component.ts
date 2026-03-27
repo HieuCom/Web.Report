@@ -36,7 +36,8 @@ export class SoChiTietKhoComponent implements OnInit {
   public filter: string = "";
   public nhapkhos: any[];
   public danhSachKho: any[] = [];
-  public nametable = "SỔ CHI TIẾT HÀNG HÓA";
+  public nametable = "Sổ Chi Tiết Hàng Hóa";
+  public don_vi: string = "0103542639";
 
   public ID_KHO: number = 0;
   public ID_NL: number = 0;

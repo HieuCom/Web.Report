@@ -42,6 +42,7 @@ export class BaoCaoLaiLoComponent implements OnInit {
   public filter: string = "";
   public nhapkhos: any[];
   public nametable = "Báo Cáo Lãi Lỗ";
+  public don_vi: string = "0103542639";
 
   public ma_tk: string = "";
   public ma_kho: string = "";

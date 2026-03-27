@@ -6,18 +6,15 @@ import { NotificationService } from "src/app/core/services/notification.service"
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
-import { SharedDataService } from "src/app/core/services/shared-data.service";
-import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog.component";
-import { NguonLucDialogComponent } from "src/app/main/inventory/Dialog/NguonLuc/nguonluc-dialog.component";
-import { NhomNguonLucDialogComponent } from "../../Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
-
+import { TaiKhoanDialogComponent } from "../../Dialog/TaiKhoan/taikhoan-dialog.component";
+import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
 @Component({
-  selector: "app-nhapxuatton",
-  templateUrl: "./nhapxuatton.component.html",
-  styleUrls: ["./nhapxuatton.component.css"],
+  selector: "app-hdbr",
+  templateUrl: "./hoadonmuavao.component.html",
+  styleUrls: ["./hoadonmuavao.component.css"],
 })
-export class NhapXuatTonComponent implements OnInit {
+export class HoaDonBanRaComponent implements OnInit {
   @ViewChild("modalAddEdit", { static: false })
   public modalAddEdit: ModalDirective;
   @ViewChild("dateRangeSection") dateRangeSection: ElementRef;
@@ -37,41 +34,59 @@ export class NhapXuatTonComponent implements OnInit {
   public totalRow: number;
   public filter: string = "";
   public nhapkhos: any[];
-  public danhSachKho: any[] = [];
-  public nametable = "Nhập Xuất Tồn";
+  public nametable = "Bảng kê hóa đơn bán ra";
   public don_vi: string = "0103542639";
 
   public ID_KHO: number = 0;
-  public ID_NL: number = 0;
-  public ID_NHOM_NL: number = 0;
 
-  public ma_tk: number = 1331;
-  public ma_kho: string = "";
+  public ma_tk: string = "3331";
+
+  public ma_dt: string = "";
   public ma_nl: string = "";
+  public ma_sp: string = "";
   public ma_nhom_nl: string = "";
+  public ma_nhom_sp: string = "";
+  public ma_km: string = "";
+  public ma_vv: string = "";
+  public ma_ytp: string = "";
+  public ma_nhom_dt: string = "";
+  public ma_tt: string = "";
 
-  public ten_kho: string = "";
+  public ID_DT: string = "";
+  public ID_NL: string = "";
+  public ID_SP: string = "";
+  public ID_KM: string = "";
+  public ID_VV: string = "";
+  public ID_YTP: string = "";
+  public ID_NHOM_DT: string = "";
+  public ID_NHOM_NL: string = "";
+  public ID_NHOM_SP: string = "";
+  public ID_TT: string = "";
+
+  public ten_dt: string = "";
   public ten_nl: string = "";
+  public ten_sp: string = "";
+  public ten_km: string = "";
+  public ten_vv: string = "";
+  public ten_ytp: string = "";
+  public ten_nhom_dt: string = "";
   public ten_nhom_nl: string = "";
-
-  public namekho: string;
-  public namewh: string;
+  public ten_nhom_sp: string = "";
+  public ten_tt: string = "";
 
   bsModalRef: BsModalRef;
 
   constructor(
     private dataService: DataService,
-    private _notificationService: NotificationService,
     private router: Router,
     private columnInfoService: ColuminfoService,
-    private sharedDataService: SharedDataService,
-
     private modalService: BsModalService,
   ) {}
 
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate;
+    this.updateColumnInfo();
     this.loadData();
   }
 
@@ -81,6 +96,9 @@ export class NhapXuatTonComponent implements OnInit {
     showWeekNumbers: false,
   };
 
+  updateColumnInfo() {
+    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+  }
   private getNowUTC(now: Date) {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
@@ -88,18 +106,19 @@ export class NhapXuatTonComponent implements OnInit {
   async loadData() {
     try {
       const response: any = await this.dataService
-        .postCanDoiKeToan("/NhapXuatTon", {
+        .postCanDoiKeToan("/HoaDonBanRa", {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
-          ID_DV: "1",
-          ID_KHO: this.ID_KHO,
-          ID_NHOM_NL: "0",
-          ID_NL: this.ID_NL,
+          MA_TK: this.ma_tk,
         })
         .toPromise();
       this.nhapkhos = response;
       this.nhapkhos.sort((a, b) =>
-        a.SO_CT > b.SO_CT ? 1 : b.SO_CT > a.SO_CT ? -1 : 0,
+        a.TEN_NHOM_VAT > b.TEN_NHOM_VAT
+          ? 1
+          : b.TEN_NHOM_VAT > a.TEN_NHOM_VAT
+            ? -1
+            : 0,
       );
     } catch (error) {
       console.error("An error occurred:", error);
@@ -108,58 +127,32 @@ export class NhapXuatTonComponent implements OnInit {
 
   chuyen() {
     let navigationExtras: NavigationExtras = {
+      queryParams: {
+        fromDate: this.fromDate.toISOString().slice(0, 10),
+        toDate: this.toDate.toISOString().slice(0, 10),
+        nametable: this.nametable,
+      },
       state: {
-        chungtus: this.nhapkhos.sort((a, b) =>
-          a.SO_CT > b.SO_CT ? 1 : b.SO_CT > a.SO_CT ? -1 : 0,
-        ),
+        chungtus: this.nhapkhos,
       },
     };
-
-    const data = {
-      fromDate: this.fromDate.toISOString().slice(0, 10),
-      toDate: this.toDate.toISOString().slice(0, 10),
-      nametable: this.nametable,
-      chungtus: this.nhapkhos,
-      ID_KHO: this.ID_KHO,
-      ID_NL: this.ID_NL,
-    };
-
-    this.sharedDataService.updateData(data);
-    this.router.navigate(["/main/inventory/printNXT"], navigationExtras);
+    this.router.navigate(["/main/inventory/printHDMV"], navigationExtras);
   }
-  getTotal(chungtus, groupName, field) {
-    return chungtus
-      .filter((chungtu) => chungtu.SO_CT === groupName)
-      .reduce((sum, chungtu) => sum + chungtu[field], 0);
-  }
-
-  openKhoDialog() {
-    const dialogRef = this.modalService.show(KhoDialogComponent);
-    dialogRef.content.khoSelected.subscribe((selectedKho: any) => {
-      this.ID_KHO = selectedKho.ID_KHO;
-      this.ma_kho = selectedKho.MA_KHO;
-      this.ten_kho = selectedKho.TEN_KHO;
-
+  openTKDialog() {
+    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+      this.ma_tk = ma_tk;
+      // Close the dialog if needed
       dialogRef.hide();
     });
   }
 
-  openNLDialog() {
-    const dialogRef = this.modalService.show(NguonLucDialogComponent);
-    dialogRef.content.nguonLucSelected.subscribe((selectedNDT: any) => {
-      this.ID_NL = selectedNDT.ID_NL;
-      this.ma_nl = selectedNDT.MA_NL;
-      this.ten_nl = selectedNDT.TEN_NL;
-      dialogRef.hide();
-    });
-  }
-
-  openNNLDialog() {
-    const dialogRef = this.modalService.show(NhomNguonLucDialogComponent);
-    dialogRef.content.nhomNguonLucSelected.subscribe((selectedNDT: any) => {
-      this.ID_NHOM_NL = selectedNDT.ID_NHOM_NL;
-      this.ma_nhom_nl = selectedNDT.MA_NHOM_NL;
-      this.ten_nhom_nl = selectedNDT.TEN_NHOM_NL;
+  openDTDialog() {
+    const dialogRef = this.modalService.show(DoiTuongDialogComponent);
+    dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+      this.ID_DT = selectedDT.ID_DT;
+      this.ma_dt = selectedDT.MA_DT;
+      this.ten_dt = selectedDT.TEN_DT;
       dialogRef.hide();
     });
   }
@@ -186,6 +179,12 @@ export class NhapXuatTonComponent implements OnInit {
   selectOption(value: string) {
     this.printOption = value;
     this.showOptionDropdown = false;
+  }
+
+  getTotal(chungtus, groupName, field) {
+    return chungtus
+      .filter((chungtu) => chungtu.SO_CT === groupName)
+      .reduce((sum, chungtu) => sum + chungtu[field], 0);
   }
 
   onValueChangeDateRange(rangeDate) {
@@ -215,80 +214,90 @@ export class NhapXuatTonComponent implements OnInit {
 
   public columnInfonhapkho: any[] = [
     {
-      Name: "MA_NHOM_NL",
-      Caption: "Nhóm NL",
+      Name: "TEN_NHOM_VAT",
+      Caption: "Tên nhóm thuế ",
+      Width: 400,
+      Format: "",
+    },
+    {
+      Name: "MAU_SO",
+      Caption: "Mẫu số",
+      Width: 100,
+      Format: "",
+    },
+    {
+      Name: "SO_SERI",
+      Caption: "Ký hiệu",
       Width: 50,
+      Format: "",
+    },
+    {
+      Name: "SO_CT",
+      Caption: "Số chứng từ",
+      Width: 100,
+      Format: "",
+    },
+    {
+      Name: "NGAY_CT",
+      Caption: "Ngày CT",
+      Width: 60,
+      Format: "d",
+    },
+    {
+      Name: "SO_HD",
+      Caption: "Số hóa đơn",
+      Width: 90,
+      Format: "",
+    },
+    {
+      Name: "NGAY_HD",
+      Caption: "Ngày  HD",
+      Width: 60,
+      Format: "d",
+    },
+    {
+      Name: "TEN_KH_HD",
+      Caption: "Tên KH",
+      Width: 150,
       Format: "",
     },
 
     {
-      Name: "MA_NL",
-      Caption: "Mã HH/VT",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "TEN_NL",
-      Caption: "Tên HH/VT",
-      Width: 50,
+      Name: "MS_THUE",
+      Caption: "Mã số thuế",
+      Width: 90,
       Format: "",
     },
 
     {
-      Name: "TEN_DVT",
-      Caption: "ĐVT",
-      Width: 30,
+      Name: "TEN_HANG",
+      Caption: "Tên hàng",
+      Width: 70,
       Format: "",
     },
     {
-      Name: "LUONG_DK",
-      Caption: "Lượng đầu kỳ",
-      Width: 50,
+      Name: "TIEN_TRTHUE",
+      Caption: "Tiên trước thuế",
+      Width: 100,
       Format: "#,##0.##;(#,##0.##);#",
     },
     {
-      Name: "TIEN_DK",
-      Caption: "Tiền ĐK",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-
-    {
-      Name: "LUONG_NHAP",
-      Caption: "Số lượng nhập",
-      Width: 30,
-      Format: "",
-    },
-
-    {
-      Name: "TIEN_NHAP",
-      Caption: "Tiền nhập",
-      Width: 30,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-    {
-      Name: "LUONG_XUAT",
-      Caption: "Số lượng xuất",
-      Width: 50,
+      Name: "",
+      Caption: "Thuế suất",
+      Width: 70,
       Format: "",
     },
     {
-      Name: "TIEN_XUAT",
-      Caption: "Tiền xuất",
-      Width: 30,
+      Name: "TIEN_VAT",
+      Caption: "Tiền VAT",
+      Width: 70,
       Format: "#,##0.##;(#,##0.##);#",
     },
     {
-      Name: "LUONG_TON",
-      Caption: "Số lượng tồn",
-      Width: 30,
+      Name: "DIEN_GIAI",
+      Caption: "Diễn giải",
+      Width: 200,
       Format: "",
-    },
-    {
-      Name: "TIEN_TON",
-      Caption: "Tiền tồn",
-      Width: 30,
-      Format: "#,##0.##;(#,##0.##);#",
     },
   ];
 }

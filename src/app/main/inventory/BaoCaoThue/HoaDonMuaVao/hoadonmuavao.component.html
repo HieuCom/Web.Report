@@ -25,19 +25,21 @@
           [(ngModel)]="this.toDate"
           [bsConfig]="bsConfig"
         />
-        <!-- (bsValueChange)="onValueChangeDa`teRange2($event)" -->
+        <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
       </div>
       <div class="form-group">
-        <label for="ma_kho">Mã kho:</label>
+        <label for="ma_tk">Mã tài khoản:</label>
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_kho"
+            [(ngModel)]="this.ma_tk"
             class="form-control"
-            id="ma_kho"
+            id="ma_tk"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default" (click)="openDialog()">...</button>
+            <button class="btn btn-default" (click)="openTKDialog()">
+              ...
+            </button>
           </div>
         </div>
       </div>
@@ -74,67 +76,30 @@
     </div>
     <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
-        <label for="ma_nhom_nl">Mã nguồn lực:</label>
+        <label for="ma_dt">Đối tượng:</label>
         <div class="input-group">
           <input
             type="text"
-            [(ngModel)]="this.ma_nhom_nl"
+            [(ngModel)]="this.ten_dt"
             class="form-control"
-            id="ma_nhom_nl"
+            id="ma_dt"
           />
           <div class="input-group-btn">
-            <button class="btn btn-default" (click)="openNLDialog()">
+            <button class="btn btn-default" (click)="openDTDialog()">
               ...
             </button>
           </div>
         </div>
-        <div class="form-group">
-          <label for="ma_dt">Mã nhóm nguồn lực:</label>
-          <div class="input-group">
-            <input
-              type="text"
-              [(ngModel)]="this.ma_nhom_nl"
-              class="form-control"
-              id="ma_dt"
-            />
-            <div class="input-group-btn">
-              <button class="btn btn-default" (click)="openNNLDialog()">
-                ...
-              </button>
-            </div>
-          </div>
-        </div>
+      </div>
+      <div class="form-group">
+        <label for="td">Tiêu đề:</label>
 
-        <div class="form-group">
-          <label>Tùy chọn in:</label>
-
-          <div class="dropdown-input">
-            <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="printOption"
-              (click)="toggleOptionDropdown()"
-              readonly
-            />
-            <span class="dropdown-icon" (click)="toggleOptionDropdown()">
-              ▼
-            </span>
-            <div class="dropdown-menu-custom" *ngIf="showOptionDropdown">
-              <div
-                class="dropdown-item"
-                (click)="selectOption('Xem dạng bảng')"
-              >
-                Xem dạng bảng
-              </div>
-              <div class="dropdown-item" (click)="selectOption('Xem và in')">
-                Xem và in
-              </div>
-              <div class="dropdown-item" (click)="selectOption('Lưu Excel')">
-                Lưu Excel
-              </div>
-            </div>
-          </div>
-        </div>
+        <input
+          type="text"
+          [(ngModel)]="this.nametable"
+          class="form-control"
+          id="td"
+        />
       </div>
     </div>
   </div>
@@ -151,16 +116,11 @@
 </div>
 <hr />
 <div class="nametb">{{ this.nametable }}</div>
-<p class="time">
-  Từ ngày:{{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
-  {{ this.toDate | date: "dd/MM/yyyy" }}
-</p>
-
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th *ngFor="let colInfo of columnInfonhapkho">
+        <th *ngFor="let colInfo of columnInfonhapkho" class="small-column">
           <div>
             {{ colInfo.Caption }}
           </div>
@@ -168,11 +128,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let chungtu of nhapkhos; let i = index">
-        <td
-          *ngFor="let colInfo of columnInfonhapkho"
-          [style.width.%]="colInfo.Width"
-        >
+      <tr *ngFor="let chungtu of nhapkhos; let i = index" class="select-item">
+        <td *ngFor="let colInfo of columnInfonhapkho">
           <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">{{
             chungtu[colInfo.Name] | date: "dd/MM/yyyy"
           }}</strong>
@@ -207,6 +164,39 @@
     <div class="alert alert-info">
       <strong>{{ "dialog_alert_title" | translate }}!</strong>
       {{ "task_manager_task_notice_list_empty" | translate }}
+    </div>
+  </div>
+
+  <div *ngIf="nhapkhos && nhapkhos.length > 0" class="col-md-12">
+    <div class="col-md-8">
+      <pagination
+        [boundaryLinks]="true"
+        [itemsPerPage]="pageSize"
+        (pageChanged)="pageChanged($event)"
+        [totalItems]="totalRow"
+        [(ngModel)]="pageNumber"
+        class="pagination-sm"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      ></pagination>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group view-options">
+        <label for="">{{ "show_row" | translate }} &nbsp;</label>
+        <select
+          class="form-control"
+          name="page-size"
+          [(ngModel)]="pageSize"
+          (change)="onChangePageSize()"
+        >
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
     </div>
   </div>
 </div>

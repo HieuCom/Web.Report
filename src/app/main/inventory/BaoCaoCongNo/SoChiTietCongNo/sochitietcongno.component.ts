@@ -34,7 +34,7 @@ export class SoChiTietCongNoComponent implements OnInit {
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
-
+  public chungtus: any[];
   public pageNumber: number = 1;
   public pageSize: number = 20;
   public pageDisplay: number = 10;
@@ -42,6 +42,7 @@ export class SoChiTietCongNoComponent implements OnInit {
   public filter: string = "";
   public nhapkhos: any[];
   public nametable = "Sổ Chi Tiết Công Nợ";
+  public don_vi: string = "0103542639";
 
   public ID_KHO: number = 0;
 
@@ -283,6 +284,10 @@ export class SoChiTietCongNoComponent implements OnInit {
   selectOption(value: string) {
     this.printOption = value;
     this.showOptionDropdown = false;
+  }
+
+  getSum(chungtus, field) {
+    return chungtus.reduce((sum, chungtu) => sum + chungtu[field], 0);
   }
 
   public columnInfonhapkho: any[] = [

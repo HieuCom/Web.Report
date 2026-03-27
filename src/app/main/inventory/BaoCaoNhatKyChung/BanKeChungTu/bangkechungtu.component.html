@@ -257,8 +257,9 @@
     Preview
   </button>
 </div>
+<hr />
 <h2 class="nametb">{{ this.nametable }}</h2>
-<h4 class="nametb">Tài khoản:{{ this.ma_tk }}</h4>
+<h4 class="matk">Tài khoản:{{ this.ma_tk }}</h4>
 <p class="time">
   Từ ngày:{{ this.fromDate | date: "dd/MM/yyyy" }} - đến ngày:
   {{ this.toDate | date: "dd/MM/yyyy" }}
@@ -267,7 +268,7 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th *ngFor="let colInfo of columnInfo">
+        <th *ngFor="let colInfo of columnInfo" class="small-column">
           <div>
             {{ colInfo.Caption }}
           </div>
@@ -326,33 +327,4 @@
       </ng-container>
     </tbody>
   </table>
-</div>
-
-<p style="text-align: right; margin-right: 20px">Ngày.... tháng.... năm....</p>
-
-<div class="sign">
-  <div class="establishment">
-    <p>
-      <strong>NGƯỜI LẬP</strong>
-    </p>
-    <p>
-      <strong>(Ký, họ tên)</strong>
-    </p>
-  </div>
-  <div class="accountant">
-    <p>
-      <strong>KẾ TOÁN TRƯỞNG</strong>
-    </p>
-    <p>
-      <strong>(Ký, họ tên)</strong>
-    </p>
-  </div>
-  <div class="undersecretary">
-    <p>
-      <strong>GIÁM ĐỐC</strong>
-    </p>
-    <p>
-      <strong>(Ký, họ tên)</strong>
-    </p>
-  </div>
 </div>

@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 
 @Component({
   selector: "app-hoatdongsanxuatkinhdoanh",
@@ -37,6 +38,7 @@ export class HoaDongListComponent implements OnInit {
   public chungtus: any[];
   public Taikhoans: any;
   public nametable = "BÁO CÁO KẾT QUẢ HOẠT ĐỘNG SẢN XUẤT KINH DOANH";
+  public don_vi: string = "0103542639";
   public ma_tk: string;
 
   bsModalRef: BsModalRef;
@@ -60,6 +62,12 @@ export class HoaDongListComponent implements OnInit {
     this.loadTaiKhoan();
     this.loadData();
   }
+
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
 
   updateColumnInfo() {
     this.columnInfoService.changeColumnInfo(this.columnInfo);
@@ -124,14 +132,6 @@ export class HoaDongListComponent implements OnInit {
     this.loadData();
   }
 
-  pageChanged(event: any): void {
-    this.pageNumber = event.page;
-    this.loadData();
-  }
-  onChangePageSize() {
-    this.loadData();
-  }
-
   openDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
     dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
@@ -139,6 +139,37 @@ export class HoaDongListComponent implements OnInit {
       // Close the dialog if needed
       dialogRef.hide();
     });
+  }
+
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
+
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
+  }
+  pageChanged(event: any): void {
+    this.pageNumber = event.page;
+    this.loadData();
+  }
+  onChangePageSize() {
+    this.loadData();
   }
 
   public columnInfo: any[] = [

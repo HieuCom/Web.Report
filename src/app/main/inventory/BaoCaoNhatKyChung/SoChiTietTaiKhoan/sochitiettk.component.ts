@@ -42,7 +42,8 @@ export class SoChiTietTKComponent implements OnInit {
   public totalRow: number;
   public filter: string = "";
   public chungtus: any[];
-  public nametable = "Sổ Chi Tiết Tài khoản";
+  public nametable = "Sổ Chi Tiết Tài Khoản";
+  public don_vi: string = "0103542639";
 
   public ma_tk: string;
   public ma_dt: string = "";
@@ -176,21 +177,12 @@ export class SoChiTietTKComponent implements OnInit {
 
   openTKDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    dialogRef.content.taikhoanSelected.subscribe((idKho: string) => {
-      this.ma_tk = idKho;
+    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+      this.ma_tk = ma_tk;
       // Close the dialog if needed
       dialogRef.hide();
     });
   }
-
-  // openTKDialog() {
-  //   const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-  //   dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
-  //     this.ma_tk = ma_tk;
-  //     // Close the dialog if needed
-  //     dialogRef.hide();
-  //   });
-  // }
   openDTDialog() {
     const dialogRef = this.modalService.show(DoiTuongDialogComponent);
     dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {

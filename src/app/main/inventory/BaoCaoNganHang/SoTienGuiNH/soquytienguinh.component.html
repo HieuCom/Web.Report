@@ -200,6 +200,16 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label for="don_vi">Đơn vị:</label>
+
+        <input
+          type="text"
+          [(ngModel)]="this.don_vi"
+          class="form-control"
+          id="don_vi"
+        />
+      </div>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
@@ -268,10 +278,8 @@
   <div class="account">
     <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{ this.nodauky | number }}</div>
     <div *ngIf="codauky !== 0">Dư có đầu ngày:{{ this.codauky | number }}</div>
-    <!-- <div>Dư nợ đầu ngày:{{this.nodauky | number}}</div> -->
     <div>Phát sinh nợ: {{ this.psno | number }}</div>
     <div>Phát sinh có: {{ this.psco | number }}</div>
-    <!-- <div>Dư nợ cuối ngày:{{this.nocuoiky | number}}</div> -->
     <div *ngIf="nocuoiky !== 0">
       Dư nợ cuối ngày:{{ this.nocuoiky | number }}
     </div>
@@ -283,23 +291,19 @@
     <thead>
       <tr>
         <th rowspan="2" class="small-column">Ngày CT</th>
-        <th colspan="2" style="text-align: center" class="large-column">
-          SỐ CT
-        </th>
+        <th colspan="2" class="small-column">SỐ CT</th>
 
         <th rowspan="2" class="small-column">DIỄN GIẢI</th>
         <th rowspan="2" class="small-column">TK ĐƯ</th>
-        <th colspan="2" style="text-align: center" class="large-column">
-          SỐ TIỀN
-        </th>
+        <th colspan="2" class="small-column">SỐ TIỀN</th>
         <th rowspan="2" class="small-column">DƯ CUỐI</th>
       </tr>
 
       <tr>
-        <th>BÁO CÓ</th>
-        <th>BÁO NỢ</th>
-        <th>GỬI</th>
-        <th>RÚT</th>
+        <th class="small-column">BÁO CÓ</th>
+        <th class="small-column">BÁO NỢ</th>
+        <th class="small-column">GỬI</th>
+        <th class="small-column">RÚT</th>
       </tr>
     </thead>
 

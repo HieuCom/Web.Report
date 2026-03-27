@@ -44,6 +44,7 @@ export class CanDoiCongNoComponent implements OnInit {
   public filter: string = "";
   public chungtus: any[];
   public nametable = "Bảng Cân Đối Phát Sinh Công Nợ";
+  public don_vi: string = "0103542639";
 
   public ma_tk: string = "";
   public ma_dt: string = "";
@@ -150,6 +151,7 @@ export class CanDoiCongNoComponent implements OnInit {
     };
     this.router.navigate(["/main/inventory/printCDKT"], navigationExtras);
   }
+
   async getListTaiKhoan() {
     await this.dataService.get("/TaiKhoan").subscribe((response: any) => {
       if (response) {
@@ -316,7 +318,7 @@ export class CanDoiCongNoComponent implements OnInit {
     {
       Name: "MA_DT",
       Caption: "Mã đối tượng",
-      Width: 50,
+      Width: 30,
       Format: "",
     },
     {

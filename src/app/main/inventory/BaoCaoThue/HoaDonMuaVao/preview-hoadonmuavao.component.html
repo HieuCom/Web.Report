@@ -1,6 +1,3 @@
-<button class="btn btn-primary print-back-btn" (click)="goBack()">
-  ← Quay lại
-</button>
 <div class="print-section">
   <div class="title">
     <div class="temp">
@@ -23,20 +20,54 @@
       Từ ngày:{{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
       {{ this.toDate.split("-").reverse().join("/") }}
     </p>
+    <h2 class="nametb">Tên kho:{{ this.namewh }}</h2>
 
     <table class="table table-bordered">
       <!-- <thead [innerHTML]="headHtml" > -->
       <thead>
         <tr>
-          <th *ngFor="let colInfo of columnInfonhapkho">
-            {{ colInfo.Caption }}
+          <th rowspan="2" class="small-column">STT</th>
+
+          <th colspan="2" class="large-column">
+            Hóa đơn, chứng từ chứng từ biên lại nộp thuế
           </th>
+
+          <th rowspan="2" class="small-column">Tên người bán</th>
+
+          <th rowspan="2" class="small-column">MÃ số thuế của người bán</th>
+
+          <th rowspan="2" class="small-column">
+            Giá trị HHDV mua vào chưa có thuế
+          </th>
+
+          <th rowspan="2" class="small-column">
+            Thuế GTGT đủ điều kiện khấu trừ thuế
+          </th>
+
+          <th rowspan="2" class="small-column">Ghi chú</th>
+        </tr>
+
+        <tr>
+          <th>Số hóa đơn</th>
+          <th>Ngày, tháng, năm lâp hóa đơn</th>
         </tr>
       </thead>
 
       <tbody>
         <!-- tên nhóm vật tư -->
         <ng-container *ngFor="let chungtu of chungtus; let i = index">
+          <!-- Thêm hàng mới để hiển thị tên nhóm -->
+
+          <tr
+            *ngIf="
+              i == 0 || chungtus[i].TEN_NHOM_VAT != chungtus[i - 1].TEN_NHOM_VAT
+            "
+          >
+            <td>
+              <strong>{{ chungtu.TEN_NHOM_VAT }} </strong>
+            </td>
+          </tr>
+
           <!-- Hiển thị thông tin của từng mục -->
           <tr class="select-item">
             <td *ngFor="let colInfo of columnInfonhapkho">
