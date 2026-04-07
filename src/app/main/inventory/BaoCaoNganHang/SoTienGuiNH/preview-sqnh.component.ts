@@ -1,26 +1,13 @@
 import { Location } from "@angular/common";
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ɵɵinjectPipeChangeDetectorRef,
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
-import { FormErrors } from "src/app/core/helpers/form.errors";
+import { ActivatedRoute } from "@angular/router";
 import { AuthenService } from "src/app/core/services/authen.service";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 
 @Component({
-  selector: "app-printSQTM",
+  selector: "app-printSQTNH",
   templateUrl: "./preview-sqnh.component.html",
   styleUrls: ["./soquytienguinh.component.css"],
 })
@@ -116,13 +103,11 @@ export class PreviewSQTNHComponent implements OnInit {
         CommandType: 1025,
         Parameters: data,
       };
-      await this._dataService
-        .post("/commands", params)
-        .subscribe((response: any) => {
-          if (response.Data) {
-            this.userLoginId = response.Data[0].ID_DT;
-          }
-        });
+      this._dataService.post("/commands", params).subscribe((response: any) => {
+        if (response.Data) {
+          this.userLoginId = response.Data[0].ID_DT;
+        }
+      });
     }
   }
 

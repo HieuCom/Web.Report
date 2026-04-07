@@ -268,62 +268,89 @@
   </button>
 </div>
 <hr />
-<div class="table-responsive">
-  <h2 class="nametb">{{ this.nametable }}</h2>
-  <h4 class="matk">Tài khoản: {{ this.ma_tk }}</h4>
-  <p class="time">
-    Từ ngày: {{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
-    {{ this.toDate | date: "dd/MM/yyyy" }}
-  </p>
-  <div class="account">
-    <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+
+<h2 class="nametb">{{ this.nametable }}</h2>
+<h4 class="matk">Tài khoản: {{ this.ma_tk }}</h4>
+<p class="time">
+  Từ ngày: {{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
+  {{ this.toDate | date: "dd/MM/yyyy" }}
+</p>
+<div class="account">
+  <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
     <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div> -->
-    <div class="account-detail">
-      Dư nợ đầu ngày: {{ this.nodauky | number }}
-    </div>
-    <div class="account-detail">Phát sinh nợ: {{ this.psno | number }}</div>
-    <div class="account-detail">Phát sinh có: {{ this.psco | number }}</div>
-    <div class="account-detail">
-      Dư nợ cuối ngày: {{ this.nocuoiky | number }}
-    </div>
-    <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
-    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
+  <div class="account-detail">Dư nợ đầu ngày: {{ this.nodauky | number }}</div>
+  <div class="account-detail">Phát sinh nợ: {{ this.psno | number }}</div>
+  <div class="account-detail">Phát sinh có: {{ this.psco | number }}</div>
+  <div class="account-detail">
+    Dư nợ cuối ngày: {{ this.nocuoiky | number }}
   </div>
+  <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
+    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
+</div>
+<div class="table-responsive">
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th rowspan="2" class="small-column">Ngày CT</th>
-        <th colspan="2" class="large-column">SỐ CT</th>
+        <th style="width: 100px" rowspan="2" class="column">Ngày CT</th>
+        <th style="width: 50px" colspan="2" class="column">SỐ CT</th>
 
-        <th rowspan="2" class="small-column">DIỄN GIẢI</th>
-        <th rowspan="2" class="small-column">TK ĐƯ</th>
-        <th colspan="2" class="large-column">SỐ TIỀN</th>
-        <th rowspan="2" class="small-column">DƯ CUỐI</th>
+        <th style="width: 250px" rowspan="2" class="column">DIỄN GIẢI</th>
+        <th style="width: 70px" rowspan="2" class="column">TK ĐƯ</th>
+        <th style="width: 100px" colspan="2" class="column">SỐ TIỀN</th>
+        <th style="width: 100px" rowspan="2" class="column">TỒN QUỸ</th>
       </tr>
 
       <tr>
-        <th class="small-column">BÁO CÓ</th>
-        <th class="small-column">BÁO NỢ</th>
-        <th class="small-column">GỬI</th>
-        <th class="small-column">RÚT</th>
+        <th style="width: 50px" class="column">PT</th>
+        <th style="width: 50px" class="column">PC</th>
+        <th style="width: 50px" class="column">THU</th>
+        <th style="width: 50px" class="column">CHI</th>
       </tr>
     </thead>
 
     <tbody>
-      <!-- tên nhóm vật tư -->
-      <ng-container *ngFor="let chungtu of chungtus; let i = index">
-        <!-- Thêm hàng mới để hiển thị tên nhóm -->
-        <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i - 1].SO_CT">
-          <td>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}</td>
-          <td>{{ chungtu.SO_CT }}</td>
-          <td>{{ chungtu.SO_CT }}</td>
-          <td>{{ chungtu.DIEN_GIAI }}</td>
-          <td>{{ chungtu.MA_TK_DU }}</td>
-          <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_NO") | number }}</td>
-          <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_CO") | number }}</td>
-          <td>{{ chungtu.DU_CUOI | number }}</td>
+      <ng-container *ngFor="let group of pagedData">
+        <tr *ngFor="let chungtu of group; let i = index">
+          <ng-container *ngIf="i === 0">
+            <td>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}</td>
+            <td>{{ chungtu.SO_CT }}</td>
+            <td>{{ chungtu.SO_CT }}</td>
+            <td>{{ chungtu.DIEN_GIAI }}</td>
+            <td>{{ chungtu.MA_TK_DU }}</td>
+            <td>{{ getTotal(group, chungtu.SO_CT, "PS_NO") | number }}</td>
+            <td>{{ getTotal(group, chungtu.SO_CT, "PS_CO") | number }}</td>
+            <td>{{ chungtu.DU_CUOI | number }}</td>
+          </ng-container>
         </tr>
       </ng-container>
     </tbody>
   </table>
+  <div
+    class="pagination"
+    *ngIf="pagedData && pagedData.length > 0 && totalPages > 1"
+  >
+    <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+
+    <ng-container *ngFor="let p of pages">
+      <button
+        *ngIf="p !== -1"
+        (click)="goToPage(p)"
+        [class.active]="currentPage === p"
+      >
+        {{ p }}
+      </button>
+
+      <span *ngIf="p === -1" class="dots">...</span>
+    </ng-container>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      »
+    </button>
+  </div>
+  <div *ngIf="chungtus && chungtus.length == 0" class="col-md-12">
+    <div class="alert alert-info">
+      <strong>{{ "dialog_alert_title" | translate }}!</strong>
+      {{ "task_manager_task_notice_list_empty" | translate }}
+    </div>
+  </div>
 </div>

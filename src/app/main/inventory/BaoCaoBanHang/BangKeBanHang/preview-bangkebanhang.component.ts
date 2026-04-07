@@ -1,23 +1,10 @@
 import { Location } from "@angular/common";
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ɵɵinjectPipeChangeDetectorRef,
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
-import { FormErrors } from "src/app/core/helpers/form.errors";
 import { AuthenService } from "src/app/core/services/authen.service";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 
 @Component({
   selector: "app-printBCLL",
@@ -125,6 +112,17 @@ export class PreviewBKBHComponent implements OnInit {
           }
         });
     }
+  }
+
+  printSection() {
+    const printContents = document.getElementById("print-section")?.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents || "";
+    window.print();
+    document.body.innerHTML = originalContents;
+
+    location.reload(); // reload lại giao diện
   }
 
   goBack() {

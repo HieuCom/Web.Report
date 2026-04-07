@@ -1,6 +1,9 @@
 <button class="btn btn-primary print-back-btn" (click)="goBack()">
   ← Quay lại
 </button>
+<button class="btn btn-primary print-back-btn" type="submit" (click)="print()">
+  <span class="glyphicon glyphicon-print"></span> In
+</button>
 <div class="print-section">
   <div class="title">
     <div class="temp">
@@ -16,7 +19,6 @@
     </div>
   </div>
 
-  <!-- <div [innerHTML]="safeHtml"></div> -->
   <div class="table-responsive">
     <h2 class="nametb">{{ this.nametable }}</h2>
     <p class="time">
@@ -25,10 +27,9 @@
     </p>
 
     <table class="table table-bordered">
-      <!-- <thead [innerHTML]="headHtml" > -->
       <thead>
         <tr>
-          <th *ngFor="let colInfo of columnInfonhapkho">
+          <th *ngFor="let colInfo of columnInfonhapkho" class="column">
             <div>
               {{ colInfo.Caption }}
             </div>
@@ -38,16 +39,6 @@
       </thead>
 
       <tbody>
-        <!-- <tr *ngFor="let chungtu of chungtus ; let i = index" class="select-item">
-            <td><strong> HH </strong> </td>
-              <td><strong>Hàng Hóa </strong> </td>
-              <td><strong>{{ chungtu.TEN_DVT }} </strong> </td>
-              <td><strong>{{ getTotal(chungtus,chungtu.MA_NL,'SO_LUONG' )}} </strong> </td>
-              <td><strong>{{ getTotal(chungtus,chungtu.MA_NL,'TIEN_VON' )}} </strong> </td>
-              <td><strong>{{  getTotal(chungtus,chungtu.MA_NL,'TIEN_BAN' ) }} </strong> </td>
-              <td><strong> </strong> </td>
-          </tr> -->
-
         <tr *ngFor="let chungtu of chungtus; let i = index" class="select-item">
           <td *ngFor="let colInfo of columnInfonhapkho">
             <span *ngIf="colInfo.Format == 'd'">{{

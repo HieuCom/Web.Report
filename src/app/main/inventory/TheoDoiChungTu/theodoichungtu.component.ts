@@ -1,16 +1,12 @@
-import { Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { MessageContstants } from 'src/app/core/common/message.constants';
-import { FormErrors } from 'src/app/core/helpers/form.errors';
-import { AuthenService } from 'src/app/core/services/authen.service';
-import { DataService } from 'src/app/core/services/data.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { Component, OnInit } from "@angular/core";
+import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { AuthenService } from "src/app/core/services/authen.service";
+import { DataService } from "src/app/core/services/data.service";
 
 @Component({
-  selector: 'app-theodoichungtu',
-  templateUrl: './theodoichungtu.component.html',
-  styleUrls: ['./theodoichungtu.component.css']
+  selector: "app-theodoichungtu",
+  templateUrl: "./theodoichungtu.component.html",
+  styleUrls: ["./theodoichungtu.component.css"],
 })
 export class TheoDoiChungTuComponent implements OnInit {
   public fromDate: Date = new Date();
@@ -21,27 +17,40 @@ export class TheoDoiChungTuComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public userLoginId: number;
-  constructor(private _dataService: DataService,
-    private _authenService: AuthenService) {
-  }
+  constructor(
+    private _dataService: DataService,
+    private _authenService: AuthenService,
+  ) {}
 
   ngOnInit() {
     var user = this._authenService.getLoggedInUser();
     this.fromDate.setDate(1);
-    this.toDate.setDate
+    this.toDate.setDate;
     this.getUserIdLogin(user.username);
     this.loadData();
   }
+  bsConfig: Partial<BsDatepickerConfig> = {
+    rangeInputFormat: "DD/MM/YYYY",
+    dateInputFormat: "DD/MM/YYYY",
+    showWeekNumbers: false,
+  };
+
   async getUserIdLogin(userName) {
     if (userName) {
       let data = [];
       data.push("@UserName", userName);
-      let params = { "CommandText": "uspDoiTuong___FindUserName", "CommandType": 1025, "Parameters": data }
-      await this._dataService.post('/commands', params).subscribe((response: any) => {
-        if (response.Data) {
-          this.userLoginId = response.Data[0].ID_DT;
-        }
-      });
+      let params = {
+        CommandText: "uspDoiTuong___FindUserName",
+        CommandType: 1025,
+        Parameters: data,
+      };
+      await this._dataService
+        .post("/commands", params)
+        .subscribe((response: any) => {
+          if (response.Data) {
+            this.userLoginId = response.Data[0].ID_DT;
+          }
+        });
     }
   }
   onValueChangeDateRange(rangeDate) {
@@ -67,79 +76,112 @@ export class TheoDoiChungTuComponent implements OnInit {
   async loadData() {
     let data = [];
     data.push(
-      "@TU_NGAY", this.fromDate,
-      "@DEN_NGAY", this.toDate,
-      "@ID_DT", this.userLoginId,
-      "@PageNumber", this.pageNumber,
-      "@PageSize", this.pageSize)
+      "@TU_NGAY",
+      this.fromDate,
+      "@DEN_NGAY",
+      this.toDate,
+      "@ID_DT",
+      this.userLoginId,
+      "@PageNumber",
+      this.pageNumber,
+      "@PageSize",
+      this.pageSize,
+    );
 
+    let params = {
+      CommandText: "sploadChungTuByDoiTuong",
+      CommandType: 1025,
+      Parameters: data,
+    };
+    await this._dataService
+      .post("/commands/paged", params)
+      .subscribe((response: any) => {
+        if (response.Data) {
+          this.chungtus = response.Data;
+          this.totalRow = response.Data[0].TotalItems;
+        }
+      });
+  }
+  printTemplate = "Tổng hợp";
+  printOption = "Xem dạng bảng";
 
-    let params = { "CommandText": "sploadChungTuByDoiTuong", "CommandType": 1025, "Parameters": data }
-    await this._dataService.post('/commands/paged', params).subscribe((response: any) => {
-      if (response.Data) {
-        this.chungtus = response.Data
-        this.totalRow = response.Data[0].TotalItems
-      }
-    });
+  showTemplateDropdown = false;
+  showOptionDropdown = false;
+
+  toggleTemplateDropdown() {
+    this.showTemplateDropdown = !this.showTemplateDropdown;
+  }
+
+  toggleOptionDropdown() {
+    this.showOptionDropdown = !this.showOptionDropdown;
+  }
+
+  selectTemplate(value: string) {
+    this.printTemplate = value;
+    this.showTemplateDropdown = false;
+  }
+
+  selectOption(value: string) {
+    this.printOption = value;
+    this.showOptionDropdown = false;
   }
   reloaddata() {
-    this.loadData()
+    this.loadData();
   }
   public columnInfochungtu: any[] = [
     {
-      "Name": "SO_CT",
-      "Caption": "Số CT",
-      "Format": "",
-      "Width": 90
+      Name: "SO_CT",
+      Caption: "Số CT",
+      Format: "",
+      Width: 90,
     },
     {
-      "Name": "NGAY_CT",
-      "Caption": "Ngày chứng từ",
-      "Width": 70,
-      "Format": "d"
+      Name: "NGAY_CT",
+      Caption: "Ngày chứng từ",
+      Width: 70,
+      Format: "d",
     },
     {
-      "Name": "NGAY_XN",
-      "Caption": "Ngày nhập/xuất",
-      "Width": 70,
-      "Format": "d"
+      Name: "NGAY_XN",
+      Caption: "Ngày nhập/xuất",
+      Width: 70,
+      Format: "d",
     },
     {
-      "Name": "TEN_DT",
-      "Caption": "Tên khách hàng",
-      "Format": "",
-      "Width": 200
+      Name: "TEN_DT",
+      Caption: "Tên khách hàng",
+      Format: "",
+      Width: 200,
     },
     {
-      "Name": "NGUOI_GHANG",
-      "Caption": "Người giao hàng",
-      "Format": "",
-      "Width": 150
+      Name: "NGUOI_GHANG",
+      Caption: "Người giao hàng",
+      Format: "",
+      Width: 150,
     },
     {
-      "Name": "DIEN_GIAI",
-      "Caption": "Tên hàng/Nội dung KH",
-      "Format": "",
-      "Width": 90
+      Name: "DIEN_GIAI",
+      Caption: "Tên hàng/Nội dung KH",
+      Format: "",
+      Width: 90,
     },
     {
-      "Name": "TEN_NL",
-      "Caption": "Tên hàng/Nội dung KH",
-      "Format": "",
-      "Width": 150,
+      Name: "TEN_NL",
+      Caption: "Tên hàng/Nội dung KH",
+      Format: "",
+      Width: 150,
     },
     {
-      "Name": "SO_KG",
-      "Caption": "Số KG",
-      "Width": 70,
-      "Format": "#,##0.##;(#,##0.##);#"
+      Name: "SO_KG",
+      Caption: "Số KG",
+      Width: 70,
+      Format: "#,##0.##;(#,##0.##);#",
     },
     {
-      "Name": "SO_LUONG",
-      "Caption": "Số lượng",
-      "Width": 70,
-      "Format": "#,##0.##;(#,##0.##);#"
-    }
-
-  ]
+      Name: "SO_LUONG",
+      Caption: "Số lượng",
+      Width: 70,
+      Format: "#,##0.##;(#,##0.##);#",
+    },
+  ];
 }

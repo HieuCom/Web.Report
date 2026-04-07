@@ -1,13 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
 import { DataService } from "src/app/core/services/data.service";
 import { NotificationService } from "src/app/core/services/notification.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
-import { NguonLucDialogComponent } from "../../Dialog/NguonLuc/nguonluc-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
@@ -23,25 +21,16 @@ import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.compone
   styleUrls: ["./soquytienmat.component.css"],
 })
 export class SoQuyTienMatComponent implements OnInit {
-  @ViewChild("modalAddEdit", { static: false })
   public modalAddEdit: ModalDirective;
   @ViewChild("dateRangeSection") dateRangeSection: ElementRef;
 
-  public isDateRangeVisible: boolean = false;
-  public keyword: string = "";
-  public dateRange: Date[];
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
 
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
 
-  public pageNumber: number = 1;
-  public pageSize: number = 20;
-  public pageDisplay: number = 10;
-  public totalRow: number;
-  public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public nametable = "Sổ Quỹ Tiền Mặt";
   public don_vi: string = "0103542639";
 
@@ -107,10 +96,9 @@ export class SoQuyTienMatComponent implements OnInit {
 
   ngOnInit() {
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.loadData();
 
-    // this.calculateTotalPsco();
     if (this.chungtus) {
       this.psco = this.chungtus.reduce(
         (sum, nhapkho) => sum + nhapkho.PS_CO,
@@ -125,6 +113,8 @@ export class SoQuyTienMatComponent implements OnInit {
   }
 
   async loadData() {
+    await this.loadnodauky();
+    await this.loadnocuoiky();
     try {
       const response: any = await this.dataService
         .post("/SoQuyTienMat", {
@@ -135,23 +125,28 @@ export class SoQuyTienMatComponent implements OnInit {
           MA_TK: this.ma_tk,
         })
         .toPromise();
-      this.chungtus = response;
-      console.log(this.chungtus.length);
-      if (this.chungtus) {
+      this.chungtus = response || [];
+
+      // ✅ TÍNH TOÁN
+      if (this.chungtus.length > 0) {
         this.psco = this.chungtus.reduce(
           (sum, nhapkho) => sum + nhapkho.PS_CO,
           0,
         );
+
         this.psno = this.chungtus.reduce(
           (sum, nhapkho) => sum + nhapkho.PS_NO,
           0,
         );
+
         this.TotalDuCuoi();
-        console.log(this.psco);
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.groupData();
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   async loadnodauky() {
@@ -359,5 +354,86 @@ export class SoQuyTienMatComponent implements OnInit {
   selectOption(value: string) {
     this.printOption = value;
     this.showOptionDropdown = false;
+  }
+
+  //Pagniation
+  groupedData: any[] = [];
+  pagedData: any[] = [];
+
+  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  currentPage = 1;
+
+  groupData() {
+    const map = new Map();
+
+    this.chungtus.forEach((item) => {
+      if (!map.has(item.SO_CT)) {
+        map.set(item.SO_CT, []);
+      }
+      map.get(item.SO_CT).push(item);
+    });
+
+    this.groupedData = Array.from(map.values());
+  }
+  get totalPages(): number {
+    return Math.ceil(this.groupedData.length / this.pageSize);
+  }
+
+  updatePagedData() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.groupedData.slice(start, end);
+  }
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
   }
 }

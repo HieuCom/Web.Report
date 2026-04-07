@@ -1,6 +1,14 @@
 <button class="btn btn-primary print-back-btn" (click)="goBack()">
   ← Quay lại
 </button>
+
+<button
+  class="btn btn-primary print-back-btn"
+  type="submit"
+  (click)="printSection()"
+>
+  <span class="glyphicon glyphicon-print"></span> In
+</button>
 <div class="print-section">
   <div class="title">
     <div class="temp">
@@ -28,7 +36,7 @@
       <!-- <thead [innerHTML]="headHtml" > -->
       <thead>
         <tr>
-          <th *ngFor="let colInfo of columnInfonhapkho">
+          <th *ngFor="let colInfo of columnInfonhapkho" class="column">
             <div>
               {{ colInfo.Caption }}
             </div>

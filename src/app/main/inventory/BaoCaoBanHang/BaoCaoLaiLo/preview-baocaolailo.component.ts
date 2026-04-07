@@ -130,6 +130,70 @@ export class PreviewBCLLComponent implements OnInit {
     this.location.back();
   }
 
+  print() {
+    const printContents = document.querySelector(".print-section")?.innerHTML;
+
+    const popupWin = window.open("", "_blank", "width=800,height=600");
+
+    popupWin?.document.open();
+    popupWin?.document.write(`
+    <html>
+      <head>
+        <title>Print</title>
+        <style>
+          body {
+            font-family: Times New Roman, Times, serif;
+            padding: 20px;
+          }
+
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+
+          table, th, td {
+            border: 1px solid black;
+          }
+
+          th, td {
+            padding: 5px;
+            text-align: left;
+          }
+          .title {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 100px;
+          }
+          .nametb {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+          }
+          .time {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .small-column {
+            max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
+            text-align: center;
+            vertical-align: middle;
+          }
+          .print-sign {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+          }
+        </style>
+      </head>
+      <body onload="window.print(); window.close();">
+        ${printContents}
+      </body>
+    </html>
+  `);
+    popupWin?.document.close();
+  }
+
   public columnInfonhapkho: any[] = [
     {
       Name: "MA_NL",
