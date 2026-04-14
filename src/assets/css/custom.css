@@ -781,14 +781,12 @@ a:focus {
 }
 
 .top_nav .navbar-right {
-  margin: 0;
-  width: 70%;
+  margin-right: 10px;
   float: right;
 }
 
 .top_nav .navbar-right li {
   display: inline-block;
-  float: right;
   position: static;
 }
 
@@ -1245,7 +1243,6 @@ h2 {
   border: 1px solid #e6e9ed;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
-  column-break-inside: avoid;
   opacity: 1;
   transition: all 0.2s ease;
 }
@@ -1722,7 +1719,7 @@ table.display thead td:active {
 }
 
 .dataTables_scrollBody {
-  *margin-top: -1px;
+  margin-top: -1px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1780,8 +1777,6 @@ td.details {
 .paging_full_numbers a.paginate_button,
 .paging_full_numbers a.paginate_active {
   border: 1px solid #aaa;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   padding: 2px 5px;
   margin: 0 3px;
   cursor: pointer;
@@ -1889,7 +1884,6 @@ ul.msg_list li a .message {
   background: #fff;
   margin-top: 0;
   border: 1px solid #d9dee4;
-  -webkit-box-shadow: none;
   right: 0;
   left: auto;
   width: 220px;
@@ -1987,7 +1981,6 @@ ul.quick-list li i {
   border: 1px solid #abd9ea;
   border-radius: 5px;
   text-align: center;
-  float: right;
   padding: 2px;
   margin-top: 10px;
 }
@@ -2269,16 +2262,13 @@ h4.graph_title {
   display: block;
   margin-bottom: 12px;
   border: 1px solid #e4e4e4;
-  -webkit-border-radius: 5px;
   overflow: hidden;
   padding-bottom: 5px;
-  -webkit-background-clip: padding-box;
-  -moz-border-radius: 5px;
-  -moz-background-clip: padding;
   border-radius: 5px;
   background-clip: padding-box;
   background: #fff;
   transition: all 300ms ease-in-out;
+  cursor: pointer;
 }
 
 .tile-stats:hover .icon i {
@@ -2736,8 +2726,6 @@ select.parsley-error {
   box-shadow: 0 0 4px -2px #ce5454;
   position: relative;
   left: 0;
-  -moz-animation: 0.7s 1 shake linear;
-  -webkit-animation: 0.7s 1 shake linear;
 }
 
 .item input,
@@ -3022,8 +3010,6 @@ textarea:focus {
 }
 
 span.tag {
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
   display: block;
   float: left;
   padding: 5px 9px;
@@ -3545,7 +3531,6 @@ ul.messages li img.avatar,
 img.avatar {
   height: 32px;
   width: 32px;
-  float: left;
   display: inline-block;
   border-radius: 2px;
   padding: 2px;
@@ -5462,7 +5447,6 @@ ul.notifications {
   font-size: 11px;
   height: 30px;
   line-height: 30px;
-  vertical-align: middle;
   margin: 0 0 10px 0;
   padding: 0 6px;
   width: 74px;

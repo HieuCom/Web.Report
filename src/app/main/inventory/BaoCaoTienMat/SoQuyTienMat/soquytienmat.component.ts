@@ -21,8 +21,8 @@ import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.compone
   styleUrls: ["./soquytienmat.component.css"],
 })
 export class SoQuyTienMatComponent implements OnInit {
-  public modalAddEdit: ModalDirective;
-  @ViewChild("dateRangeSection") dateRangeSection: ElementRef;
+  public modalAddEdit!: ModalDirective;
+  @ViewChild("dateRangeSection") dateRangeSection!: ElementRef;
 
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
@@ -78,7 +78,7 @@ export class SoQuyTienMatComponent implements OnInit {
   public cocuoiky: number = 0;
   public showDiv: boolean = true;
 
-  bsModalRef: BsModalRef;
+  bsModalRef!: BsModalRef;
 
   constructor(
     private dataService: DataService,
@@ -203,7 +203,7 @@ export class SoQuyTienMatComponent implements OnInit {
     };
     this.router.navigate(["/main/inventory/printSQTM"], navigationExtras);
   }
-  getTotal(chungtus, groupName, field) {
+  getTotal(chungtus: any[], groupName: string, field: string) {
     return chungtus
       .filter((chungtu) => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
@@ -213,13 +213,13 @@ export class SoQuyTienMatComponent implements OnInit {
     this.psco = this.chungtus.reduce((sum, nhapkho) => sum + nhapkho.PS_CO, 0);
   }
 
-  onValueChangeDateRange(rangeDate) {
+  onValueChangeDateRange(rangeDate: Date) {
     if (rangeDate != undefined) {
       this.fromDate = rangeDate;
       this.loadData();
     }
   }
-  onValueChangeDateRange2(rangeDate2) {
+  onValueChangeDateRange2(rangeDate2: Date) {
     if (rangeDate2 != undefined) {
       this.toDate = rangeDate2;
       this.loadData();
@@ -240,20 +240,24 @@ export class SoQuyTienMatComponent implements OnInit {
 
   openTKDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
-      this.ma_tk = ma_tk;
-      // Close the dialog if needed
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+        this.ma_tk = ma_tk;
+        // Close the dialog if needed
+        dialogRef.hide();
+      });
+    }
   }
   openDTDialog() {
     const dialogRef = this.modalService.show(DoiTuongDialogComponent);
-    dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
-      this.ID_DT = selectedDT.ID_DT;
-      this.ma_dt = selectedDT.MA_DT;
-      this.ten_dt = selectedDT.TEN_DT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+        this.ID_DT = selectedDT.ID_DT;
+        this.ma_dt = selectedDT.MA_DT;
+        this.ten_dt = selectedDT.TEN_DT;
+        dialogRef.hide();
+      });
+    }
   }
   openSPDialog() {
     const dialogRef = this.modalService.show(SanPhamDialogComponent, {
@@ -262,21 +266,25 @@ export class SoQuyTienMatComponent implements OnInit {
       },
       class: "modal-xl",
     });
-    dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
-      this.ID_SP = selectedSP.ID_NL;
-      this.ma_sp = selectedSP.MA_NL;
-      this.ten_sp = selectedSP.TEN_NL;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
+        this.ID_SP = selectedSP.ID_NL;
+        this.ma_sp = selectedSP.MA_NL;
+        this.ten_sp = selectedSP.TEN_NL;
+        dialogRef.hide();
+      });
+    }
   }
   openKMDialog() {
     const dialogRef = this.modalService.show(KhoanMucDialogComponent);
-    dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
-      this.ID_KM = selectedKM.ID_KM;
-      this.ma_km = selectedKM.MA_KM;
-      this.ten_km = selectedKM.TEN_KM;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
+        this.ID_KM = selectedKM.ID_KM;
+        this.ma_km = selectedKM.MA_KM;
+        this.ten_km = selectedKM.TEN_KM;
+        dialogRef.hide();
+      });
+    }
   }
   openNSPDialog() {
     const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
@@ -285,48 +293,58 @@ export class SoQuyTienMatComponent implements OnInit {
       },
       class: "modal-xl",
     });
-    dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
-      this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
-      this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
-      this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
+        this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
+        this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
+        this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
+        dialogRef.hide();
+      });
+    }
   }
   openVVDialog() {
     const dialogRef = this.modalService.show(VuViecDialogComponent);
-    dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
-      this.ID_VV = selectedVV.ID_VV;
-      this.ma_vv = selectedVV.MA_VV;
-      this.ten_vv = selectedVV.TEN_VV;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
+        this.ID_VV = selectedVV.ID_VV;
+        this.ma_vv = selectedVV.MA_VV;
+        this.ten_vv = selectedVV.TEN_VV;
+        dialogRef.hide();
+      });
+    }
   }
   openYTPDialog() {
     const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
-    dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
-      this.ID_YTP = selectedYTP.ID_YTP;
-      this.ma_ytp = selectedYTP.MA_YTP;
-      this.ten_ytp = selectedYTP.TEN_YTP;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
+        this.ID_YTP = selectedYTP.ID_YTP;
+        this.ma_ytp = selectedYTP.MA_YTP;
+        this.ten_ytp = selectedYTP.TEN_YTP;
+        dialogRef.hide();
+      });
+    }
   }
   openTTDialog() {
     const dialogRef = this.modalService.show(TienTeDialogComponent);
-    dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
-      this.ID_TT = selectedTT.ID_TT;
-      this.ma_tt = selectedTT.MA_TT;
-      this.ten_tt = selectedTT.TEN_TT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
+        this.ID_TT = selectedTT.ID_TT;
+        this.ma_tt = selectedTT.MA_TT;
+        this.ten_tt = selectedTT.TEN_TT;
+        dialogRef.hide();
+      });
+    }
   }
   openNDTDialog() {
     const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
-    dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
-      this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
-      this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
-      this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
+        this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
+        this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
+        this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
+        dialogRef.hide();
+      });
+    }
   }
   onChangePageSize() {
     this.loadData();

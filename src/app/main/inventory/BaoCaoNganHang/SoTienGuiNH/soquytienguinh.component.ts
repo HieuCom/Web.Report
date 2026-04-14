@@ -1,11 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
-import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
@@ -133,7 +130,9 @@ export class SoQuyTienGuiNHComponent implements OnInit {
           ID_DT: 0,
         })
         .toPromise();
+
       this.chungtus = response;
+
       if (this.chungtus.length > 0) {
         this.psco = this.chungtus.reduce(
           (sum, nhapkho) => sum + nhapkho.PS_CO,
@@ -163,7 +162,7 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     this.router.navigate(["/main/inventory/printSQTGNH"], navigationExtras);
   }
 
-  getTotal(chungtus, groupName, field) {
+  getTotal(chungtus: any[], groupName: string, field: string) {
     return chungtus
       .filter((chungtu) => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
@@ -177,13 +176,14 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     });
   }
 
-  onValueChangeDateRange(rangeDate) {
+  onValueChangeDateRange(rangeDate: Date) {
     if (rangeDate != undefined) {
       this.fromDate = rangeDate;
       this.loadData();
     }
   }
-  onValueChangeDateRange2(rangeDate2) {
+
+  onValueChangeDateRange2(rangeDate2: Date) {
     if (rangeDate2 != undefined) {
       this.toDate = rangeDate2;
       this.loadData();
@@ -244,21 +244,27 @@ export class SoQuyTienGuiNHComponent implements OnInit {
 
   openTKDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
-      this.ma_tk = ma_tk;
-      // Close the dialog if needed
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+        this.ma_tk = ma_tk;
+        // Close the dialog if needed
+        dialogRef.hide();
+      });
+    }
   }
+
   openDTDialog() {
     const dialogRef = this.modalService.show(DoiTuongDialogComponent);
-    dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
-      this.ID_DT = selectedDT.ID_DT;
-      this.ma_dt = selectedDT.MA_DT;
-      this.ten_dt = selectedDT.TEN_DT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+        this.ID_DT = selectedDT.ID_DT;
+        this.ma_dt = selectedDT.MA_DT;
+        this.ten_dt = selectedDT.TEN_DT;
+        dialogRef.hide();
+      });
+    }
   }
+
   openSPDialog() {
     const dialogRef = this.modalService.show(SanPhamDialogComponent, {
       initialState: {
@@ -266,71 +272,87 @@ export class SoQuyTienGuiNHComponent implements OnInit {
       },
       class: "modal-xl",
     });
-    dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
-      this.ID_SP = selectedSP.ID_NL;
-      this.ma_sp = selectedSP.MA_NL;
-      this.ten_sp = selectedSP.TEN_NL;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
+        this.ID_SP = selectedSP.ID_NL;
+        this.ma_sp = selectedSP.MA_NL;
+        this.ten_sp = selectedSP.TEN_NL;
+        dialogRef.hide();
+      });
+    }
   }
+
   openKMDialog() {
     const dialogRef = this.modalService.show(KhoanMucDialogComponent);
-    dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
-      this.ID_KM = selectedKM.ID_KM;
-      this.ma_km = selectedKM.MA_KM;
-      this.ten_km = selectedKM.TEN_KM;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
+        this.ID_KM = selectedKM.ID_KM;
+        this.ma_km = selectedKM.MA_KM;
+        this.ten_km = selectedKM.TEN_KM;
+        dialogRef.hide();
+      });
+    }
   }
+
   openNSPDialog() {
     const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
       initialState: {
         bitLoaiNL: 16,
       },
-      class: "modal-xl",
     });
-    dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
-      this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
-      this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
-      this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
-      dialogRef.hide();
-    });
+
+    if (dialogRef.content) {
+      dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
+        this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
+        this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
+        this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
+        dialogRef.hide();
+      });
+    }
   }
   openVVDialog() {
     const dialogRef = this.modalService.show(VuViecDialogComponent);
-    dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
-      this.ID_VV = selectedVV.ID_VV;
-      this.ma_vv = selectedVV.MA_VV;
-      this.ten_vv = selectedVV.TEN_VV;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
+        this.ID_VV = selectedVV.ID_VV;
+        this.ma_vv = selectedVV.MA_VV;
+        this.ten_vv = selectedVV.TEN_VV;
+        dialogRef.hide();
+      });
+    }
   }
   openYTPDialog() {
     const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
-    dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
-      this.ID_YTP = selectedYTP.ID_YTP;
-      this.ma_ytp = selectedYTP.MA_YTP;
-      this.ten_ytp = selectedYTP.TEN_YTP;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
+        this.ID_YTP = selectedYTP.ID_YTP;
+        this.ma_ytp = selectedYTP.MA_YTP;
+        this.ten_ytp = selectedYTP.TEN_YTP;
+        dialogRef.hide();
+      });
+    }
   }
   openTTDialog() {
     const dialogRef = this.modalService.show(TienTeDialogComponent);
-    dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
-      this.ID_TT = selectedTT.ID_TT;
-      this.ma_tt = selectedTT.MA_TT;
-      this.ten_tt = selectedTT.TEN_TT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
+        this.ID_TT = selectedTT.ID_TT;
+        this.ma_tt = selectedTT.MA_TT;
+        this.ten_tt = selectedTT.TEN_TT;
+        dialogRef.hide();
+      });
+    }
   }
   openNDTDialog() {
     const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
-    dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
-      this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
-      this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
-      this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
-      dialogRef.hide();
-    });
+    if (dialogRef.content) {
+      dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
+        this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
+        this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
+        this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
+        dialogRef.hide();
+      });
+    }
   }
 
   printTemplate = "Tổng hợp";
@@ -365,8 +387,10 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   currentPage = 1;
 
   groupData() {
+    if (!Array.isArray(this.chungtus)) {
+      return;
+    }
     const map = new Map();
-
     this.chungtus.forEach((item) => {
       if (!map.has(item.SO_CT)) {
         map.set(item.SO_CT, []);
@@ -404,6 +428,7 @@ export class SoQuyTienGuiNHComponent implements OnInit {
       this.updatePagedData();
     }
   }
+
   get pages(): number[] {
     const total = this.totalPages;
     const current = this.currentPage;
