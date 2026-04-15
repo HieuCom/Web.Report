@@ -38,7 +38,6 @@ export class CanDoiCongNoComponent implements OnInit {
   public toDateTR: Date = new Date();
 
   public pageNumber: number = 1;
-  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
@@ -118,20 +117,19 @@ export class CanDoiCongNoComponent implements OnInit {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           MA_TK: this.ma_tk,
-          MA_TKDUs: "",
           ID_DV: 1,
           ID_DT: 0,
-          ID_SP: 0,
-          ID_KM: 0,
-          ID_VV: 0,
-          ID_YTP: 0,
-          ID_TT: 0,
-          ID_NHOM_DT: 0,
-          ID_NHOM_SP: 0,
+          ID_SP: this.ID_SP,
+          ID_KM: this.ID_KM,
+          ID_VV: this.ID_VV,
+          ID_YTP: this.ID_YTP,
+          ID_TT: this.ID_TT,
+          ID_NHOM_DT: this.ID_NHOM_DT,
+          ID_NHOM_SP: this.ID_NHOM_SP,
         })
         .toPromise();
       this.chungtus = response;
-      console.log(this.chungtus.length);
+      console.log(this.chungtus);
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -153,7 +151,7 @@ export class CanDoiCongNoComponent implements OnInit {
   }
 
   async getListTaiKhoan() {
-    await this.dataService.get("/TaiKhoan").subscribe((response: any) => {
+    this.dataService.get("/TaiKhoan").subscribe((response: any) => {
       if (response) {
         this.Taikhoans = response;
       }
@@ -299,6 +297,90 @@ export class CanDoiCongNoComponent implements OnInit {
   selectOption(value: string) {
     this.printOption = value;
     this.showOptionDropdown = false;
+  }
+
+  //Pagniation
+  groupedData: any[] = [];
+  pagedData: any[] = [];
+
+  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  currentPage = 1;
+
+  groupData() {
+    if (!Array.isArray(this.chungtus)) {
+      return;
+    }
+    const map = new Map();
+    this.chungtus.forEach((item) => {
+      if (!map.has(item.SO_CT)) {
+        map.set(item.SO_CT, []);
+      }
+      map.get(item.SO_CT).push(item);
+    });
+
+    this.groupedData = Array.from(map.values());
+  }
+  get totalPages(): number {
+    return Math.ceil(this.groupedData.length / this.pageSize);
+  }
+
+  updatePagedData() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.groupedData.slice(start, end);
+  }
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l: any;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
   }
 
   public columnInfo: any[] = [
