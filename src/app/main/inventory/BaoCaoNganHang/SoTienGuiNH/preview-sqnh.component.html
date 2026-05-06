@@ -18,9 +18,9 @@
 
   <div class="table-responsive">
     <h2 class="nametb">{{ this.nametable }}</h2>
-    <h4 class="matk">Tài khoản:{{ this.ma_tk }}</h4>
+    <h4 class="matk">Tài khoản: {{ this.ma_tk }}</h4>
     <p class="time">
-      Từ ngày:{{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
+      Từ ngày: {{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
       {{ this.toDate.split("-").reverse().join("/") }}
     </p>
 
@@ -51,27 +51,27 @@
           <!-- Thêm hàng mới để hiển thị tên nhóm -->
           <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i - 1].SO_CT">
             <td>
-              <strong>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }} </strong>
+              <div>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}</div>
             </td>
 
             <!-- If chungtu.CRDB is not true, display value in PC column -->
             <td>
-              <strong *ngIf="chungtu.CRDB == true">{{ chungtu.SO_CT }}</strong>
-              <strong *ngIf="chungtu.CRDB == false"></strong>
+              <div *ngIf="chungtu.CRDB == true">{{ chungtu.SO_CT }}</div>
+              <div *ngIf="chungtu.CRDB == false"></div>
             </td>
 
             <td>
-              <strong *ngIf="chungtu.CRDB == false">{{ chungtu.SO_CT }}</strong>
-              <strong *ngIf="chungtu.CRDB == true"></strong>
+              <div *ngIf="chungtu.CRDB == false">{{ chungtu.SO_CT }}</div>
+              <div *ngIf="chungtu.CRDB == true"></div>
             </td>
 
             <td>
-              <strong>{{ chungtu.DIEN_GIAI }} </strong>
+              <div>{{ chungtu.DIEN_GIAI }}</div>
             </td>
             <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_NO") | number }}</td>
             <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_CO") | number }}</td>
             <td>
-              <strong>{{ chungtu.TON_QUY }} </strong>
+              <div>{{ chungtu.TON_QUY }}</div>
             </td>
           </tr>
         </ng-container>

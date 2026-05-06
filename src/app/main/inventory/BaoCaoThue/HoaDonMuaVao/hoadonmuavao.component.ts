@@ -27,11 +27,10 @@ export class HoaDonMuaVaoComponent implements OnInit {
   public toDateTR: Date = new Date();
 
   public pageNumber: number = 1;
-  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public nhapkhos: any[];
+  public chungtus: any[] = [];
   public nametable = "Bảng kê hóa đơn mua vào";
   public don_vi: string = "0103542639";
 
@@ -83,7 +82,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
 
   ngOnInit() {
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
     this.loadData();
   }
@@ -110,8 +109,8 @@ export class HoaDonMuaVaoComponent implements OnInit {
           MA_TK: this.ma_tk,
         })
         .toPromise();
-      this.nhapkhos = response;
-      this.nhapkhos.sort((a, b) =>
+      this.chungtus = response || [];
+      this.chungtus.sort((a, b) =>
         a.TEN_NHOM_VAT > b.TEN_NHOM_VAT
           ? 1
           : b.TEN_NHOM_VAT > a.TEN_NHOM_VAT
@@ -121,6 +120,8 @@ export class HoaDonMuaVaoComponent implements OnInit {
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   chuyen() {
@@ -131,7 +132,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
         nametable: this.nametable,
       },
       state: {
-        chungtus: this.nhapkhos,
+        chungtus: this.chungtus,
       },
     };
     this.router.navigate(["/main/inventory/printHDMV"], navigationExtras);
@@ -208,6 +209,87 @@ export class HoaDonMuaVaoComponent implements OnInit {
   }
   onChangePageSize() {
     this.loadData();
+  }
+
+  //Pagniation
+  pagedData: any[] = [];
+
+  pageSize = 5;
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
+  }
+
+  updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.chungtus.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l: any;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
   }
 
   public columnInfonhapkho: any[] = [

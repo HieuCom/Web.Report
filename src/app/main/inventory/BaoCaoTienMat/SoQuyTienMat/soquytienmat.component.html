@@ -291,47 +291,62 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th style="width: 100px" rowspan="2" class="column">Ngày CT</th>
-        <th style="width: 50px" colspan="2" class="column">SỐ CT</th>
-
-        <th style="width: 250px" rowspan="2" class="column">DIỄN GIẢI</th>
-        <th style="width: 70px" rowspan="2" class="column">TK ĐƯ</th>
-        <th style="width: 100px" colspan="2" class="column">SỐ TIỀN</th>
-        <th style="width: 100px" rowspan="2" class="column">TỒN QUỸ</th>
-      </tr>
-
-      <tr>
-        <th style="width: 50px" class="column">PT</th>
-        <th style="width: 50px" class="column">PC</th>
-        <th style="width: 50px" class="column">THU</th>
-        <th style="width: 50px" class="column">CHI</th>
+        <th *ngFor="let colInfo of columnInfoSoQuyTienMat" class="column">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
       </tr>
     </thead>
 
     <tbody>
-      <ng-container *ngFor="let group of pagedData">
-        <tr *ngFor="let chungtu of group; let i = index">
-          <ng-container *ngIf="i === 0">
-            <td>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}</td>
-            <td>{{ chungtu.SO_CT }}</td>
-            <td>{{ chungtu.SO_CT }}</td>
-            <td>{{ chungtu.DIEN_GIAI }}</td>
-            <td>{{ chungtu.MA_TK_DU }}</td>
-            <td>{{ getTotal(group, chungtu.SO_CT, "PS_NO") | number }}</td>
-            <td>{{ getTotal(group, chungtu.SO_CT, "PS_CO") | number }}</td>
-            <td>{{ chungtu.DU_CUOI | number }}</td>
-          </ng-container>
-        </tr>
-      </ng-container>
+      <tr *ngFor="let chungtu of pagedData; let i = index" class="select-item">
+        <td *ngFor="let colInfo of columnInfoSoQuyTienMat">
+          <!-- Date -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </span>
+
+          <!-- Number -->
+          <strong
+            *ngIf="
+              chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </strong>
+          <span
+            *ngIf="
+              chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </span>
+
+          <!-- Text -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </span>
+        </td>
+      </tr>
     </tbody>
   </table>
   <div
     class="pagination"
-    *ngIf="pagedData && pagedData.length > 0 && totalPages > 1"
+    *ngIf="chungtus && chungtus.length > 0 && totalPages > 1"
   >
+    <!-- Prev -->
     <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
 
-    <ng-container *ngFor="let p of pages">
+    <!-- Pages -->
+    <ng-container *ngFor="let p of pages; trackBy: trackByPage">
+      <!-- Page number -->
       <button
         *ngIf="p !== -1"
         (click)="goToPage(p)"
@@ -340,9 +355,11 @@
         {{ p }}
       </button>
 
+      <!-- Dots -->
       <span *ngIf="p === -1" class="dots">...</span>
     </ng-container>
 
+    <!-- Next -->
     <button (click)="nextPage()" [disabled]="currentPage === totalPages">
       »
     </button>

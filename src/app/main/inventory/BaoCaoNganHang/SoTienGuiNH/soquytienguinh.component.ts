@@ -33,11 +33,9 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
 
-  public pageNumber: number = 1;
-  public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public nametable = "Sổ Quỹ Tiền Gửi Ngân Hàng";
   public don_vi: string = "0103542639";
 
@@ -96,14 +94,8 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
-    this.loadData();
-    if (this.chungtus) {
-      this.psco = this.chungtus.reduce(
-        (sum, nhapkho) => sum + nhapkho.PS_CO,
-        0,
-      );
-      console.log(this.psco);
-    }
+    this.loadnodauky();
+    this.loadnocuoiky();
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -117,7 +109,6 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   }
 
   async loadData() {
-    this.dauky = 0;
     await this.loadnodauky();
     await this.loadnocuoiky();
     try {
@@ -131,7 +122,8 @@ export class SoQuyTienGuiNHComponent implements OnInit {
         })
         .toPromise();
 
-      this.chungtus = response;
+      this.chungtus = response || [];
+      console.log(this.chungtus);
 
       if (this.chungtus.length > 0) {
         this.psco = this.chungtus.reduce(
@@ -143,12 +135,13 @@ export class SoQuyTienGuiNHComponent implements OnInit {
           (sum, nhapkho) => sum + nhapkho.PS_NO,
           0,
         );
-
-        this.TotalDuCuoi();
       }
     } catch (error) {
       console.error("An error occurred:", error);
     }
+
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   chuyen() {
@@ -157,6 +150,14 @@ export class SoQuyTienGuiNHComponent implements OnInit {
         fromDate: this.fromDate.toISOString().slice(0, 10),
         toDate: this.toDate.toISOString().slice(0, 10),
         nametable: this.nametable,
+        nodauky: this.nodauky,
+        nocuoiky: this.nocuoiky,
+        psco: this.psco,
+        psno: this.psno,
+        ma_tk: this.ma_tk,
+      },
+      state: {
+        chungtus: this.chungtus,
       },
     };
     this.router.navigate(["/main/inventory/printSQTGNH"], navigationExtras);
@@ -225,20 +226,9 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    this.groupData();
-    this.currentPage = 1;
-    this.updatePagedData();
   }
 
   reloaddata() {
-    this.loadData();
-  }
-
-  pageChanged(event: any): void {
-    this.pageNumber = event.page;
-    this.loadData();
-  }
-  onChangePageSize() {
     this.loadData();
   }
 
@@ -380,37 +370,30 @@ export class SoQuyTienGuiNHComponent implements OnInit {
   }
 
   //Pagniation
-  groupedData: any[] = [];
   pagedData: any[] = [];
 
-  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  pageSize = 5;
   currentPage = 1;
 
-  groupData() {
-    if (!Array.isArray(this.chungtus)) {
-      return;
-    }
-    const map = new Map();
-    this.chungtus.forEach((item) => {
-      if (!map.has(item.SO_CT)) {
-        map.set(item.SO_CT, []);
-      }
-      map.get(item.SO_CT).push(item);
-    });
-
-    this.groupedData = Array.from(map.values());
-  }
   get totalPages(): number {
-    return Math.ceil(this.groupedData.length / this.pageSize);
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
   }
 
   updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
 
-    this.pagedData = this.groupedData.slice(start, end);
+    this.pagedData = this.chungtus.slice(start, end);
   }
+
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
     this.currentPage = page;
     this.updatePagedData();
   }
@@ -461,6 +444,10 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     }
 
     return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
   }
 
   public columnInfotienguinganhang: any[] = [

@@ -92,20 +92,35 @@
   background: #f2f2f2;
 }
 
-@media print {
-  body * {
-    visibility: hidden;
-  }
+.pagination {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 15px;
+}
 
-  #print-section,
-  #print-section * {
-    visibility: visible;
-  }
+.pagination button {
+  border: 1px solid #ddd;
+  background: white;
+  padding: 5px 10px;
+  cursor: pointer;
+}
 
-  #print-section {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
+.pagination button.active {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:hover {
+  background: #eee;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dots {
+  padding: 5px 10px;
 }

@@ -31,11 +31,10 @@ export class HoaDongListComponent implements OnInit {
   public toDateTR: Date = new Date();
 
   public pageNumber: number = 1;
-  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public Taikhoans: any;
   public nametable = "BÁO CÁO KẾT QUẢ HOẠT ĐỘNG SẢN XUẤT KINH DOANH";
   public don_vi: string = "0103542639";
@@ -53,14 +52,10 @@ export class HoaDongListComponent implements OnInit {
 
   ngOnInit() {
     this.fromDate.setDate(1);
-    this.toDate.setDate;
-    console.log(this.fromDate.toISOString().slice(0, 10));
+    this.toDate.setDate(new Date().getDate());
 
-    //update columnInfo for table in service
-    this.updateColumnInfo();
     //load danh mục tài khoản
     this.loadTaiKhoan();
-    this.loadData();
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -86,11 +81,12 @@ export class HoaDongListComponent implements OnInit {
           DEN_NGAY_TR: this.getNowUTC(this.toDateTR),
         })
         .toPromise();
-      this.chungtus = response;
-      console.log(this.chungtus[0].BOLD);
+      this.chungtus = response || [];
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   async loadTaiKhoan() {
@@ -170,6 +166,87 @@ export class HoaDongListComponent implements OnInit {
   }
   onChangePageSize() {
     this.loadData();
+  }
+
+  //Pagniation
+  pagedData: any[] = [];
+
+  pageSize = 5;
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
+  }
+
+  updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.chungtus.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l: any;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
   }
 
   public columnInfo: any[] = [

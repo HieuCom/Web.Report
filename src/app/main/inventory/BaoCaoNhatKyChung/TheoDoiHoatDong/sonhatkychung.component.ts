@@ -28,11 +28,10 @@ export class SoNhatKyChungComponent implements OnInit {
   public toDateTR: Date = new Date();
   public Taikhoans: any;
   public pageNumber: number = 1;
-  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public nametable = "Sổ Nhật Ký Chung";
   public don_vi: string = "0103542639";
 
@@ -51,7 +50,6 @@ export class SoNhatKyChungComponent implements OnInit {
     this.fromDate.setDate(1);
     this.toDate.setDate;
     this.updateColumnInfo();
-    this.loadData();
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -75,11 +73,13 @@ export class SoNhatKyChungComponent implements OnInit {
           DEN_NGAY: this.getNowUTC(this.toDate),
         })
         .toPromise();
-      this.chungtus = response;
+      this.chungtus = response || [];
       console.log(this.chungtus.length);
     } catch (error) {
       console.error("An error occurred:", error);
     }
+    this.currentPage = 1;
+    this.updatePagedData();
   }
 
   chuyen() {
@@ -142,6 +142,87 @@ export class SoNhatKyChungComponent implements OnInit {
   }
   onChangePageSize() {
     this.loadData();
+  }
+
+  //Pagniation
+  pagedData: any[] = [];
+
+  pageSize = 5;
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
+  }
+
+  updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.chungtus.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l: any;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
   }
 
   public columnInfo: any[] = [

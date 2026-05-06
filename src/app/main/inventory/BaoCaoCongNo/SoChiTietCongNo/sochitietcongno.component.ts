@@ -32,15 +32,14 @@ export class SoChiTietCongNoComponent implements OnInit {
   public fromDate: Date = new Date();
   public toDate: Date = new Date();
 
+  public Taikhoans: any;
   public fromDateTR: Date = new Date();
   public toDateTR: Date = new Date();
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public pageNumber: number = 1;
-  public pageSize: number = 20;
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public nhapkhos: any[];
   public nametable = "Sổ Chi Tiết Công Nợ";
   public don_vi: string = "0103542639";
 
@@ -92,8 +91,7 @@ export class SoChiTietCongNoComponent implements OnInit {
 
   ngOnInit() {
     this.fromDate.setDate(1);
-    this.toDate.setDate;
-    this.loadData();
+    this.toDate.setDate(new Date().getDate());
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -106,6 +104,9 @@ export class SoChiTietCongNoComponent implements OnInit {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
+  updateColumnInfo() {
+    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+  }
   async loadData() {
     try {
       const response: any = await this.dataService
@@ -113,15 +114,19 @@ export class SoChiTietCongNoComponent implements OnInit {
           TU_NGAY: this.getNowUTC(this.fromDate),
           DEN_NGAY: this.getNowUTC(this.toDate),
           MA_TK: this.ma_tk,
+          ID_DV: 1,
+          ID_DT: 0,
         })
         .toPromise();
-      this.nhapkhos = response;
-      this.nhapkhos.sort((a, b) =>
-        a.SO_CT > b.SO_CT ? 1 : b.SO_CT > a.SO_CT ? -1 : 0,
-      );
+      this.chungtus = response || [];
+      console.log(this.chungtus);
     } catch (error) {
       console.error("An error occurred:", error);
     }
+
+    this.currentPage = 1;
+    this.updatePagedData();
+    this.getListTaiKhoan();
   }
 
   chuyen() {
@@ -133,32 +138,21 @@ export class SoChiTietCongNoComponent implements OnInit {
         ma_tk: this.ma_tk,
       },
       state: {
-        chungtus: this.nhapkhos.sort((a, b) =>
+        chungtus: this.chungtus.sort((a, b) =>
           a.SO_CT > b.SO_CT ? 1 : b.SO_CT > a.SO_CT ? -1 : 0,
         ),
       },
     };
     this.router.navigate(["/main/inventory/printSCCN"], navigationExtras);
   }
-  getTotal(chungtus, groupName, field) {
-    return chungtus
-      .filter((chungtu) => chungtu.SO_CT === groupName)
-      .reduce((sum, chungtu) => sum + chungtu[field], 0);
-  }
 
-  onValueChangeDateRange(rangeDate) {
-    if (rangeDate != undefined) {
-      this.fromDate = rangeDate;
-      this.loadData();
-    }
+  async getListTaiKhoan() {
+    this.dataService.get("/TaiKhoan").subscribe((response: any) => {
+      if (response) {
+        this.Taikhoans = response;
+      }
+    });
   }
-  onValueChangeDateRange2(rangeDate2) {
-    if (rangeDate2 != undefined) {
-      this.toDate = rangeDate2;
-      this.loadData();
-    }
-  }
-
   openDialog() {
     const dialogRef = this.modalService.show(TaiKhoanCNDialogComponent);
     dialogRef.content.TaiKhoanSelected.subscribe((ma_tk: string) => {
@@ -254,14 +248,6 @@ export class SoChiTietCongNoComponent implements OnInit {
     this.loadData();
   }
 
-  pageChanged(event: any): void {
-    this.pageNumber = event.page;
-    this.loadData();
-  }
-  onChangePageSize() {
-    this.loadData();
-  }
-
   printTemplate = "Tổng hợp";
   printOption = "Xem dạng bảng";
 
@@ -290,6 +276,87 @@ export class SoChiTietCongNoComponent implements OnInit {
     return chungtus.reduce((sum, chungtu) => sum + chungtu[field], 0);
   }
 
+  //Pagniation
+  pagedData: any[] = [];
+
+  pageSize = 5;
+  currentPage = 1;
+
+  get totalPages(): number {
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
+  }
+
+  updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedData = this.chungtus.slice(start, end);
+  }
+
+  goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    this.updatePagedData();
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedData();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedData();
+    }
+  }
+
+  get pages(): number[] {
+    const total = this.totalPages;
+    const current = this.currentPage;
+    const delta = 2; // số trang xung quanh
+
+    const range = [];
+    const rangeWithDots = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    let l: any;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l > 2) {
+          rangeWithDots.push(-1); // -1 = dấu ...
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
+  }
+
   public columnInfonhapkho: any[] = [
     {
       Name: "NGAY_CT",
@@ -305,11 +372,13 @@ export class SoChiTietCongNoComponent implements OnInit {
       Format: "",
     },
     {
+      Name: "MA_DT",
       Caption: "Mã đối tượng",
       Width: 50,
       Format: "",
     },
     {
+      Name: "TEN_DT",
       Caption: "Tên đối tượng",
       Width: 50,
       Format: "",
@@ -347,13 +416,13 @@ export class SoChiTietCongNoComponent implements OnInit {
     },
     {
       Name: "PS_NO_NT",
-      Caption: "PS nợ(NT)",
+      Caption: "PS nợ (NT)",
       Width: 30,
       Format: "",
     },
     {
       Name: "PS_CO_NT",
-      Caption: "PS có(NT)",
+      Caption: "PS có (NT)",
       Width: 30,
       Format: "",
     },

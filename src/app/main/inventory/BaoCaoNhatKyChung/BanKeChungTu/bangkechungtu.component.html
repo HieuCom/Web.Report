@@ -275,56 +275,75 @@
         </th>
       </tr>
     </thead>
-    <tbody></tbody>
     <tbody>
-      <!-- tên nhóm vật tư -->
-      <ng-container *ngFor="let chungtu of chungtus; let i = index">
-        <tr *ngIf="i == 0 || chungtus[i].ID_TK_DU != chungtus[i - 1].ID_TK_DU">
-          <td colspan="4">
-            <strong>{{ chungtu.MA_TK_DU }} - {{ chungtu.TEN_TK_DU }} </strong>
-          </td>
-          <td>
-            {{ getTotal(chungtus, chungtu.ID_TK_DU, "PS_NO") | number }}
-          </td>
-          <td>
-            {{ getTotal(chungtus, chungtu.ID_TK_DU, "PS_CO") | number }}
-          </td>
-        </tr>
+      <tr *ngFor="let chungtu of pagedData; let i = index" class="select-item">
+        <td *ngFor="let colInfo of columnInfo">
+          <!-- Date -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </span>
 
-        <!-- Hiển thị thông tin của từng mục -->
-        <tr class="select-item">
-          <td *ngFor="let colInfo of columnInfo">
-            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">{{
-              chungtu[colInfo.Name] | date: "dd/MM/yyyy"
-            }}</strong>
-            <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">{{
-              chungtu[colInfo.Name] | date: "dd/MM/yyyy"
-            }}</span>
+          <!-- Number -->
+          <strong
+            *ngIf="
+              chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </strong>
+          <span
+            *ngIf="
+              chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </span>
 
-            <strong
-              *ngIf="
-                chungtu.BOLD == true &&
-                colInfo.Format == '#,##0.##;(#,##0.##);#'
-              "
-              >{{ chungtu[colInfo.Name] | number }}</strong
-            >
-            <span
-              *ngIf="
-                chungtu.BOLD != true &&
-                colInfo.Format == '#,##0.##;(#,##0.##);#'
-              "
-              >{{ chungtu[colInfo.Name] | number }}</span
-            >
-
-            <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">{{
-              chungtu[colInfo.Name]
-            }}</strong>
-            <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">{{
-              chungtu[colInfo.Name]
-            }}</span>
-          </td>
-        </tr>
-      </ng-container>
+          <!-- Text -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </span>
+        </td>
+      </tr>
     </tbody>
   </table>
+  <div
+    class="pagination"
+    *ngIf="chungtus && chungtus.length > 0 && totalPages > 1"
+  >
+    <!-- Prev -->
+    <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+
+    <!-- Pages -->
+    <ng-container *ngFor="let p of pages; trackBy: trackByPage">
+      <!-- Page number -->
+      <button
+        *ngIf="p !== -1"
+        (click)="goToPage(p)"
+        [class.active]="currentPage === p"
+      >
+        {{ p }}
+      </button>
+
+      <!-- Dots -->
+      <span *ngIf="p === -1" class="dots">...</span>
+    </ng-container>
+
+    <!-- Next -->
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      »
+    </button>
+  </div>
+  <div *ngIf="chungtus && chungtus.length == 0" class="col-md-12">
+    <div class="alert alert-info">
+      <strong>{{ "dialog_alert_title" | translate }}!</strong>
+      {{ "task_manager_task_notice_list_empty" | translate }}
+    </div>
+  </div>
 </div>

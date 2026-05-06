@@ -41,7 +41,7 @@ export class CanDoiCongNoComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public nametable = "Bảng Cân Đối Phát Sinh Công Nợ";
   public don_vi: string = "0103542639";
 
@@ -91,10 +91,8 @@ export class CanDoiCongNoComponent implements OnInit {
 
   ngOnInit() {
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
-    this.getListTaiKhoan();
-    this.loadData();
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -128,11 +126,15 @@ export class CanDoiCongNoComponent implements OnInit {
           ID_NHOM_SP: this.ID_NHOM_SP,
         })
         .toPromise();
-      this.chungtus = response;
+      this.chungtus = response || [];
       console.log(this.chungtus);
     } catch (error) {
       console.error("An error occurred:", error);
     }
+
+    this.currentPage = 1;
+    this.updatePagedData();
+    this.getListTaiKhoan();
   }
 
   chuyen() {
@@ -300,37 +302,30 @@ export class CanDoiCongNoComponent implements OnInit {
   }
 
   //Pagniation
-  groupedData: any[] = [];
   pagedData: any[] = [];
 
-  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  pageSize = 5;
   currentPage = 1;
 
-  groupData() {
-    if (!Array.isArray(this.chungtus)) {
-      return;
-    }
-    const map = new Map();
-    this.chungtus.forEach((item) => {
-      if (!map.has(item.SO_CT)) {
-        map.set(item.SO_CT, []);
-      }
-      map.get(item.SO_CT).push(item);
-    });
-
-    this.groupedData = Array.from(map.values());
-  }
   get totalPages(): number {
-    return Math.ceil(this.groupedData.length / this.pageSize);
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
   }
 
   updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
 
-    this.pagedData = this.groupedData.slice(start, end);
+    this.pagedData = this.chungtus.slice(start, end);
   }
+
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
     this.currentPage = page;
     this.updatePagedData();
   }
@@ -381,6 +376,10 @@ export class CanDoiCongNoComponent implements OnInit {
     }
 
     return rangeWithDots;
+  }
+
+  trackByPage(index: number, item: number) {
+    return item;
   }
 
   public columnInfo: any[] = [

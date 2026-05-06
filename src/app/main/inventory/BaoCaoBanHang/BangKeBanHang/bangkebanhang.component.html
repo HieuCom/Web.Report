@@ -212,20 +212,74 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let chungtu of nhapkhos; let i = index" class="select-item">
+      <tr *ngFor="let chungtu of pagedData; let i = index" class="select-item">
         <td *ngFor="let colInfo of columnInfonhapkho">
-          <span *ngIf="colInfo.Format == 'd'">{{
-            chungtu[colInfo.Name] | date: "dd/MM/yyyy"
-          }}</span>
-          <span *ngIf="colInfo.Format == '#,##0.##;(#,##0.##);#'">{{
-            chungtu[colInfo.Name] | number
-          }}</span>
-          <span *ngIf="colInfo.Format == ''">{{ chungtu[colInfo.Name] }}</span>
-          <span *ngIf="colInfo.Format == 'calc'">{{
-            chungtu[colInfo.Name1] - chungtu[colInfo.Name2] | number
-          }}</span>
+          <!-- Date -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">
+            {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
+          </span>
+
+          <!-- Number -->
+          <strong
+            *ngIf="
+              chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </strong>
+          <span
+            *ngIf="
+              chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+          >
+            {{ chungtu[colInfo.Name] | number }}
+          </span>
+
+          <!-- Text -->
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">
+            {{ chungtu[colInfo.Name] }}
+          </span>
         </td>
       </tr>
     </tbody>
   </table>
+  <div
+    class="pagination"
+    *ngIf="chungtus && chungtus.length > 0 && totalPages > 1"
+  >
+    <!-- Prev -->
+    <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+
+    <!-- Pages -->
+    <ng-container *ngFor="let p of pages; trackBy: trackByPage">
+      <!-- Page number -->
+      <button
+        *ngIf="p !== -1"
+        (click)="goToPage(p)"
+        [class.active]="currentPage === p"
+      >
+        {{ p }}
+      </button>
+
+      <!-- Dots -->
+      <span *ngIf="p === -1" class="dots">...</span>
+    </ng-container>
+
+    <!-- Next -->
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      »
+    </button>
+  </div>
+  <div *ngIf="chungtus && chungtus.length == 0" class="col-md-12">
+    <div class="alert alert-info">
+      <strong>{{ "dialog_alert_title" | translate }}!</strong>
+      {{ "task_manager_task_notice_list_empty" | translate }}
+    </div>
+  </div>
 </div>

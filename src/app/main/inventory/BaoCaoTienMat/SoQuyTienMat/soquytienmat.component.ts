@@ -82,9 +82,7 @@ export class SoQuyTienMatComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private _notificationService: NotificationService,
     private router: Router,
-    private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
   ) {}
 
@@ -97,8 +95,9 @@ export class SoQuyTienMatComponent implements OnInit {
   ngOnInit() {
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
-    this.loadData();
 
+    this.loadnodauky();
+    this.loadnocuoiky();
     if (this.chungtus) {
       this.psco = this.chungtus.reduce(
         (sum, nhapkho) => sum + nhapkho.PS_CO,
@@ -113,8 +112,8 @@ export class SoQuyTienMatComponent implements OnInit {
   }
 
   async loadData() {
-    await this.loadnodauky();
-    await this.loadnocuoiky();
+    this.loadnodauky();
+    this.loadnocuoiky();
     try {
       const response: any = await this.dataService
         .post("/SoQuyTienMat", {
@@ -144,7 +143,6 @@ export class SoQuyTienMatComponent implements OnInit {
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    this.groupData();
     this.currentPage = 1;
     this.updatePagedData();
   }
@@ -196,6 +194,7 @@ export class SoQuyTienMatComponent implements OnInit {
         nocuoiky: this.nocuoiky,
         psco: this.psco,
         psno: this.psno,
+        ma_tk: this.ma_tk,
       },
       state: {
         chungtus: this.chungtus,
@@ -207,10 +206,6 @@ export class SoQuyTienMatComponent implements OnInit {
     return chungtus
       .filter((chungtu) => chungtu.SO_CT === groupName)
       .reduce((sum, chungtu) => sum + chungtu[field], 0);
-  }
-
-  public calculateTotalPsco() {
-    this.psco = this.chungtus.reduce((sum, nhapkho) => sum + nhapkho.PS_CO, 0);
   }
 
   onValueChangeDateRange(rangeDate: Date) {
@@ -375,35 +370,30 @@ export class SoQuyTienMatComponent implements OnInit {
   }
 
   //Pagniation
-  groupedData: any[] = [];
   pagedData: any[] = [];
 
-  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  pageSize = 5;
   currentPage = 1;
 
-  groupData() {
-    const map = new Map();
-
-    this.chungtus.forEach((item) => {
-      if (!map.has(item.SO_CT)) {
-        map.set(item.SO_CT, []);
-      }
-      map.get(item.SO_CT).push(item);
-    });
-
-    this.groupedData = Array.from(map.values());
-  }
   get totalPages(): number {
-    return Math.ceil(this.groupedData.length / this.pageSize);
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
   }
 
   updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
 
-    this.pagedData = this.groupedData.slice(start, end);
+    this.pagedData = this.chungtus.slice(start, end);
   }
+
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
     this.currentPage = page;
     this.updatePagedData();
   }
@@ -421,6 +411,7 @@ export class SoQuyTienMatComponent implements OnInit {
       this.updatePagedData();
     }
   }
+
   get pages(): number[] {
     const total = this.totalPages;
     const current = this.currentPage;
@@ -439,7 +430,7 @@ export class SoQuyTienMatComponent implements OnInit {
       }
     }
 
-    let l;
+    let l: any;
     for (let i of range) {
       if (l) {
         if (i - l === 2) {
@@ -454,4 +445,60 @@ export class SoQuyTienMatComponent implements OnInit {
 
     return rangeWithDots;
   }
+
+  trackByPage(index: number, item: number) {
+    return item;
+  }
+  public columnInfoSoQuyTienMat: any[] = [
+    {
+      Name: "NGAY_CT",
+      Caption: "Ngày CT",
+      Width: 50,
+      Format: "d",
+    },
+    {
+      Name: "SO_CT",
+      Caption: "Số chứng từ",
+      Width: 50,
+      Format: "",
+    },
+    {
+      Name: "DIEN_GIAI",
+      Caption: "Diễn giải",
+      Width: 70,
+      Format: "",
+    },
+
+    {
+      Name: "ONG_BA",
+      Caption: "Ông bà",
+      Width: 50,
+      Format: "",
+    },
+
+    {
+      Name: "MA_TK_DU",
+      Caption: "TK đối ứng",
+      Width: 50,
+      Format: "",
+    },
+    {
+      Name: "PS_NO",
+      Caption: "Thu tiền",
+      Width: 50,
+      Format: "#,##0.##;(#,##0.##);#",
+    },
+    {
+      Name: "PS_CO",
+      Caption: "Chi tiền",
+      Width: 50,
+      Format: "#,##0.##;(#,##0.##);#",
+    },
+    {
+      Name: "TON_QUY",
+      Caption: "Tồn quỹ",
+      Width: 50,
+      Format: "#,##0.##;(#,##0.##);#",
+    },
+  ];
 }

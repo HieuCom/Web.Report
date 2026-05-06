@@ -33,55 +33,28 @@ export class PreviewSQTMComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public userLoginId: number;
-  public ma_tk: string = "111";
+  public ma_tk: string;
 
   public nametable: string;
+  public psco: number;
+  public psno: number;
 
-  public stringheadtable: string = `
-  <tr>
-           <th rowspan="2" class="small-column">
-              Ngày
-            </th>
-            <th colspan="2" style="text-align: center;" class="large-column">
-              SỐ CT
-            </th>
-       
-            <th rowspan="2" class="small-column">
-              DIỄN GIẢI
-            </th>
-           
-            <th colspan="2" style="text-align: center;" class="large-column">
-              SỐ TIỀN
-            </th>
-            <th rowspan="2" class="small-column">
-            TỒN QUỸ
-          </th>
-          </tr>
-      
-          <tr>
-            <th>PT</th>
-            <th>PC</th>
-            <th>THU</th>
-            <th>CHI</th>
-           
-        </tr>
-  
-  `;
+  public dauky: number;
+  public nodauky: number;
+  public codauky: number;
+  public nocuoiky: number;
+  public cocuoiky: number;
+  public showDiv: boolean = true;
+
   public headHtml: SafeHtml;
   public rowHtml: SafeHtml;
 
   constructor(
     private _dataService: DataService,
-    private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private columnInfoService: ColuminfoService,
     private _authenService: AuthenService,
     private location: Location,
-  ) {
-    this.headHtml = this.sanitizer.bypassSecurityTrustHtml(
-      this.stringheadtable,
-    );
-  }
+  ) {}
 
   ngOnInit() {
     var user = this._authenService.getLoggedInUser();
@@ -93,6 +66,14 @@ export class PreviewSQTMComponent implements OnInit {
       this.fromDate = params["fromDate"];
       this.toDate = params["toDate"];
       this.nametable = params["nametable"];
+      this.dauky = params["dauky"];
+      this.nodauky = params["nodauky"];
+      this.codauky = params["codauky"];
+      this.nocuoiky = params["nocuoiky"];
+      this.cocuoiky = params["cocuoiky"];
+      this.psco = params["psco"];
+      this.psno = params["psno"];
+      this.ma_tk = params["ma_tk"];
       // .split('-').reverse().join('/')
     });
 
@@ -131,41 +112,4 @@ export class PreviewSQTMComponent implements OnInit {
   goBack() {
     this.location.back();
   }
-  public columnInfonhapkho: any[] = [
-    {
-      Name: "SO_CT",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "NGAY_CT",
-      Caption: "Tên Hàng Hóa ,Vật Tư ",
-      Width: 70,
-      Format: "d",
-    },
-    {
-      Name: "DIEN_GIAI",
-      Caption: "Đơn Vị Tính",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "MA_TK",
-      Caption: "Lượng Đầu Kỳ",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "PS_NO",
-      Caption: "Phát sinh nợ",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-    {
-      Name: "PS_CO",
-      Caption: "Phát sinh có",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-  ];
 }

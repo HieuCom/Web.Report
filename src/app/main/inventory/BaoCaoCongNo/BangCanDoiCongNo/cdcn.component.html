@@ -298,6 +298,33 @@
       </tr>
     </tbody>
   </table>
+  <div
+    class="pagination"
+    *ngIf="chungtus && chungtus.length > 0 && totalPages > 1"
+  >
+    <!-- Prev -->
+    <button (click)="prevPage()" [disabled]="currentPage === 1">«</button>
+
+    <!-- Pages -->
+    <ng-container *ngFor="let p of pages; trackBy: trackByPage">
+      <!-- Page number -->
+      <button
+        *ngIf="p !== -1"
+        (click)="goToPage(p)"
+        [class.active]="currentPage === p"
+      >
+        {{ p }}
+      </button>
+
+      <!-- Dots -->
+      <span *ngIf="p === -1" class="dots">...</span>
+    </ng-container>
+
+    <!-- Next -->
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      »
+    </button>
+  </div>
   <div *ngIf="chungtus && chungtus.length == 0" class="col-md-12">
     <div class="alert alert-info">
       <strong>{{ "dialog_alert_title" | translate }}!</strong>

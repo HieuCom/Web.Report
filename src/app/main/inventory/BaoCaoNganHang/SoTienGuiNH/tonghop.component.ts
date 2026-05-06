@@ -40,7 +40,7 @@ export class SoQuyTongHopComponent implements OnInit {
   public pageDisplay: number = 10;
   public totalRow: number;
   public filter: string = "";
-  public chungtus: any[];
+  public chungtus: any[] = [];
   public nametable = "Sổ Quỹ Tổng Hợp";
   public don_vi: string = "0103542639";
 
@@ -103,7 +103,8 @@ export class SoQuyTongHopComponent implements OnInit {
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
-    this.loadData();
+    this.loadnodauky();
+    this.loadnocuoiky();
   }
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -113,7 +114,7 @@ export class SoQuyTongHopComponent implements OnInit {
   };
 
   updateColumnInfo() {
-    this.columnInfoService.changeColumnInfo(this.columnInfonhapkho);
+    this.columnInfoService.changeColumnInfo(this.columnInfotienguinganhang);
   }
   private getNowUTC(now: Date) {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
@@ -130,7 +131,7 @@ export class SoQuyTongHopComponent implements OnInit {
           MA_TK: this.ma_tk,
         })
         .toPromise();
-      this.chungtus = response;
+      this.chungtus = response || [];
       // ✅ TÍNH TOÁN
       if (this.chungtus.length > 0) {
         this.psco = this.chungtus.reduce(
@@ -145,6 +146,43 @@ export class SoQuyTongHopComponent implements OnInit {
 
         this.TotalDuCuoi();
       }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
+  async loadnodauky() {
+    try {
+      const response: any = await this.dataService
+        .post("/DauKyTaiKhoan", {
+          TU_NGAY: this.getNowUTC(this.fromDate),
+          DEN_NGAY: this.getNowUTC(this.toDate),
+          ID_DV: 1,
+          ID_DT: 0,
+          MA_TK: this.ma_tk,
+        })
+        .toPromise();
+      this.nodauky = response.DKN ?? 0;
+      this.codauky = response.DKC ?? 0;
+      this.dauky = response.DKN - response.DKC;
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  }
+
+  async loadnocuoiky() {
+    try {
+      const response: any = await this.dataService
+        .post("/CuoiKyTaiKhoan", {
+          TU_NGAY: this.getNowUTC(this.fromDate),
+          DEN_NGAY: this.getNowUTC(this.toDate),
+          ID_DV: 1,
+          ID_DT: 0,
+          MA_TK: this.ma_tk,
+        })
+        .toPromise();
+      this.nocuoiky = response.CKN;
+      this.cocuoiky = response.CKC;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -316,35 +354,30 @@ export class SoQuyTongHopComponent implements OnInit {
   }
 
   //Pagniation
-  groupedData: any[] = [];
   pagedData: any[] = [];
 
-  pageSize = 5; // số nhóm, KHÔNG phải số dòng
+  pageSize = 5;
   currentPage = 1;
 
-  groupData() {
-    const map = new Map();
-
-    this.chungtus.forEach((item) => {
-      if (!map.has(item.SO_CT)) {
-        map.set(item.SO_CT, []);
-      }
-      map.get(item.SO_CT).push(item);
-    });
-
-    this.groupedData = Array.from(map.values());
-  }
   get totalPages(): number {
-    return Math.ceil(this.groupedData.length / this.pageSize);
+    return Math.ceil((this.chungtus?.length || 0) / this.pageSize);
   }
 
   updatePagedData() {
+    if (!Array.isArray(this.chungtus)) {
+      this.pagedData = [];
+      return;
+    }
+
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
 
-    this.pagedData = this.groupedData.slice(start, end);
+    this.pagedData = this.chungtus.slice(start, end);
   }
+
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
     this.currentPage = page;
     this.updatePagedData();
   }
@@ -362,6 +395,7 @@ export class SoQuyTongHopComponent implements OnInit {
       this.updatePagedData();
     }
   }
+
   get pages(): number[] {
     const total = this.totalPages;
     const current = this.currentPage;
@@ -380,7 +414,7 @@ export class SoQuyTongHopComponent implements OnInit {
       }
     }
 
-    let l;
+    let l: any;
     for (let i of range) {
       if (l) {
         if (i - l === 2) {
@@ -396,7 +430,11 @@ export class SoQuyTongHopComponent implements OnInit {
     return rangeWithDots;
   }
 
-  public columnInfonhapkho: any[] = [
+  trackByPage(index: number, item: number) {
+    return item;
+  }
+
+  public columnInfotienguinganhang: any[] = [
     {
       Name: "NGAY_CT",
       Caption: "Ngày CT",

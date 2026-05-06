@@ -3,7 +3,6 @@ import { Component, OnInit } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { AuthenService } from "src/app/core/services/authen.service";
-import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { DataService } from "src/app/core/services/data.service";
 
 @Component({
@@ -26,32 +25,31 @@ export class PreviewSQTNHComponent implements OnInit {
 
   public stringheadtable: string = `
   <tr>
-           <th rowspan="2" class="small-column">
-              Ngày
-            </th>
-            <th colspan="2" style="text-align: center;" class="large-column">
-              SỐ CT
-            </th>
-       
-            <th rowspan="2" class="small-column">
-              DIỄN GIẢI
-            </th>
-           
-            <th colspan="2" style="text-align: center;" class="large-column">
-              SỐ TIỀN
-            </th>
-            <th rowspan="2" class="small-column">
-            TỒN QUỸ
-          </th>
-          </tr>
-      
-          <tr>
-            <th>PT</th>
-            <th>PC</th>
-            <th>THU</th>
-            <th>CHI</th>
-           
-        </tr>
+    <th rowspan="2" class="small-column">
+      Ngày
+    </th>
+    <th colspan="2" style="text-align: center;" class="large-column">
+      SỐ CT
+    </th>
+
+    <th rowspan="2" class="small-column">
+      DIỄN GIẢI
+    </th>
+    
+    <th colspan="2" style="text-align: center;" class="large-column">
+      SỐ TIỀN
+    </th>
+    <th rowspan="2" class="small-column">
+      TỒN QUỸ
+    </th>
+  </tr>
+
+  <tr>
+    <th>PT</th>
+    <th>PC</th>
+    <th>THU</th>
+    <th>CHI</th>
+  </tr>
   
   `;
   public headHtml: SafeHtml;
@@ -61,7 +59,6 @@ export class PreviewSQTNHComponent implements OnInit {
     private _dataService: DataService,
     private sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private columnInfoService: ColuminfoService,
     private _authenService: AuthenService,
     private location: Location,
   ) {
@@ -80,11 +77,13 @@ export class PreviewSQTNHComponent implements OnInit {
       this.fromDate = params["fromDate"];
       this.toDate = params["toDate"];
       this.nametable = params["nametable"];
-      // .split('-').reverse().join('/')
+      this.ma_tk = params["ma_tk"];
     });
 
     this.chungtus = history.state.chungtus;
-    // this.chungtus.sort((a, b) => (a.SO_CT > b.SO_CT) ? 1 : ((b.SO_CT > a.SO_CT) ? -1 : 0));
+    this.chungtus.sort((a, b) =>
+      a.SO_CT > b.SO_CT ? 1 : b.SO_CT > a.SO_CT ? -1 : 0,
+    );
     //this.loadData();
   }
 
@@ -114,42 +113,4 @@ export class PreviewSQTNHComponent implements OnInit {
   goBack() {
     this.location.back();
   }
-
-  public columnInfonhapkho: any[] = [
-    {
-      Name: "SO_CT",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "NGAY_CT",
-      Caption: "Tên Hàng Hóa ,Vật Tư ",
-      Width: 70,
-      Format: "d",
-    },
-    {
-      Name: "DIEN_GIAI",
-      Caption: "Đơn Vị Tính",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "MA_TK",
-      Caption: "Lượng Đầu Kỳ",
-      Width: 50,
-      Format: "",
-    },
-    {
-      Name: "PS_NO",
-      Caption: "Phát sinh nợ",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-    {
-      Name: "PS_CO",
-      Caption: "Phát sinh có",
-      Width: 50,
-      Format: "#,##0.##;(#,##0.##);#",
-    },
-  ];
 }

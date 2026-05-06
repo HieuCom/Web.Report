@@ -4,11 +4,7 @@
 <div class="print-card">
   <div class="print-section">
     <div class="title">
-      <div class="temp">
-        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
-        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
-       -->
-      </div>
+      <div class="temp"></div>
 
       <div class="namecp">
         <p>Mẫu số B 01 - DN</p>
@@ -25,6 +21,21 @@
         Từ ngày: {{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
         {{ this.toDate.split("-").reverse().join("/") }}
       </p>
+
+      <div class="account">
+        <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
+    <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div> -->
+        <div class="account-detail">
+          Dư nợ đầu ngày: {{ this.nodauky | number }}
+        </div>
+        <div class="account-detail">Phát sinh nợ: {{ this.psno | number }}</div>
+        <div class="account-detail">Phát sinh có: {{ this.psco | number }}</div>
+        <div class="account-detail">
+          Dư nợ cuối ngày: {{ this.nocuoiky | number }}
+        </div>
+        <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
+    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
+      </div>
 
       <table class="table table-bordered">
         <!-- <thead [innerHTML]="headHtml" > -->
@@ -53,31 +64,27 @@
             <!-- Thêm hàng mới để hiển thị tên nhóm -->
             <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i - 1].SO_CT">
               <td>
-                <strong>{{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }} </strong>
+                {{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}
               </td>
 
               <!-- If chungtu.CRDB is not true, display value in PC column -->
               <td>
-                <strong *ngIf="chungtu.CRDB == true">{{
-                  chungtu.SO_CT
-                }}</strong>
-                <strong *ngIf="chungtu.CRDB == false"></strong>
+                <div *ngIf="chungtu.CRDB == true">{{ chungtu.SO_CT }}</div>
+                <div *ngIf="chungtu.CRDB == false"></div>
               </td>
 
               <td>
-                <strong *ngIf="chungtu.CRDB == false">{{
-                  chungtu.SO_CT
-                }}</strong>
-                <strong *ngIf="chungtu.CRDB == true"></strong>
+                <div *ngIf="chungtu.CRDB == false">{{ chungtu.SO_CT }}</div>
+                <div *ngIf="chungtu.CRDB == true"></div>
               </td>
 
               <td>
-                <strong>{{ chungtu.DIEN_GIAI }} </strong>
+                <div>{{ chungtu.DIEN_GIAI }}</div>
               </td>
               <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_NO") | number }}</td>
               <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_CO") | number }}</td>
               <td>
-                <strong>{{ chungtu.TON_QUY }} </strong>
+                <div>{{ chungtu.TON_QUY }}</div>
               </td>
             </tr>
           </ng-container>
