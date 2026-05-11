@@ -50,16 +50,23 @@ export class TopMenuComponent implements OnInit {
   }
 
   async getUserIdLogin() {
-    // if (this.user.username) {
-    //   let data = [];
-    //   data.push("@UserName", this.user.username);
-    //   let params = { "CommandText": "uspUser___FindUserName", "CommandType": 1025, "Parameters": data }
-    //   await this._dataService.post('/commands', params).toPromise().then((response: any) => {
-    //     if (response.Data) {
-    //       this.userLoginId = response.Data[0].Id;
-    //     }
-    //   });
-    // }
+    if (this.user.username) {
+      let data = [];
+      data.push("@UserName", this.user.username);
+      let params = {
+        CommandText: "uspUser___FindUserName",
+        CommandType: 1025,
+        Parameters: data,
+      };
+      await this._dataService
+        .post("/commands", params)
+        .toPromise()
+        .then((response: any) => {
+          if (response.Data) {
+            this.userLoginId = response.Data[0].Id;
+          }
+        });
+    }
   }
   private subscribeToEvents(): void {
     let self = this;

@@ -20,17 +20,23 @@
 
         <!-- /menu footer buttons -->
         <div class="sidebar-footer hidden-small">
-          <a data-toggle="tooltip" data-placement="top" title="Settings">
-            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-          </a>
-          <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+          <a data-toggle="tooltip" data-placement="top" title="Cài đặt">
             <span
+              id="icon"
+              class="glyphicon glyphicon-cog"
+              aria-hidden="true"
+            ></span>
+          </a>
+          <a data-toggle="tooltip" data-placement="top" title="Toàn màn hình">
+            <span
+              id="icon"
               class="glyphicon glyphicon-fullscreen"
               aria-hidden="true"
             ></span>
           </a>
-          <a data-toggle="tooltip" data-placement="top" title="Lock">
+          <a data-toggle="tooltip" data-placement="top" title="Khóa màn hình">
             <span
+              id="icon"
               class="glyphicon glyphicon-eye-close"
               aria-hidden="true"
             ></span>
@@ -38,10 +44,14 @@
           <a
             data-toggle="tooltip"
             data-placement="top"
-            title="Logout"
-            (click)="(logout)"
+            title="Đăng xuất"
+            (click)="logout()"
           >
-            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            <span
+              id="icon"
+              class="glyphicon glyphicon-off"
+              aria-hidden="true"
+            ></span>
           </a>
         </div>
         <!-- /menu footer buttons -->
