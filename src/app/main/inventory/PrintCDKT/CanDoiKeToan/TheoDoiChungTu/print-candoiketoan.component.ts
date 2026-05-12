@@ -1,22 +1,9 @@
 import { Location } from "@angular/common";
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  ɵɵinjectPipeChangeDetectorRef,
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
-import { MessageContstants } from "src/app/core/common/message.constants";
-import { FormErrors } from "src/app/core/helpers/form.errors";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { AuthenService } from "src/app/core/services/authen.service";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 
 @Component({
   selector: "app-candoiketoan",
@@ -57,11 +44,9 @@ export class PrintCanDoiKeToanComponent implements OnInit {
       this.toDate = params["toDate"];
       this.nametable = params["nametable"];
       this.maTk = params["ma_tk"];
-      // .split('-').reverse().join('/')
     });
 
     this.chungtus = history.state.chungtus;
-    //this.loadData();
   }
 
   async getUserIdLogin(userName) {
