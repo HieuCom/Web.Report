@@ -1,5 +1,5 @@
 <div class="panel-filter">
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-3 col-sm-3 col-xs-12">
       <div class="form-group">
         <label for="startDate">Ngày bắt đầu:</label>
@@ -12,7 +12,6 @@
           [(ngModel)]="this.fromDate"
           [bsConfig]="bsConfig"
         />
-        <!-- (bsValueChange)="onValueChangeDateRange($event)"> -->
       </div>
       <div class="form-group">
         <label for="endDate">Ngày kết thúc:</label>
@@ -25,7 +24,6 @@
           [(ngModel)]="this.toDate"
           [bsConfig]="bsConfig"
         />
-        <!-- (bsValueChange)="onValueChangeDateRange2($event)" -->
       </div>
       <div class="form-group">
         <label for="ma_tk">Mã tài khoản:</label>
@@ -138,12 +136,6 @@
             ▼
           </span>
           <div class="dropdown-menu-custom" *ngIf="showOptionDropdown">
-            <div class="dropdown-item" (click)="selectOption('Xem dạng bảng')">
-              Xem dạng bảng
-            </div>
-            <div class="dropdown-item" (click)="selectOption('Xem và in')">
-              Xem và in
-            </div>
             <div class="dropdown-item" (click)="selectOption('Lưu Excel')">
               Lưu Excel
             </div>
@@ -255,7 +247,13 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <!-- <app-report-filter
+    [fields]="reportFields"
+    (search)="onSearch($event)"
+    (lookup)="onLookup($event)"
+  >
+  </app-report-filter> -->
   <button class="btn btn-primary" type="submit" (click)="reloaddata()">
     <span class="glyphicon glyphicon-search"></span> Tìm kiếm
   </button>
@@ -271,27 +269,25 @@
 
 <h2 class="nametb">{{ this.nametable }}</h2>
 <h4 class="matk">Tài khoản: {{ this.ma_tk }}</h4>
+<p *ngIf="ten_dt" class="time">Đối tượng: {{ this.ten_dt }}</p>
 <p class="time">
   Từ ngày: {{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
   {{ this.toDate | date: "dd/MM/yyyy" }}
 </p>
 <div class="account">
-  <!-- <div *ngIf="nodauky !== 0">Dư nợ đầu ngày:{{this.nodauky | number}}</div>
-    <div *ngIf="codauky !== 0">Dư có đầu ngày:{{this.codauky | number}}</div> -->
   <div class="account-detail">Dư nợ đầu ngày: {{ this.nodauky | number }}</div>
   <div class="account-detail">Phát sinh nợ: {{ this.psno | number }}</div>
   <div class="account-detail">Phát sinh có: {{ this.psco | number }}</div>
   <div class="account-detail">
     Dư nợ cuối ngày: {{ this.nocuoiky | number }}
   </div>
-  <!-- <div *ngIf="nocuoiky !== 0">Dư nợ cuối ngày:{{this.nocuoiky | number}}</div>
-    <div *ngIf="cocuoiky !== 0">Dư có cuối ngày:{{this.cocuoiky | number}}</div> -->
 </div>
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
       <tr>
         <th *ngFor="let colInfo of columnInfoSoQuyTienMat" class="column">
+          <!-- tên cột -->
           <div>
             {{ colInfo.Caption }}
           </div>
@@ -302,7 +298,6 @@
     <tbody>
       <tr *ngFor="let chungtu of pagedData; let i = index" class="select-item">
         <td *ngFor="let colInfo of columnInfoSoQuyTienMat">
-          <!-- Date -->
           <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">
             {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
           </strong>
@@ -310,7 +305,6 @@
             {{ chungtu[colInfo.Name] | date: "dd/MM/yyyy" }}
           </span>
 
-          <!-- Number -->
           <strong
             *ngIf="
               chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
@@ -326,7 +320,6 @@
             {{ chungtu[colInfo.Name] | number }}
           </span>
 
-          <!-- Text -->
           <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">
             {{ chungtu[colInfo.Name] }}
           </strong>

@@ -137,6 +137,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
     };
     this.router.navigate(["/main/inventory/printHDMV"], navigationExtras);
   }
+
   openTKDialog() {
     const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
     dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
@@ -376,7 +377,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
     {
       Name: "DIEN_GIAI",
       Caption: "Diễn giải",
-      Width: 150,
+      Width: 50,
       Format: "",
     },
   ];

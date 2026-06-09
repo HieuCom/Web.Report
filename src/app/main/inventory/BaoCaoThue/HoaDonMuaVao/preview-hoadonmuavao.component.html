@@ -1,10 +1,6 @@
 <div class="print-section">
   <div class="title">
-    <div class="temp">
-      <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
-        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
-       -->
-    </div>
+    <div class="temp"></div>
 
     <div class="namecp">
       <p>Mẫu số B 01 - DN</p>
@@ -13,17 +9,15 @@
     </div>
   </div>
 
-  <!-- <div [innerHTML]="safeHtml"></div> -->
   <div class="table-responsive">
     <h2 class="nametb">{{ this.nametable }}</h2>
     <p class="time">
-      Từ ngày:{{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
+      Từ ngày: {{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
       {{ this.toDate.split("-").reverse().join("/") }}
     </p>
-    <h2 class="nametb">Tên kho:{{ this.namewh }}</h2>
+    <h2 class="nametb">Tên kho: {{ this.namewh }}</h2>
 
     <table class="table table-bordered">
-      <!-- <thead [innerHTML]="headHtml" > -->
       <thead>
         <tr>
           <th rowspan="2" class="column">STT</th>
@@ -52,10 +46,7 @@
       </thead>
 
       <tbody>
-        <!-- tên nhóm vật tư -->
         <ng-container *ngFor="let chungtu of chungtus; let i = index">
-          <!-- Thêm hàng mới để hiển thị tên nhóm -->
-
           <tr
             *ngIf="
               i == 0 || chungtus[i].TEN_NHOM_VAT != chungtus[i - 1].TEN_NHOM_VAT

@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-3" *ngFor="let field of fields">
+    <div class="form-group">
+      <label>{{ field.label }}</label>
+
+      <!-- DATE -->
+      <input
+        *ngIf="field.type === 'date'"
+        class="form-control"
+        bsDatepicker
+        [(ngModel)]="formData[field.name]"
+      />
+
+      <!-- TEXT -->
+      <input
+        *ngIf="field.type === 'text'"
+        class="form-control"
+        [(ngModel)]="formData[field.name]"
+      />
+
+      <!-- LOOKUP -->
+      <div *ngIf="field.type === 'lookup'" class="input-group">
+        <input class="form-control" [(ngModel)]="formData[field.name]" />
+
+        <div class="input-group-btn">
+          <button class="btn btn-default" (click)="onLookup(field)">...</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="btn btn-primary" (click)="onSearch()">Tìm kiếm</button>

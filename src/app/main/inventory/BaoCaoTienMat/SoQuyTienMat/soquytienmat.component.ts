@@ -15,6 +15,8 @@ import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.c
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
 import { NhomDoiTuongDialogComponent } from "../../Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
 import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
+import * as XLSX from "xlsx";
+
 @Component({
   selector: "app-soquytienmat",
   templateUrl: "./soquytienmat.component.html",
@@ -93,6 +95,7 @@ export class SoQuyTienMatComponent implements OnInit {
   };
 
   ngOnInit() {
+    // this.reportFields = this.formConfigs[this.selectedReportType];
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
 
@@ -111,40 +114,38 @@ export class SoQuyTienMatComponent implements OnInit {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
-  async loadData() {
+  loadData(filter: any = null) {
+    if (filter) {
+      this.fromDate = filter.fromDate;
+      this.toDate = filter.toDate;
+      this.ma_tk = filter.ma_tk;
+      this.ma_dt = filter.ma_dt;
+      this.ma_vv = filter.ma_vv;
+    }
+
     this.loadnodauky();
     this.loadnocuoiky();
-    try {
-      const response: any = await this.dataService
-        .post("/SoQuyTienMat", {
-          TU_NGAY: this.getNowUTC(this.fromDate),
-          DEN_NGAY: this.getNowUTC(this.toDate),
-          ID_DV: 1,
-          ID_DT: 0,
-          MA_TK: this.ma_tk,
-        })
-        .toPromise();
-      this.chungtus = response || [];
 
-      // ✅ TÍNH TOÁN
-      if (this.chungtus.length > 0) {
-        this.psco = this.chungtus.reduce(
-          (sum, nhapkho) => sum + nhapkho.PS_CO,
-          0,
-        );
+    this.dataService
+      .post("/SoQuyTienMat", {
+        TU_NGAY: this.getNowUTC(this.fromDate),
+        DEN_NGAY: this.getNowUTC(this.toDate),
+        ID_DV: 1,
+        ID_DT: this.ma_dt || 0,
+        MA_TK: this.ma_tk,
+        MA_VV: this.ma_vv,
+      })
+      .subscribe((response: any) => {
+        this.chungtus = response || [];
 
-        this.psno = this.chungtus.reduce(
-          (sum, nhapkho) => sum + nhapkho.PS_NO,
-          0,
-        );
+        this.psno = this.chungtus.reduce((s, x) => s + x.PS_NO, 0);
+        this.psco = this.chungtus.reduce((s, x) => s + x.PS_CO, 0);
 
         this.TotalDuCuoi();
-      }
-    } catch (error) {
-      console.error("An error occurred:", error);
-    }
-    this.currentPage = 1;
-    this.updatePagedData();
+
+        this.currentPage = 1;
+        this.updatePagedData();
+      });
   }
 
   async loadnodauky() {
@@ -345,6 +346,33 @@ export class SoQuyTienMatComponent implements OnInit {
     this.loadData();
   }
 
+  exportExcel(): void {
+    const exportData = this.pagedData.map((row) => {
+      const item = {};
+
+      this.columnInfoSoQuyTienMat.forEach((col) => {
+        let value = row[col.Name];
+
+        // Format ngày
+        if (col.Format === "d" && value) {
+          value = new Date(value).toLocaleDateString("vi-VN");
+        }
+
+        item[col.Caption] = value;
+      });
+
+      return item;
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "SoQuyTienMat");
+
+    XLSX.writeFile(workbook, `SoQuyTienMat_${new Date().getTime()}.xlsx`);
+  }
+
   printTemplate = "Tổng hợp";
   printOption = "Xem dạng bảng";
 
@@ -367,7 +395,24 @@ export class SoQuyTienMatComponent implements OnInit {
   selectOption(value: string) {
     this.printOption = value;
     this.showOptionDropdown = false;
+
+    if (value === "Lưu Excel") {
+      this.exportExcel();
+    }
   }
+
+  dataSource = [
+    {
+      maKH: "KH001",
+      tenKH: "Nguyễn Văn A",
+      diaChi: "Hà Nội",
+    },
+    {
+      maKH: "KH002",
+      tenKH: "Trần Văn B",
+      diaChi: "Hải Phòng",
+    },
+  ];
 
   //Pagniation
   pagedData: any[] = [];
@@ -501,4 +546,67 @@ export class SoQuyTienMatComponent implements OnInit {
       Format: "#,##0.##;(#,##0.##);#",
     },
   ];
+
+  filterData: any = {};
+
+  reportFields = [
+    {
+      name: "fromDate",
+      label: "Từ ngày",
+      type: "date",
+    },
+    {
+      name: "toDate",
+      label: "Đến ngày",
+      type: "date",
+    },
+    {
+      name: "ma_tk",
+      label: "Tài khoản",
+      type: "lookup",
+      lookupType: "TAIKHOAN",
+    },
+    {
+      name: "ma_dt",
+      label: "Đối tượng",
+      type: "lookup",
+      lookupType: "DOITUONG",
+    },
+    {
+      name: "ma_vv",
+      label: "Vụ việc",
+      type: "lookup",
+      lookupType: "VUVIEC",
+    },
+  ];
+
+  selectedReportType = "doanhthu";
+
+  onSearch(filter: any) {
+    this.loadData(filter);
+  }
+
+  onLookup(field: any) {
+    switch (field.lookupType) {
+      case "DOITUONG":
+        this.openDTDialog();
+        break;
+
+      case "SANPHAM":
+        this.openSPDialog();
+        break;
+
+      case "TAIKHOAN":
+        this.openTKDialog();
+        break;
+
+      case "VUVIEC":
+        this.openVVDialog();
+        break;
+
+      case "YEUTO":
+        this.openYTPDialog();
+        break;
+    }
+  }
 }

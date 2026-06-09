@@ -67,6 +67,7 @@ import { NhomSanPhamDialogComponent } from "./Dialog/NhomSanPham/nhomsanpham-dia
 import { NhomNguonLucDialogComponent } from "./Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.component";
 import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
+import { ReportFilterComponent } from "src/app/shared/FormBaoCaoChung/ReportFilterComponent.component";
 
 @NgModule({
   imports: [
@@ -138,7 +139,6 @@ import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
     PreviewToKhaiThueComponent,
     PreViewNoGr,
     PreviewNXTComponent,
-
     // SimpleTinyComponent
   ],
   providers: [

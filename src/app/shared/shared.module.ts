@@ -11,6 +11,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { SignalrService } from "../core/services/signalr.service";
 import { ConfirmPopupComponent } from "./confirm-popup/confirm-popup.component";
+import { ReportFilterComponent } from "./FormBaoCaoChung/ReportFilterComponent.component";
 
 @NgModule({
   declarations: [
@@ -18,9 +19,15 @@ import { ConfirmPopupComponent } from "./confirm-popup/confirm-popup.component";
     TopMenuComponent,
     SimpleTinyComponent,
     ConfirmPopupComponent,
+    ReportFilterComponent,
   ],
   imports: [CommonModule, TranslateModule, FormsModule, RouterModule],
-  exports: [TopMenuComponent, SidebarMenuComponent, SimpleTinyComponent],
+  exports: [
+    TopMenuComponent,
+    SidebarMenuComponent,
+    SimpleTinyComponent,
+    ReportFilterComponent,
+  ],
   providers: [DataService, AuthenService, UtilityService, SignalrService],
 })
 export class SharedModule {}
