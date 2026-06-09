@@ -1,0 +1,123 @@
+  <div class="print-section">
+
+
+    <div class="title" >
+      
+      <div class="temp">
+        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p> -->
+      
+    </div>
+    
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p> ngày 22/12/2014</p>
+    
+    </div>
+    
+    </div>
+  
+    <!-- <div [innerHTML]="safeHtml"></div> -->
+    <div class="table-responsive">
+      <h2 class="nametb" >{{this.nametable}}</h2>
+      <p class="time" >Từ ngày:{{ this.fromDate| date:'dd/MM/yyyy'}} đến ngày: {{ this.toDate | date:'dd/MM/yyyy'}} </p>
+     
+      <p class="nametb" >Tên tài khoản:{{this.ma_tk}}</p>
+
+      <div class="sum" >
+         <p>Dư có đầu ngày : {{getSum(chungtus,'DK')| number}} </p>
+         <p>Phát sinh nợ</p>
+         <p>Phát sinh có</p>
+         <p>Dư có cuối ngày: {{getSum(chungtus,'CK')| number}} </p>
+      </div>
+      
+      <table class="table table-bordered">
+      
+        <!-- <thead [innerHTML]="headHtml" > -->
+          <thead > 
+          <tr>
+           
+             <th colspan="2" style="text-align: center;" class="small-column">
+              Chứng từ
+            </th>
+        
+             <th rowspan="2" class="small-column">
+               Diễn giải
+             </th>
+
+             <th rowspan="2" style="text-align: center;" class="small-column">
+               Tk Đ.ứ
+            </th>
+            <th rowspan="2" style="text-align: center;" class="small-column">
+               PS Nợ
+            </th>
+            <th rowspan="2" style="text-align: center;" class="small-column">
+              PS Có
+            </th>
+           </tr>
+       
+           <tr>
+             <th class="small-column">Ngày CT</th>
+             <th class="small-column">Số CT</th>
+           </tr>
+
+        </thead>
+           
+        <tbody>
+          <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+           
+              <tr>
+                <td style="text-align: center;" rowspan="3" colspan="3">{{chungtu.TEN_DT}} ({{chungtu.MA_DT}}) </td>
+                <td>Dư đầu</td>
+                <td>{{chungtu.DKN}} </td>
+                <td>{{chungtu.DKC}}</td>
+              </tr>
+              <tr>
+                <td>Phát sinh</td>
+                <td>{{chungtu.PSN}}</td>
+                <td>{{chungtu.PSC}}</td>
+              </tr>
+              <tr>
+                <td>Dư cuối</td>
+                <td>{{chungtu.CKN}} </td>
+                <td>{{chungtu.CKC}} </td>
+              </tr>
+            </ng-container>
+      
+        </tbody>
+      </table>
+      </div>
+
+    <p style="text-align: right; margin-right: 20px;" >
+      Ngày.... tháng.... năm....
+    </p>
+
+    <div class="sign" >
+      <div class="establishment">
+        <p  >
+          <strong>NGƯỜI LẬP</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class=" accountant">
+        <p  >
+          <strong>KẾ TOÁN TRƯỞNG</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="undersecretary">
+        <p  >
+          <strong>THỦ TRƯỞNG ĐƠN VỊ</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+    </div>
+    
+    </div>

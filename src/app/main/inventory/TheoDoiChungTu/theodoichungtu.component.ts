@@ -111,28 +111,10 @@ export class TheoDoiChungTuComponent implements OnInit {
       "Width": 200
     },
     {
-      "Name": "ONG_BA",
-      "Caption": "Ông/Bà",
+      "Name": "NGUOI_GHANG",
+      "Caption": "Người giao hàng",
       "Format": "",
       "Width": 150
-    },
-    {
-      "Name": "TIEN",
-      "Caption": "Tiền hàng",
-      "Width": 90,
-      "Format": "#,##0.##;(#,##0.##);#"
-    },
-    {
-      "Name": "TIEN_VAT",
-      "Caption": "Tiền VAT",
-      "Width": 100,
-      "Format": "#,##0.##;(#,##0.##);#"
-    },
-    {
-      "Name": "TONG_TIEN",
-      "Caption": "Tổng tiền",
-      "Width": 90,
-      "Format": "#,##0.##;(#,##0.##);#"
     },
     {
       "Name": "DIEN_GIAI",

@@ -3,9 +3,19 @@
     <button type="button" class="close pull-right" aria-label="Close" (click)="onClose()">
         <span aria-hidden="true">&times;</span>
     </button>
+    <div class="col-xs-12">
+        <div class="col-md-3 col-sm-6 col-xs-12 form-group" style="width:70%">
+            <input type="text" class="form-control" name="filterKeyword" [(ngModel)]="filterKeyword">
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12 form-group panel-search" style="width:30%">
+            <button class="btn btn-primary button-submit" type="submit" (click)=loadData()>Lọc
+            </button>
+        </div>
+    </div>
 </div>
-<div class="modal-body">
 
+
+<div class="modal-body">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -43,22 +53,22 @@
 </div>
 <div *ngIf="PSCT && PSCT.length > 0" class="col-md-12">
     <div class="col-md-8">
-      <pagination [boundaryLinks]="true" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"
-        [totalItems]="totalRow" [(ngModel)]="pageNumber" class="pagination-sm" previousText="&lsaquo;"
-        nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+        <pagination [boundaryLinks]="true" [itemsPerPage]="pageSize" (pageChanged)="pageChanged($event)"
+            [totalItems]="totalRow" [(ngModel)]="pageNumber" class="pagination-sm" previousText="&lsaquo;"
+            nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
     </div>
     <div class="col-md-4">
-      <div class="form-group view-options">
-        <label for="">{{'show_row' | translate}} &nbsp;</label>
-        <select class="form-control" name="page-size" [(ngModel)]="pageSize" (change)="onChangePageSize()">
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </div>
+        <div class="form-group view-options">
+            <label for="">{{'show_row' | translate}} &nbsp;</label>
+            <select class="form-control" name="page-size" [(ngModel)]="pageSize" (change)="onChangePageSize()">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
     </div>
-  </div>
+</div>
 <div class="modal-footer">
     <button class="btn btn-primary button-submit" type="submit" (click)=onSubmit()>Chọn </button>
     <button type="button" class="btn btn-default" (click)="onClose()">{{'button_close'| translate }}</button>

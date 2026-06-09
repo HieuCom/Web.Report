@@ -1,0 +1,135 @@
+  <div class="print-section">
+
+
+    <div class="title" >
+      
+      <div class="temp">
+        <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
+       -->
+    </div>
+    
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p> ngày 22/12/2014</p>
+    
+    </div>
+    
+    </div>
+  
+    <!-- <div [innerHTML]="safeHtml"></div> -->
+    <div class="table-responsive">
+      <h2 class="nametb" >{{this.nametable}}</h2>
+      <h4 class="nametb" >Tài khoản:{{this.ma_tk}}</h4>
+      <p class="time" >Từ ngày:{{ this.fromDate.split('-').reverse().join('/') }} đến ngày: {{ this.toDate.split('-').reverse().join('/') }} </p>
+      <!--   
+      <div class="caption" > 
+        <div class="total"  >Tổng cộng</div>
+        <div  >327.000.000</div>
+        <div >1.327.000.000</div>
+        <div >327.000.000</div>
+        <div>327.000.000</div>
+      </div> -->
+      
+      <table class="table table-bordered">
+      
+        <!-- <thead [innerHTML]="headHtml" > -->
+          <thead > 
+          <tr>
+            <th rowspan="2" class="small-column">
+               Ngày
+             </th>
+             <th colspan="2" style="text-align: center;" class="large-column">
+               SỐ CT
+             </th>
+        
+             <th rowspan="2" class="small-column">
+               DIỄN GIẢI
+             </th>
+            
+             <th colspan="2" style="text-align: center;" class="large-column">
+               SỐ TIỀN
+             </th>
+             <th rowspan="2" class="small-column">
+             TỒN QUỸ
+           </th>
+           </tr>
+       
+           <tr>
+             <th>PT</th>
+             <th>PC</th>
+             <th>THU</th>
+             <th>CHI</th>
+            
+         </tr>
+
+        </thead>
+
+        <tbody>
+      
+          <!-- tên nhóm vật tư -->
+      <ng-container *ngFor="let chungtu of chungtus ; let i = index">
+        
+        <!-- Thêm hàng mới để hiển thị tên nhóm -->
+        <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i-1].SO_CT">
+          <td><strong>{{ chungtu.NGAY_CT | date:'dd/MM/yyyy'}} </strong> </td>
+
+          
+          <!-- If chungtu.CRDB is not true, display value in PC column -->
+          <td >
+            <strong *ngIf="chungtu.CRDB==true"  >{{ chungtu.SO_CT }}</strong>
+            <strong *ngIf="chungtu.CRDB==false"></strong>
+          </td>
+
+          <td >
+            <strong *ngIf="chungtu.CRDB==false">{{ chungtu.SO_CT }}</strong>
+            <strong *ngIf="chungtu.CRDB==true"></strong>
+          </td>
+
+
+          <td><strong>{{ chungtu.DIEN_GIAI}} </strong> </td>
+          <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_NO') |number }}</td>
+            <td>{{ getTotal(chungtus, chungtu.SO_CT,'PS_CO')|number }}</td>
+          <td><strong>{{ chungtu.TON_QUY }} </strong> </td>
+            
+        </tr>
+      
+      </ng-container>
+      
+        </tbody>
+      </table>
+      </div>
+
+    <p style="text-align: right; margin-right: 20px;" >
+      Ngày.... tháng.... năm....
+    </p>
+
+    <div class="sign" >
+      <div class="establishment">
+        <p  >
+          <strong>NGƯỜI LẬP</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class=" accountant">
+        <p  >
+          <strong>KẾ TOÁN TRƯỞNG</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="undersecretary">
+        <p  >
+          <strong>Giám Đốc</strong>
+        </p>
+        <p  >
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+    </div>
+    
+    </div>

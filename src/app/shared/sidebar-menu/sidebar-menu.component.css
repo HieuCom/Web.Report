@@ -1,3 +1,50 @@
-.main_menu_side{
+.main_menu_side {
     margin-top: 80px;
+    z-index: 1000;
+}
+.item a{
+    color: white;
+    cursor: pointer;
+    padding:5px 10px;
+}
+a[routerLink="inventory/tonghopbaocao"] i.fa {
+    font-weight: 50; 
+  
+    color: black;
+  }
+
+.item a:hover{
+    background-color: rgb(176, 173, 173);
+}
+
+.sub__menu{
+    display: none;
+    margin-left: 10px;
+}
+.sub__menu-item{
+    margin: 10px 0;
+}
+
+.sub__menu-lv2{
+    display: none;
+    width: 100%;
+    margin-left: 0;
+}
+.sub__menu-lv2 ul li {
+   /* text-align: left; */
+    margin-top: 10px;
+
+}
+
+.sub__menu-lv2 ul li a {
+    padding: 5px;
+ }
+
+ul{
+   
+    list-style: none;
+    
+}
+li{
+    text-decoration: none;
 }

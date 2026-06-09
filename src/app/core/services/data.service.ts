@@ -5,9 +5,10 @@ import { AuthenService } from './authen.service';
 import { NotificationService } from './notification.service';
 import { UtilityService } from './utility.service';
 import { MessageContstants } from './../common/message.constants';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+
 @Injectable()
 export class DataService {
   private headers = new HttpHeaders();
@@ -18,6 +19,36 @@ export class DataService {
     private _utilityService: UtilityService) {
     this.headers = this.headers.set('Content-Type', 'application/json');
     this.headers = this.headers.set('Authorization', 'Bearer ' + _authenService.getLoggedInUser().access_token);
+  }
+
+  postCanDoiKeToan(uri: string, data?: any) {
+
+    return this._http.post(environment.BASE_API + uri, data, { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  // err hoatdong-list.component.ts:43 apps.cnsvietnam.com.vn/demo/api/KQHDSXKD 415 (Unsupported Media Type)
+  getHDSXKD(uri: string, data?: any) {
+
+    return this._http.get(environment.BASE_API + uri, data)
+      .pipe(catchError(this.handleError));
+  }
+
+  post2CanDoiKeToan(uri: string, data: { TU_NGAY: Date, DEN_NGAY: Date }) {
+    return this._http.post(environment.BASE_API + uri, data, { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+  
+  getCanDoiKeToan(uri: string) {
+
+    return this._http.get(environment.BASE_API + uri, { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  getKho(uri: string) {
+
+    return this._http.get(environment.BASE_API + uri, { headers: this.headers })
+      .pipe(catchError(this.handleError));
   }
 
   get(uri: string) {

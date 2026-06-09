@@ -1,6 +1,8 @@
 {
   "name": "CNS-CRM",
   "version": "0.0.0",
+  "BASE_URL": "http://apps.cnsvietnam.com.vn/demo",
+  "BASE_API": "http://apps.cnsvietnam.com.vn/demo/api",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -28,13 +30,13 @@
     "angular-2-dropdown-multiselect": "^1.9.0",
     "angular-tree-component": "^8.5.6",
     "animate.css": "^4.1.1",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "chart.js": "^2.9.4",
     "core-js": "^3.9.1",
     "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "install": "^0.13.0",
-    "jquery": "^3.6.0",
+    "jquery": "^3.7.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "ng2-charts": "^2.4.2",
@@ -42,6 +44,7 @@
     "ngx-bootstrap": "^7.0.0-rc.1",
     "npm": "^7.19.1",
     "rxjs": "^6.6.6",
+    "save": "^2.9.0",
     "signalr": "^2.4.1",
     "tinymce": "^5.8.0",
     "zone.js": "~0.11.4"

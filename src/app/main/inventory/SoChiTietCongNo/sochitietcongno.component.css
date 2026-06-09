@@ -1,0 +1,76 @@
+.panel-search{
+    display: inline-flex;
+}
+.panel-filter button{
+    border-radius: 0;
+    margin-right: 0;
+}
+.filter-service-type div{
+    display: inline-block;
+    padding-right: 10px ;
+}
+.btn-add-new{
+    text-align: right;
+}
+.view-options{
+    text-align:right;
+    margin-top: 20px;
+}
+.view-options select{
+    width: auto;
+    display: inline-block;
+
+}
+.label-created-date{
+    padding-top: 5px;
+}
+.select-item{
+    cursor: pointer;
+}
+.select-item:hover{
+    background-color: #e6e6e6;
+}
+.matk,
+.time,
+.nametb{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 100px;
+  }
+  .table-responsive{
+    width: 100%;
+  }
+.sign{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.caption-flex {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+.large-column {
+    max-width: 90px; /* Điều chỉnh độ rộng của các cột lớn */
+}
+
+.small-column {
+    max-width: 50px; /* Điều chỉnh độ rộng của các cột lớn */
+}
+.sum{
+    float: right;
+    margin-right: 20px;
+}
+
+
+
+
+

@@ -51,6 +51,7 @@ export class SelectTonKhoComponent implements OnInit {
   public pageSize: number = 10;
   public pageDisplay: number = 10;
   public totalRow: number;
+  public filterKeyword = '';
 
   constructor(public bsModalRef: BsModalRef,
     private notificationService: NotificationService,
@@ -118,7 +119,8 @@ export class SelectTonKhoComponent implements OnInit {
       "@ID_PSCT_N", 0,
       "@ID_PSCT_X", 0,
       "@PageNumber", this.pageNumber,
-      "@PageSize", this.pageSize);
+      "@PageSize", this.pageSize,
+      "@Keyword",this.filterKeyword);
 
     let params = { "CommandText": "uspTonDichDanhChiTiet_Page", "CommandType": 1025, "Parameters": data }
     await this.dataService.post('/commands/paged', params).subscribe((response: any) => {
@@ -137,6 +139,8 @@ export class SelectTonKhoComponent implements OnInit {
       value.SO_LUONG_GUI = value.SL_TON
       this.checkBoxValue.push(value)
     }
+  }
+  onSearch(value: any){
   }
 }
 

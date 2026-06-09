@@ -1,27 +1,15 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-  <div class="menu_section">
-    <ul class="nav side-menu">
-      <!-- <li><a routerLink="/main" routerLinkActive="active"><i class="fa fa-home"></i> {{'home_page' | translate}}</a></li> -->
-      <!-- <li><a routerLink="/main/dashboard" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' | translate}}</a></li> -->
-      <li><a routerLink="" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' | translate}}</a>
-      </li>
-
-      <li *ngIf="userLevel < 3"><a routerLink="inventory/nhapkho" routerLinkActive="active">Phiếu nhập hàng</a></li>
-      <li *ngIf="userLevel < 3"><a routerLink="inventory/banhang" routerLinkActive="active">Phiếu xuất hàng</a></li>
-      <li *ngIf="userLevel >= 3"> <a routerLink="inventory/baocao" routerLinkActive="active">Theo dõi đơn hàng</a> </li>
-
-      <!-- <li ><a routerLink="inventory/nhapkho" routerLinkActive="active">Phiếu nhập hàng</a></li>
-      <li ><a routerLink="inventory/banhang" routerLinkActive="active">Phiếu xuất hàng</a></li>
-      <li> <a routerLink="inventory/baocao" routerLinkActive="active">Theo dõi đơn hàng</a> </li> -->
-      <!-- <li><a> <i [ngClass]=""></i> Danh mục hệ thống <span class="fa fa-chevron-down"></span></a>
-        <ul class="nav child_menu">
-          <li><a routerLink="inventory/banhang" routerLinkActive="active">Phiếu xuất hàng</a></li> 
-         
-         <li><a routerLink="inventory/nhaphangtam" routerLinkActive="active">Phiếu nhập hàng tạm</a></li> 
-          <li><a routerLink="task/vehicle" routerLinkActive="active">Test</a></li>         
-        </ul>
-      </li>  -->
-    </ul>
-  </div>
-
+  <ul class="nav side-menu">
+    <li><a routerLink="/main" routerLinkActive="active"><i class="fa fa-dashboard"></i> {{'dash_board' |
+        translate}}</a>
+    </li>
+    <li *ngFor="let item of functions"><a> <i
+          [ngClass]="item.IconAwesome === null ? 'fa fa-spinner' : 'fa ' + item.IconAwesome"></i> {{item.Name}} <span
+          *ngIf="item.ChildFunctions.length>0" class="fa fa-chevron-down"></span></a>
+      <ul class="nav child_menu">
+        <li *ngFor="let subItem of item.ChildFunctions"><a routerLink="{{subItem.Url}}"
+            routerLinkActive="active">{{subItem.Name}}</a></li>
+      </ul>
+    </li>
+  </ul>
 </div>

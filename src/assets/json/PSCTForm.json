@@ -17,18 +17,18 @@
         "Enabled": true,
         "type": "number",
         "edit": false
-      },
-      "SL_YEUCAU": {
-        "Name": "SL_YEUCAU",
-        "Caption": "Số KG",
+      },     
+      "SO_LUONG": {
+        "Name": "SO_LUONG",
+        "Caption": "Số lượng",
         "Width": 10,
         "Format": "#,###.###",
         "type": "number",
         "edit": true
       },
-      "SO_LUONG": {
-        "Name": "SO_LUONG",
-        "Caption": "Số lượng",
+      "SL_YEUCAU": {
+        "Name": "SL_YEUCAU",
+        "Caption": "Số KG",
         "Width": 10,
         "Format": "#,###.###",
         "type": "number",
@@ -56,14 +56,14 @@
       "chonton": {
         "Name": "chonton",
         "Caption": "Chọn",
-        "Width": 15,
+        "Width": 5,
         "Enabled": true,
         "type": "checkbox"
       },
       "SO_CT": {
         "Name": "SO_CT",
         "Caption": "Số Chứng từ",
-        "Width": 15,
+        "Width": 10,
         "Enabled": true,
         "type": "string"
       },
@@ -101,6 +101,14 @@
       "SO_LUONG_GUI": {
         "Name": "SO_LUONG_GUI",
         "Caption": "Lượng xuất",
+        "Width": 15,
+        "Format": "#,###.###",
+        "type": "number",
+        "edit": true
+      },
+      "SL_YEUCAU": {
+        "Name": "SL_YEUCAU",
+        "Caption": "Số KG",
         "Width": 15,
         "Format": "#,###.###",
         "type": "number",
