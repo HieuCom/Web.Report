@@ -1,0 +1,59 @@
+<h1 class="modal-title">Khoản Mục</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachKhoanMuc()"
+    placeholder="Tìm kiếm theo tên khoản mục..."
+    class="form-control"
+  />
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapkhoanMuc">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let khoanMuc of danhSachKhoanMuc"
+        (click)="chonKhoanMuc(khoanMuc.ID_KM)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapkhoanMuc">
+          <strong *ngIf="khoanMuc.BOLD == true && colInfo.Format == 'd'">{{
+            khoanMuc[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="khoanMuc.BOLD != true && colInfo.Format == 'd'">{{
+            khoanMuc[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              khoanMuc.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ khoanMuc[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              khoanMuc.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ khoanMuc[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="khoanMuc.BOLD == true && colInfo.Format == ''">{{
+            khoanMuc[colInfo.Name]
+          }}</strong>
+          <span *ngIf="khoanMuc.BOLD != true && colInfo.Format == ''">{{
+            khoanMuc[colInfo.Name]
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

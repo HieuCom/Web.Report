@@ -1,0 +1,50 @@
+<h1 class="modal-title">Kho</h1>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapkho">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let kho of danhSachKho"
+        (click)="chonKho(kho.ID_KHO)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapkho">
+          <strong *ngIf="kho.BOLD == true && colInfo.Format == 'd'">{{
+            kho[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="kho.BOLD != true && colInfo.Format == 'd'">{{
+            kho[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              kho.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ kho[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              kho.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ kho[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="kho.BOLD == true && colInfo.Format == ''">{{
+            kho[colInfo.Name]
+          }}</strong>
+          <span *ngIf="kho.BOLD != true && colInfo.Format == ''">{{
+            kho[colInfo.Name]
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

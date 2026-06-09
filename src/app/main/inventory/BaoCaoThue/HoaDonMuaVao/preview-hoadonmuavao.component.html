@@ -1,0 +1,126 @@
+<div class="print-section">
+  <div class="title">
+    <div class="temp"></div>
+
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p>ngày 22/12/2014</p>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <h2 class="nametb">{{ this.nametable }}</h2>
+    <p class="time">
+      Từ ngày: {{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
+      {{ this.toDate.split("-").reverse().join("/") }}
+    </p>
+    <h2 class="nametb">Tên kho: {{ this.namewh }}</h2>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th rowspan="2" class="column">STT</th>
+
+          <th colspan="2" class="column">
+            Hóa đơn, chứng từ chứng từ biên lại nộp thuế
+          </th>
+
+          <th rowspan="2" class="column">Tên người bán</th>
+
+          <th rowspan="2" class="column">MÃ số thuế của người bán</th>
+
+          <th rowspan="2" class="column">Giá trị HHDV mua vào chưa có thuế</th>
+
+          <th rowspan="2" class="column">
+            Thuế GTGT đủ điều kiện khấu trừ thuế
+          </th>
+
+          <th rowspan="2" class="column">Ghi chú</th>
+        </tr>
+
+        <tr>
+          <th>Số hóa đơn</th>
+          <th>Ngày, tháng, năm lâp hóa đơn</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let chungtu of chungtus; let i = index">
+          <tr
+            *ngIf="
+              i == 0 || chungtus[i].TEN_NHOM_VAT != chungtus[i - 1].TEN_NHOM_VAT
+            "
+          >
+            <td>
+              <strong>{{ chungtu.TEN_NHOM_VAT }} </strong>
+            </td>
+          </tr>
+
+          <!-- Hiển thị thông tin của từng mục -->
+          <tr class="select-item">
+            <td *ngFor="let colInfo of columnInfonhapkho">
+              <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">{{
+                chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+              }}</strong>
+              <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">{{
+                chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+              }}</span>
+
+              <strong
+                *ngIf="
+                  chungtu.BOLD == true &&
+                  colInfo.Format == '#,##0.##;(#,##0.##);#'
+                "
+                >{{ chungtu[colInfo.Name] | number }}</strong
+              >
+              <span
+                *ngIf="
+                  chungtu.BOLD != true &&
+                  colInfo.Format == '#,##0.##;(#,##0.##);#'
+                "
+                >{{ chungtu[colInfo.Name] | number }}</span
+              >
+
+              <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">{{
+                chungtu[colInfo.Name]
+              }}</strong>
+              <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">{{
+                chungtu[colInfo.Name]
+              }}</span>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="print-date">Ngày.... tháng.... năm....</p>
+
+  <div class="print-sign">
+    <div class="establishment">
+      <p>
+        <strong>NGƯỜI LẬP</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="accountant">
+      <p>
+        <strong>KẾ TOÁN TRƯỞNG</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="undersecretary">
+      <p>
+        <strong>Giám Đốc</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+<button class="btn btn-primary print-back-btn" (click)="goBack()">
+  ← Quay lại
+</button>
+
+<button
+  class="btn btn-primary print-back-btn"
+  type="submit"
+  (click)="printSection()"
+>
+  <span class="glyphicon glyphicon-print"></span> In
+</button>
+<div class="print-section">
+  <div class="title">
+    <div class="temp">
+      <!-- <p>CÔNG TY CP CÔNG NGHỆ VÀ TRUYỀN THÔNG CNS</p>
+        <p>Số 64/205 Định Công Thượng, Định Công, Hoàng Mai, Hà Nội</p>
+       -->
+    </div>
+
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p>ngày 22/12/2014</p>
+    </div>
+  </div>
+
+  <!-- <div [innerHTML]="safeHtml"></div> -->
+  <div class="table-responsive">
+    <h2 class="nametb">{{ this.nametable }}</h2>
+    <p class="time">
+      Từ ngày:{{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
+      {{ this.toDate.split("-").reverse().join("/") }}
+    </p>
+
+    <table class="table table-bordered">
+      <!-- <thead [innerHTML]="headHtml" > -->
+      <thead>
+        <tr>
+          <th *ngFor="let colInfo of columnInfonhapkho" class="column">
+            <div>
+              {{ colInfo.Caption }}
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let chungtu of chungtus; let i = index" class="select-item">
+          <td *ngFor="let colInfo of columnInfonhapkho">
+            <span *ngIf="colInfo.Format == 'd'">{{
+              chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+            }}</span>
+            <span *ngIf="colInfo.Format == '#,##0.##;(#,##0.##);#'">{{
+              chungtu[colInfo.Name] | number
+            }}</span>
+            <span *ngIf="colInfo.Format == ''">{{
+              chungtu[colInfo.Name]
+            }}</span>
+            <span *ngIf="colInfo.Format == 'calc'">{{
+              chungtu[colInfo.Name1] - chungtu[colInfo.Name2] | number
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="print-date">Ngày.... tháng.... năm....</p>
+
+  <div class="print-sign">
+    <div class="establishment">
+      <p>
+        <strong>NGƯỜI LẬP</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="accountant">
+      <p>
+        <strong>KẾ TOÁN TRƯỞNG</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="undersecretary">
+      <p>
+        <strong>Giám Đốc</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<h1 class="modal-title">Đối tượng</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachDoiTuong()"
+    placeholder="Tìm kiếm theo tên đối tượng..."
+    class="form-control"
+  />
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapdoiTuong">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let doiTuong of danhSachDoiTuong"
+        (click)="chonDoiTuong(doiTuong.ID_DT)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapdoiTuong">
+          <strong *ngIf="doiTuong.BOLD == true && colInfo.Format == 'd'">{{
+            doiTuong[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="doiTuong.BOLD != true && colInfo.Format == 'd'">{{
+            doiTuong[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              doiTuong.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ doiTuong[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              doiTuong.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ doiTuong[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="doiTuong.BOLD == true && colInfo.Format == ''">{{
+            doiTuong[colInfo.Name]
+          }}</strong>
+          <span *ngIf="doiTuong.BOLD != true && colInfo.Format == ''">{{
+            doiTuong[colInfo.Name]
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

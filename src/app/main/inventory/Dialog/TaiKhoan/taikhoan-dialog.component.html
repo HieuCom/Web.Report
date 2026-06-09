@@ -1,0 +1,59 @@
+<h1 class="modal-title">Tài Khoản</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachTaiKhoan()"
+    placeholder="Tìm kiếm theo tài Tài Khoản..."
+    class="form-control"
+  />
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapTaiKhoan">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let chungtu of danhSachTaiKhoan"
+        (click)="chonTaiKhoan(chungtu.MA_TK)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapTaiKhoan">
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == 'd'">{{
+            chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == 'd'">{{
+            chungtu[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              chungtu.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ chungtu[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              chungtu.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ chungtu[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="chungtu.BOLD == true && colInfo.Format == ''">{{
+            chungtu[colInfo.Name]
+          }}</strong>
+          <span *ngIf="chungtu.BOLD != true && colInfo.Format == ''">{{
+            chungtu[colInfo.Name]
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

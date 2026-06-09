@@ -1,0 +1,72 @@
+<h1 class="modal-title">Nhóm Sản Phẩm</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachNhomSanPham()"
+    placeholder="Tìm kiếm theo tên nhóm sản phẩm..."
+    class="form-control"
+  />
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapnhomSanPham">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let nhomSanPham of danhSachNhomSanPham"
+        (click)="chonNhomSanPham(nhomSanPham.ID_NHOM_NL)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapnhomSanPham">
+          <strong *ngIf="nhomSanPham.BOLD == true && colInfo.Format == 'd'">{{
+            nhomSanPham[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="nhomSanPham.BOLD != true && colInfo.Format == 'd'">{{
+            nhomSanPham[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              nhomSanPham.BOLD == true &&
+              colInfo.Format == '' &&
+              colInfo.Name !== 'BIT_LOAI_NL'
+            "
+          >
+            {{ nhomSanPham[colInfo.Name] }}
+          </strong>
+
+          <span
+            *ngIf="
+              nhomSanPham.BOLD != true &&
+              colInfo.Format == '' &&
+              colInfo.Name !== 'BIT_LOAI_NL'
+            "
+          >
+            {{ nhomSanPham[colInfo.Name] }}
+          </span>
+
+          <!-- HIỂN THỊ TÊN LOẠI NGUỒN LỰC -->
+          <strong
+            *ngIf="nhomSanPham.BOLD == true && colInfo.Name === 'BIT_LOAI_NL'"
+          >
+            {{ getTenLoaiNguonLuc(nhomSanPham[colInfo.Name]) }}
+          </strong>
+
+          <span
+            *ngIf="nhomSanPham.BOLD != true && colInfo.Name === 'BIT_LOAI_NL'"
+          >
+            {{ getTenLoaiNguonLuc(nhomSanPham[colInfo.Name]) }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,120 @@
+<button class="btn btn-primary print-back-btn" (click)="goBack()">
+  ← Quay lại
+</button>
+<div class="print-card">
+  <div class="print-section">
+    <div class="title">
+      <div class="temp"></div>
+
+      <div class="namecp">
+        <p>Mẫu số B 01 - DN</p>
+        <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+        <p>ngày 22/12/2014</p>
+      </div>
+    </div>
+
+    <!-- <div [innerHTML]="safeHtml"></div> -->
+    <div class="table-responsive">
+      <p class="nametb">{{ this.nametable }}</p>
+      <h4 class="matk">Tài khoản: {{ this.ma_tk }}</h4>
+      <p class="time">
+        Từ ngày: {{ this.fromDate.split("-").reverse().join("/") }} đến ngày:
+        {{ this.toDate.split("-").reverse().join("/") }}
+      </p>
+
+      <div class="account">
+        <div class="account-detail">
+          Dư nợ đầu ngày: {{ this.nodauky | number }}
+        </div>
+        <div class="account-detail">Phát sinh nợ: {{ this.psno | number }}</div>
+        <div class="account-detail">Phát sinh có: {{ this.psco | number }}</div>
+        <div class="account-detail">
+          Dư nợ cuối ngày: {{ this.nocuoiky | number }}
+        </div>
+      </div>
+
+      <table class="table table-bordered">
+        <!-- <thead [innerHTML]="headHtml" > -->
+        <thead>
+          <tr>
+            <th rowspan="2" class="column">Ngày</th>
+            <th colspan="2" class="column">SỐ CT</th>
+
+            <th rowspan="2" class="column">DIỄN GIẢI</th>
+
+            <th colspan="2" class="column">SỐ TIỀN</th>
+            <th rowspan="2" class="column">TỒN QUỸ</th>
+          </tr>
+
+          <tr>
+            <th class="column">PT</th>
+            <th class="column">PC</th>
+            <th class="column">THU</th>
+            <th class="column">CHI</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- tên nhóm vật tư -->
+          <ng-container *ngFor="let chungtu of chungtus; let i = index">
+            <!-- Thêm hàng mới để hiển thị tên nhóm -->
+            <tr *ngIf="i == 0 || chungtus[i].SO_CT != chungtus[i - 1].SO_CT">
+              <td>
+                {{ chungtu.NGAY_CT | date: "dd/MM/yyyy" }}
+              </td>
+
+              <!-- If chungtu.CRDB is not true, display value in PC column -->
+              <td>
+                <div *ngIf="chungtu.CRDB == true">{{ chungtu.SO_CT }}</div>
+                <div *ngIf="chungtu.CRDB == false"></div>
+              </td>
+
+              <td>
+                <div *ngIf="chungtu.CRDB == false">{{ chungtu.SO_CT }}</div>
+                <div *ngIf="chungtu.CRDB == true"></div>
+              </td>
+
+              <td>
+                <div>{{ chungtu.DIEN_GIAI }}</div>
+              </td>
+              <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_NO") | number }}</td>
+              <td>{{ getTotal(chungtus, chungtu.SO_CT, "PS_CO") | number }}</td>
+              <td>
+                <div>{{ chungtu.TON_QUY }}</div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="print-date">Ngày.... tháng.... năm....</p>
+
+    <div class="print-sign">
+      <div class="establishment">
+        <p>
+          <strong>NGƯỜI LẬP</strong>
+        </p>
+        <p>
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="accountant">
+        <p>
+          <strong>KẾ TOÁN TRƯỞNG</strong>
+        </p>
+        <p>
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+      <div class="undersecretary">
+        <p>
+          <strong>Giám Đốc</strong>
+        </p>
+        <p>
+          <strong>(Ký, họ tên)</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

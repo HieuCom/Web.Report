@@ -1,0 +1,103 @@
+<button class="btn btn-primary print-back-btn" (click)="goBack()">
+  ← Quay lại
+</button>
+<div class="print-section">
+  <div class="title">
+    <div class="temp"></div>
+
+    <div class="namecp">
+      <p>Mẫu số B 01 - DN</p>
+      <p>Ban hành theo Thông tư 200/2014/TT-BTC</p>
+      <p>ngày 22/12/2014</p>
+    </div>
+  </div>
+
+  <!-- <div [innerHTML]="safeHtml"></div> -->
+  <div class="table-responsive">
+    <h2 class="nametb">{{ this.nametable }}</h2>
+    <p class="time">
+      Từ ngày:{{ this.fromDate | date: "dd/MM/yyyy" }} đến ngày:
+      {{ this.toDate | date: "dd/MM/yyyy" }}
+    </p>
+
+    <p class="matk">Tên tài khoản:{{ this.ma_tk }}</p>
+
+    <div class="account">
+      <p>Dư có đầu ngày : {{ getSum(chungtus, "DK") | number }}</p>
+      <p>Phát sinh nợ: {{ getSum(chungtus, "PSN") | number }}</p>
+      <p>Phát sinh có: {{ getSum(chungtus, "PSC") | number }}</p>
+      <p>Dư có cuối ngày: {{ getSum(chungtus, "CK") | number }}</p>
+    </div>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2" class="column">Chứng từ</th>
+
+          <th rowspan="2" class="column">Diễn giải</th>
+
+          <th rowspan="2" class="column">Tk Đ.ứ</th>
+          <th rowspan="2" class="column">PS Nợ</th>
+          <th rowspan="2" class="column">PS Có</th>
+        </tr>
+
+        <tr>
+          <th class="column">Ngày CT</th>
+          <th class="column">Số CT</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngFor="let chungtu of chungtus; let i = index">
+          <tr>
+            <td rowspan="3" colspan="3">
+              {{ chungtu.TEN_DT }} ({{ chungtu.MA_DT }})
+            </td>
+            <td>Dư đầu</td>
+            <td>{{ chungtu.DKN }}</td>
+            <td>{{ chungtu.DKC }}</td>
+          </tr>
+          <tr>
+            <td>Phát sinh</td>
+            <td>{{ chungtu.PSN }}</td>
+            <td>{{ chungtu.PSC }}</td>
+          </tr>
+          <tr>
+            <td>Dư cuối</td>
+            <td>{{ chungtu.CKN }}</td>
+            <td>{{ chungtu.CKC }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="print-date">Ngày.... tháng.... năm....</p>
+
+  <div class="print-sign">
+    <div class="establishment">
+      <p>
+        <strong>NGƯỜI LẬP</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="accountant">
+      <p>
+        <strong>KẾ TOÁN TRƯỞNG</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+    <div class="undersecretary">
+      <p>
+        <strong>Giám Đốc</strong>
+      </p>
+      <p>
+        <strong>(Ký, họ tên)</strong>
+      </p>
+    </div>
+  </div>
+</div>

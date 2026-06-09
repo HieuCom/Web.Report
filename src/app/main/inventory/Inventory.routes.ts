@@ -1,96 +1,108 @@
+import { Routes, RouterModule } from "@angular/router";
+import { TheoDoiChungTuComponent } from "./TheoDoiChungTu/theodoichungtu.component";
+import { HoaDongListComponent } from "./BaoCaoTaiChinh/HoatDongSanXuatKinhDoanh/hoatdongsanxuatkinhdoanh.component";
+import { PrintCanDoiKeToanComponent } from "./PrintCDKT/CanDoiKeToan/TheoDoiChungTu/print-candoiketoan.component";
+import { LuuChuyenTienTeListComponent2 } from "./BaoCaoTaiChinh/LuuChuyenTienTe/lctt.component";
+import { CanDoiKeToanComponent2 } from "./BaoCaoTaiChinh/CanDoiKeToan/cdkt.component";
+import { PrintTKComponent } from "./PrintTonKho/printtk.component";
+import { SoNhatKyChungComponent } from "./BaoCaoNhatKyChung/TheoDoiHoatDong/sonhatkychung.component";
+import { PreviewComponent } from "./Preview/preview.component";
+import { SoChiTietTKComponent } from "./BaoCaoNhatKyChung/SoChiTietTaiKhoan/sochitiettk.component";
 
-import { Routes, RouterModule } from '@angular/router';
-import { TheoDoiChungTuComponent } from './TheoDoiChungTu/theodoichungtu.component';
-import { HoaDongListComponent } from './TheoDoiHoatDong/hoatdong-list.component';
-import { PrintCanDoiKeToanComponent } from './PrintCDKT/CanDoiKeToan/TheoDoiChungTu/print-candoiketoan.component';
-import { LuuChuyenTienTeListComponent2 } from './TheoDoiHoatDong/lctt.component';
-import { CanDoiKeToanComponent2 } from './TheoDoiHoatDong/cdkt.component';
-import { PrintTKComponent } from './PrintTonKho/printtk.component';
-import { SoNhatKyChungComponent } from './TheoDoiHoatDong/sonhatkychung.component';
-import { PreviewComponent } from './Preview/preview.component';
-import { SoChiTietTKComponent } from './TheoDoiHoatDong/sochitiettk.component';
+import { PreviewSQTNHComponent } from "./BaoCaoNganHang/SoTienGuiNH/preview-sqnh.component";
 
-import { PreviewSQTNHComponent } from './SoTienGuiNH/preview-sqnh.component';
-
-import { SoQuyTienGuiNHComponent } from './SoTienGuiNH/soquytienguinh.component';
-import { SoQuyTongHopComponent } from './SoTienGuiNH/tonghop.component';
-import { TongHopBaoCaoComponent } from './TongHopBaoCao/tonghopbaocao.component';
-import { TheKhoComponent } from './TheKho/thekho.component';
-import { PreviewTheKhoComponent } from './TheKho/preview-thekho.component';
-import { HoaDonMuaVaoComponent } from './HoaDonMuaVao/hoadonmuavao.component';
-import { PreviewHDMVComponent } from './HoaDonMuaVao/preview-hoadonmuavao.component';
-import { HoaDonBanRaComponent } from './HoaDonMuaVao/hoadonbanra.component';
-import { SoChiTietKhoComponent } from './SoChiTietKho/sochitietkho.component';
-import { PreviewSCTKComponent } from './SoChiTietKho/preview-sochitietkho.component';
-import { SoChiTietCongNoComponent } from './SoChiTietCongNo/sochitietcongno.component';
-import { PreviewSCCNComponent } from './SoChiTietCongNo/preview-sochitietcongno.component';
-import { SoQuyTienMatComponent } from './SoQuyTienMat/soquytienmat.component';
-import { PreviewBKCTComponent } from './BanKeChungTu/preview-bkct.component';
-import { BangKeChungTuComponent } from './BanKeChungTu/bangkechungtu.component';
-import { BaoCaoLaiLoComponent } from './BaoCaoLaiLo/baocaolailo.component';
-import { PreviewBCLLComponent } from './BaoCaoLaiLo/preview-baocaolailo.component';
-import { BangKeBanHangComponent } from './BangKeBanHang/bangkebanhang.component';
-import { PreviewBKBHComponent } from './BangKeBanHang/preview-bangkebanhang.component';
-import { PreviewToKhaiThueComponent } from './ToKhaiThue/preview-tokhaithue.component';
-import { ToKhaiThueComponent } from './ToKhaiThue/tokhaithue.component';
-import { PreViewNoGr } from './PreviewNoGr/previewnogr.component';
-import { KhoDialogComponent } from './Dialog/kho-dialog.component';
-import { NguonLucDialogComponent } from './Dialog/nguonluc-dialog.component';
-import { TaiKhoanDialogComponent } from './Dialog/taikhoan-dialog.component';
-import { TaiKhoanCNDialogComponent } from './Dialog/taikhoanCN-dialog.component';
-import { NhapXuatTonComponent } from './NhapXuatTon/nhapxuatton.component';
-import { PreviewNXTComponent } from './NhapXuatTon/preview-nhapxuatton.component';
-import { SoCaiTKComponent } from './TheoDoiHoatDong/socaitk.component';
-import { CanDoiCongNoComponent } from './TheoDoiHoatDong/cdcn.component';
+import { SoQuyTienGuiNHComponent } from "./BaoCaoNganHang/SoTienGuiNH/soquytienguinh.component";
+import { SoQuyTongHopComponent } from "./BaoCaoNganHang/SoTienGuiNH/tonghop.component";
+import { TongHopBaoCaoComponent } from "./TongHopBaoCao/tonghopbaocao.component";
+import { TheKhoComponent } from "./BaoCaoHangHoa/TheKho/thekho.component";
+import { PreviewTheKhoComponent } from "./BaoCaoHangHoa/TheKho/preview-thekho.component";
+import { HoaDonMuaVaoComponent } from "./BaoCaoThue/HoaDonMuaVao/hoadonmuavao.component";
+import { PreviewHDMVComponent } from "./BaoCaoThue/HoaDonMuaVao/preview-hoadonmuavao.component";
+import { HoaDonBanRaComponent } from "./BaoCaoThue/HoaDonMuaVao/hoadonbanra.component";
+import { SoChiTietKhoComponent } from "./BaoCaoHangHoa/SoChiTietKho/sochitietkho.component";
+import { PreviewSCTKComponent } from "./BaoCaoHangHoa/SoChiTietKho/preview-sochitietkho.component";
+import { SoChiTietCongNoComponent } from "./BaoCaoCongNo/SoChiTietCongNo/sochitietcongno.component";
+import { PreviewSCCNComponent } from "./BaoCaoCongNo/SoChiTietCongNo/preview-sochitietcongno.component";
+import { SoQuyTienMatComponent } from "./BaoCaoTienMat/SoQuyTienMat/soquytienmat.component";
+import { PreviewBKCTComponent } from "./BaoCaoNhatKyChung/BanKeChungTu/preview-bkct.component";
+import { BangKeChungTuComponent } from "./BaoCaoNhatKyChung/BanKeChungTu/bangkechungtu.component";
+import { BaoCaoLaiLoComponent } from "./BaoCaoBanHang/BaoCaoLaiLo/baocaolailo.component";
+import { PreviewBCLLComponent } from "./BaoCaoBanHang/BaoCaoLaiLo/preview-baocaolailo.component";
+import { BangKeBanHangComponent } from "./BaoCaoBanHang/BangKeBanHang/bangkebanhang.component";
+import { PreviewBKBHComponent } from "./BaoCaoBanHang/BangKeBanHang/preview-bangkebanhang.component";
+import { PreviewToKhaiThueComponent } from "./BaoCaoThue/ToKhaiThue/preview-tokhaithue.component";
+import { ToKhaiThueComponent } from "./BaoCaoThue/ToKhaiThue/tokhaithue.component";
+import { PreViewNoGr } from "./PreviewNoGr/previewnogr.component";
+import { KhoDialogComponent } from "./Dialog/Kho/kho-dialog.component";
+import { NguonLucDialogComponent } from "./Dialog/NguonLuc/nguonluc-dialog.component";
+import { TaiKhoanDialogComponent } from "./Dialog/TaiKhoan/taikhoan-dialog.component";
+import { TaiKhoanCNDialogComponent } from "./Dialog/TaiKhoan/taikhoanCN-dialog.component";
+import { NhapXuatTonComponent } from "./BaoCaoHangHoa/NhapXuatTon/nhapxuatton.component";
+import { PreviewNXTComponent } from "./BaoCaoHangHoa/NhapXuatTon/preview-nhapxuatton.component";
+import { SoCaiTKComponent } from "./BaoCaoNhatKyChung/SoCaiTaiKhoan/socaitk.component";
+import { CanDoiCongNoComponent } from "./BaoCaoCongNo/BangCanDoiCongNo/cdcn.component";
+import { PreviewSQTMComponent } from "./BaoCaoTienMat/SoQuyTienMat/preview-sqtm.component";
+import { VuViecDialogComponent } from "./Dialog/VuViec/vuviec-dialog.component";
+import { SanPhamDialogComponent } from "./Dialog/SanPham/sanpham-dialog.component";
+import { DoiTuongDialogComponent } from "./Dialog/DoiTuong/doituong-dialog.component";
+import { YeuToPhiDialogComponent } from "./Dialog/YeuToPhi/yeutophi-dialog.component";
+import { NhomDoiTuongDialogComponent } from "./Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
+import { NhomNguonLucDialogComponent } from "./Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
+import { NhomSanPhamDialogComponent } from "./Dialog/NhomSanPham/nhomsanpham-dialog.component";
+import { TienTeDialogComponent } from "./Dialog/TienTe/tiente-dialog.component";
 
 const routes: Routes = [
-    { path: 'baocao', component: TheoDoiChungTuComponent },
-    { path: 'candoi', component: CanDoiKeToanComponent2 },
-    { path: 'hoatdong', component: HoaDongListComponent },
-    { path: 'luuchuyentt', component: LuuChuyenTienTeListComponent2 },
-    { path: 'nhapxuatton', component: NhapXuatTonComponent },
-    { path: 'sonhatky', component: SoNhatKyChungComponent },
-    { path: 'sochitiettk', component: SoChiTietTKComponent },
-    { path: 'soquytienmat', component: SoQuyTienMatComponent },
-    { path: 'sotienguinh', component: SoQuyTienGuiNHComponent },
-    { path: 'soquytonghop', component: SoQuyTongHopComponent },
-    { path: 'tonghopbaocao', component: TongHopBaoCaoComponent },
-    { path: 'thekho', component: TheKhoComponent },
-    { path: 'hoadonmuavao', component: HoaDonMuaVaoComponent },
-    { path: 'hoadonbanra', component: HoaDonBanRaComponent },
-    { path: 'sochitietkho', component: SoChiTietKhoComponent },
-    { path: 'sochitietcongno', component: SoChiTietCongNoComponent },
-    { path: 'bangkechungtu', component: BangKeChungTuComponent },
-    { path: 'baocaolailo', component: BaoCaoLaiLoComponent },
-    { path: 'bangkebanhang', component: BangKeBanHangComponent },
-    { path: 'tokhaithue', component: ToKhaiThueComponent },
-    { path: 'nhapxuaton', component: NhapXuatTonComponent },
-    { path: 'socaitk', component: SoCaiTKComponent },
-    { path: 'cdcn', component: CanDoiCongNoComponent },
-    
+  { path: "baocao", component: TheoDoiChungTuComponent },
+  { path: "candoi", component: CanDoiKeToanComponent2 },
+  { path: "hoatdong", component: HoaDongListComponent },
+  { path: "luuchuyentt", component: LuuChuyenTienTeListComponent2 },
+  { path: "nhapxuatton", component: NhapXuatTonComponent },
+  { path: "sonhatky", component: SoNhatKyChungComponent },
+  { path: "sochitiettk", component: SoChiTietTKComponent },
+  { path: "soquytienmat", component: SoQuyTienMatComponent },
+  { path: "sotienguinh", component: SoQuyTienGuiNHComponent },
+  { path: "soquytonghop", component: SoQuyTongHopComponent },
+  { path: "tonghopbaocao", component: TongHopBaoCaoComponent },
+  { path: "thekho", component: TheKhoComponent },
+  { path: "hoadonmuavao", component: HoaDonMuaVaoComponent },
+  { path: "hoadonbanra", component: HoaDonBanRaComponent },
+  { path: "sochitietkho", component: SoChiTietKhoComponent },
+  { path: "sochitietcongno", component: SoChiTietCongNoComponent },
+  { path: "bangkechungtu", component: BangKeChungTuComponent },
+  { path: "baocaolailo", component: BaoCaoLaiLoComponent },
+  { path: "bangkebanhang", component: BangKeBanHangComponent },
+  { path: "tokhaithue", component: ToKhaiThueComponent },
+  { path: "nhapxuaton", component: NhapXuatTonComponent },
+  { path: "socaitk", component: SoCaiTKComponent },
+  { path: "cdcn", component: CanDoiCongNoComponent },
 
-    { path: 'printCDKT', component: PrintCanDoiKeToanComponent },
-    { path: 'printTK', component: PrintTKComponent },
-    { path: 'print', component: PreviewComponent },
-    { path: 'prinSQTM', component: PreviewBKCTComponent },
-    { path: 'printSQTGNH', component: PreviewSQTNHComponent },
-    { path: 'printTheKho', component: PreviewTheKhoComponent },
-    { path: 'printHDMV', component: PreviewHDMVComponent },
-    { path: 'printSCTK', component: PreviewSCTKComponent },
-    { path: 'printSCCN', component: PreviewSCCNComponent },
-    { path: 'printBKCT', component: PreviewBKCTComponent },
-    { path: 'printBCLL', component: PreviewBCLLComponent },
-    { path: 'printBKBH', component: PreviewBKBHComponent },
-    { path: 'printTKT', component: PreviewToKhaiThueComponent },
-    { path: 'printNXT', component: PreviewNXTComponent },
-    { path: 'previewnogr', component: PreViewNoGr },
-    // test layout
-    { path: 'kho', component: KhoDialogComponent },
-    { path: 'nguonluc', component: NguonLucDialogComponent },
-    { path: 'taikhoan', component: TaiKhoanDialogComponent },
-    { path: 'taikhoanCN', component: TaiKhoanCNDialogComponent },
-
-
-
+  { path: "printCDKT", component: PrintCanDoiKeToanComponent },
+  { path: "printTK", component: PrintTKComponent },
+  { path: "print", component: PreviewComponent },
+  { path: "printSQTM", component: PreviewSQTMComponent },
+  { path: "printSQTGNH", component: PreviewSQTNHComponent },
+  { path: "printTheKho", component: PreviewTheKhoComponent },
+  { path: "printHDMV", component: PreviewHDMVComponent },
+  { path: "printSCTK", component: PreviewSCTKComponent },
+  { path: "printSCCN", component: PreviewSCCNComponent },
+  { path: "printBKCT", component: PreviewBKCTComponent },
+  { path: "printBCLL", component: PreviewBCLLComponent },
+  { path: "printBKBH", component: PreviewBKBHComponent },
+  { path: "printTKT", component: PreviewToKhaiThueComponent },
+  { path: "printNXT", component: PreviewNXTComponent },
+  { path: "previewnogr", component: PreViewNoGr },
+  // test layout
+  { path: "kho", component: KhoDialogComponent },
+  { path: "nguonluc", component: NguonLucDialogComponent },
+  { path: "sanpham", component: SanPhamDialogComponent },
+  { path: "doituong", component: DoiTuongDialogComponent },
+  { path: "nhomdoituong", component: NhomDoiTuongDialogComponent },
+  { path: "nhomsanpham", component: NhomSanPhamDialogComponent },
+  { path: "nhomnguonluc", component: NhomNguonLucDialogComponent },
+  { path: "yeutophi", component: YeuToPhiDialogComponent },
+  { path: "vuviec", component: VuViecDialogComponent },
+  { path: "tiente", component: TienTeDialogComponent },
+  { path: "taikhoan", component: TaiKhoanDialogComponent },
+  { path: "taikhoanCN", component: TaiKhoanCNDialogComponent },
 ];
 export const inventoryRouter = RouterModule.forChild(routes);

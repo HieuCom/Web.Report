@@ -1,0 +1,59 @@
+<h1 class="modal-title">Yếu tố phí</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachYeuToPhi()"
+    placeholder="Tìm kiếm theo tên yếu tố phí..."
+    class="form-control"
+  />
+</div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th *ngFor="let colInfo of columnInfonhapyeuToPhi">
+          <div>
+            {{ colInfo.Caption }}
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let yeuToPhi of danhSachYeuToPhi"
+        (click)="chonYeuToPhi(yeuToPhi.ID_YTP)"
+        class="select-item"
+      >
+        <td *ngFor="let colInfo of columnInfonhapyeuToPhi">
+          <strong *ngIf="yeuToPhi.BOLD == true && colInfo.Format == 'd'">{{
+            yeuToPhi[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</strong>
+          <span *ngIf="yeuToPhi.BOLD != true && colInfo.Format == 'd'">{{
+            yeuToPhi[colInfo.Name] | date: "dd/MM/yyyy"
+          }}</span>
+
+          <strong
+            *ngIf="
+              yeuToPhi.BOLD == true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ yeuToPhi[colInfo.Name] | number }}</strong
+          >
+          <span
+            *ngIf="
+              yeuToPhi.BOLD != true && colInfo.Format == '#,##0.##;(#,##0.##);#'
+            "
+            >{{ yeuToPhi[colInfo.Name] | number }}</span
+          >
+
+          <strong *ngIf="yeuToPhi.BOLD == true && colInfo.Format == ''">{{
+            yeuToPhi[colInfo.Name]
+          }}</strong>
+          <span *ngIf="yeuToPhi.BOLD != true && colInfo.Format == ''">{{
+            yeuToPhi[colInfo.Name]
+          }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
