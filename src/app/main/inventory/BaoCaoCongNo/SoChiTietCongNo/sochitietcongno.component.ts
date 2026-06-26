@@ -16,6 +16,7 @@ import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.compone
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-sochitietcongno",
   templateUrl: "./sochitietcongno.component.html",
@@ -87,9 +88,11 @@ export class SoChiTietCongNoComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ Chi Tiết Công Nợ");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
   }

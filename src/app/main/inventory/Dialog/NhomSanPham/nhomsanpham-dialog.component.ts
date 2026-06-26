@@ -25,15 +25,19 @@ export class NhomSanPhamDialogComponent implements OnInit {
       const response: any = await this.dataService
         .get("/NhomNguonLuc")
         .toPromise();
+
       this.danhSachNhomSanPhamGoc = response;
 
+      let data = response;
+
+      // 🔥 filter theo loại nguồn lực
       if (this.bitLoaiNL !== undefined && this.bitLoaiNL !== null) {
-        this.danhSachNhomSanPham = response.filter(
+        data = data.filter(
           (nl) => (nl.BIT_LOAI_NL & this.bitLoaiNL) === this.bitLoaiNL,
         );
-      } else {
-        this.danhSachNhomSanPham = response;
       }
+
+      this.danhSachNhomSanPham = [...data];
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -57,25 +61,37 @@ export class NhomSanPhamDialogComponent implements OnInit {
   filterDanhSachNhomSanPham() {
     const keyword = this.searchTerm?.trim();
 
-    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    // luôn bắt đầu từ data đã filter theo bitLoaiNL
+    let data = [...this.danhSachNhomSanPhamGoc];
+
+    // 🔥 áp dụng lại filter loại nguồn lực
+    if (this.bitLoaiNL !== undefined && this.bitLoaiNL !== null) {
+      data = data.filter(
+        (nl) => (nl.BIT_LOAI_NL & this.bitLoaiNL) === this.bitLoaiNL,
+      );
+    }
+
+    // nếu không search → return data theo loại
     if (!keyword) {
-      this.danhSachNhomSanPham = [...this.danhSachNhomSanPhamGoc];
+      this.danhSachNhomSanPham = data;
       return;
     }
 
     const rawSearch = keyword.toLowerCase();
     const normalizedSearch = this.normalizeString(keyword);
 
-    this.danhSachNhomSanPham = this.danhSachNhomSanPhamGoc.filter(
-      (nhomSanPham) => {
-        const tenRaw = nhomSanPham.TEN_NHOM_NL.toLowerCase();
-        const tenNormalized = this.normalizeString(nhomSanPham.TEN_NHOM_NL);
+    this.danhSachNhomSanPham = data.filter((nsp) => {
+      const tenRaw = (nsp.TEN_NHOM_NL || "").toLowerCase();
+      const tenNormalized = this.normalizeString(nsp.TEN_NHOM_NL || "");
 
-        return (
-          tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
-        );
-      },
-    );
+      const maRaw = (nsp.MA_NHOM_NL || "").toLowerCase();
+
+      return (
+        maRaw.includes(rawSearch) ||
+        tenRaw.includes(rawSearch) ||
+        tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   LOAI_NGUON_LUC = {

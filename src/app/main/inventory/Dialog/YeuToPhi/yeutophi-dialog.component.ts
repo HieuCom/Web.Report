@@ -10,6 +10,7 @@ import { NotificationService } from "src/app/core/services/notification.service"
 export class YeuToPhiDialogComponent implements OnInit {
   @Output() yeuToPhiSelected = new EventEmitter<number>();
   danhSachYeuToPhi: any[];
+  danhSachYeuToPhiGoc: any[] = [];
   public searchTerm: string = "";
 
   constructor(
@@ -25,6 +26,7 @@ export class YeuToPhiDialogComponent implements OnInit {
     try {
       const response: any = await this.dataService.get("/YeuToPhi").toPromise();
       this.danhSachYeuToPhi = response;
+      this.danhSachYeuToPhiGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -45,14 +47,31 @@ export class YeuToPhiDialogComponent implements OnInit {
   }
 
   filterDanhSachYeuToPhi() {
-    if (!this.searchTerm) {
-      this.loadDataYeuToPhi(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachYeuToPhi = this.danhSachYeuToPhi.filter((yeuToPhi) =>
-        this.normalizeString(yeuToPhi.TEN_YTP).includes(normalizedSearchTerm),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    if (!keyword) {
+      this.danhSachYeuToPhi = [...this.danhSachYeuToPhiGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachYeuToPhi = this.danhSachYeuToPhiGoc.filter((ytp) => {
+      const tenRaw = (ytp.TEN_YTP || "").toLowerCase();
+      const tenNormalized = this.normalizeString(ytp.TEN_YTP);
+
+      const maRaw = (ytp.MA_YTP || "").toLowerCase();
+
+      return (
+        // tìm theo mã yếu tố phí
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   public columnInfonhapyeuToPhi: any[] = [

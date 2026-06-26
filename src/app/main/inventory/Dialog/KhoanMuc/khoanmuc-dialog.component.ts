@@ -56,11 +56,18 @@ export class KhoanMucDialogComponent implements OnInit {
     const normalizedSearch = this.normalizeString(keyword);
 
     this.danhSachKhoanMuc = this.danhSachKhoanMucGoc.filter((khoanMuc) => {
-      const tenRaw = khoanMuc.TEN_KM.toLowerCase();
-      const tenNormalized = this.normalizeString(khoanMuc.TEN_KM);
+      const tenRaw = (khoanMuc.TEN_KM || "").toLowerCase();
+      const tenNormalized = this.normalizeString(khoanMuc.TEN_KM || "");
+
+      const maRaw = (khoanMuc.MA_KM || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        // tìm theo mã khoản mục
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
       );
     });
   }

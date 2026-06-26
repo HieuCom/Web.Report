@@ -7,6 +7,7 @@ import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { TaiKhoanDialogComponent } from "../../Dialog/TaiKhoan/taikhoan-dialog.component";
 import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-hdmv",
   templateUrl: "./hoadonmuavao.component.html",
@@ -74,6 +75,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private router: Router,
     private columnInfoService: ColuminfoService,
@@ -81,6 +83,7 @@ export class HoaDonMuaVaoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Báo Cáo Hóa Đơn Mua Vào");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();

@@ -8,6 +8,7 @@ import {
   ɵɵinjectPipeChangeDetectorRef,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { NavigationExtras, Router } from "@angular/router";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -42,6 +43,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
   public don_vi: string = "0103542639";
 
   constructor(
+    private titleService: Title,
     private _dataService: DataService,
     private router: Router,
     private columnInfoService: ColuminfoService,
@@ -49,6 +51,7 @@ export class CanDoiKeToanComponent2 implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Bảng Cân Đối Kế Toán");
     var user = this._authenService.getLoggedInUser();
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());

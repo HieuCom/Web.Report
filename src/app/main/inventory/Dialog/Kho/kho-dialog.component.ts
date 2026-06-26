@@ -57,7 +57,7 @@ export class KhoDialogComponent implements OnInit {
   filterDanhSachKho() {
     const keyword = this.searchTerm?.trim();
 
-    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    // Nếu rỗng → trả lại dữ liệu gốc
     if (!keyword) {
       this.danhSachKho = [...this.danhSachKhoGoc];
       return;
@@ -67,11 +67,18 @@ export class KhoDialogComponent implements OnInit {
     const normalizedSearch = this.normalizeString(keyword);
 
     this.danhSachKho = this.danhSachKhoGoc.filter((kho) => {
-      const tenRaw = kho.TEN_KHO.toLowerCase();
-      const tenNormalized = this.normalizeString(kho.TEN_KHO);
+      const tenRaw = (kho.TEN_KHO || "").toLowerCase();
+      const tenNormalized = this.normalizeString(kho.TEN_KHO || "");
+
+      const maRaw = (kho.MA_KHO || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        // tìm theo mã kho
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
       );
     });
   }

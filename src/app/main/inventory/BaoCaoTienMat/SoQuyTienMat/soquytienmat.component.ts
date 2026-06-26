@@ -1,21 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { DataService } from "src/app/core/services/data.service";
-import { NotificationService } from "src/app/core/services/notification.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
-import { ColuminfoService } from "src/app/core/services/columinfo.service";
-import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
-import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
-import { DoiTuongDialogComponent } from "../../Dialog/DoiTuong/doituong-dialog.component";
-import { NhomSanPhamDialogComponent } from "../../Dialog/NhomSanPham/nhomsanpham-dialog.component";
-import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.component";
-import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.component";
-import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
-import { NhomDoiTuongDialogComponent } from "../../Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
-import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
 import * as XLSX from "xlsx";
+import { ReportFilterComponent } from "src/app/shared/FormBaoCaoChung/ReportFilterComponent.component";
+import { ActivatedRoute } from "@angular/router";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-soquytienmat",
@@ -85,7 +77,8 @@ export class SoQuyTienMatComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    private modalService: BsModalService,
+    private route: ActivatedRoute,
+    private titleService: Title,
   ) {}
 
   bsConfig: Partial<BsDatepickerConfig> = {
@@ -95,9 +88,10 @@ export class SoQuyTienMatComponent implements OnInit {
   };
 
   ngOnInit() {
-    // this.reportFields = this.formConfigs[this.selectedReportType];
+    this.titleService.setTitle("Sổ quỹ tiền mặt");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
+    this.loadReportFromUrl();
 
     this.loadnodauky();
     this.loadnocuoiky();
@@ -110,19 +104,20 @@ export class SoQuyTienMatComponent implements OnInit {
     }
   }
 
+  loadReportFromUrl(): void {
+    const reportName = this.route.snapshot.paramMap.get("id");
+
+    console.log(reportName);
+  }
+
   private getNowUTC(now: Date) {
     return new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   }
 
-  loadData(filter: any = null) {
-    if (filter) {
-      this.fromDate = filter.fromDate;
-      this.toDate = filter.toDate;
-      this.ma_tk = filter.ma_tk;
-      this.ma_dt = filter.ma_dt;
-      this.ma_vv = filter.ma_vv;
-    }
+  @ViewChild("reportFilter")
+  reportFilter: ReportFilterComponent;
 
+  loadData() {
     this.loadnodauky();
     this.loadnocuoiky();
 
@@ -131,7 +126,7 @@ export class SoQuyTienMatComponent implements OnInit {
         TU_NGAY: this.getNowUTC(this.fromDate),
         DEN_NGAY: this.getNowUTC(this.toDate),
         ID_DV: 1,
-        ID_DT: this.ma_dt || 0,
+        ID_DT: this.ma_dt,
         MA_TK: this.ma_tk,
         MA_VV: this.ma_vv,
       })
@@ -223,6 +218,22 @@ export class SoQuyTienMatComponent implements OnInit {
   }
 
   reloaddata() {
+    const filter = this.reportFilter.getFilterData();
+
+    console.log(filter);
+
+    this.fromDate = filter.fromDate;
+    this.toDate = filter.toDate;
+    this.ma_tk = filter.ma_tk;
+    this.ma_dt = filter.ma_dt;
+    this.ma_vv = filter.ma_vv;
+    this.ma_km = filter.ma_km;
+    this.ma_nhom_dt = filter.ma_nhom_dt;
+    this.don_vi = filter.don_vi;
+    this.ma_nhom_sp = filter.ma_nhom_sp;
+    this.nametable = filter.nametable;
+    this.ma_tt = filter.ma_tt;
+
     this.loadData();
   }
 
@@ -234,114 +245,114 @@ export class SoQuyTienMatComponent implements OnInit {
     });
   }
 
-  openTKDialog() {
-    const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
-        this.ma_tk = ma_tk;
-        // Close the dialog if needed
-        dialogRef.hide();
-      });
-    }
-  }
-  openDTDialog() {
-    const dialogRef = this.modalService.show(DoiTuongDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
-        this.ID_DT = selectedDT.ID_DT;
-        this.ma_dt = selectedDT.MA_DT;
-        this.ten_dt = selectedDT.TEN_DT;
-        dialogRef.hide();
-      });
-    }
-  }
-  openSPDialog() {
-    const dialogRef = this.modalService.show(SanPhamDialogComponent, {
-      initialState: {
-        bitLoaiNL: 16,
-      },
-      class: "modal-xl",
-    });
-    if (dialogRef.content) {
-      dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
-        this.ID_SP = selectedSP.ID_NL;
-        this.ma_sp = selectedSP.MA_NL;
-        this.ten_sp = selectedSP.TEN_NL;
-        dialogRef.hide();
-      });
-    }
-  }
-  openKMDialog() {
-    const dialogRef = this.modalService.show(KhoanMucDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
-        this.ID_KM = selectedKM.ID_KM;
-        this.ma_km = selectedKM.MA_KM;
-        this.ten_km = selectedKM.TEN_KM;
-        dialogRef.hide();
-      });
-    }
-  }
-  openNSPDialog() {
-    const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
-      initialState: {
-        bitLoaiNL: 16,
-      },
-      class: "modal-xl",
-    });
-    if (dialogRef.content) {
-      dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
-        this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
-        this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
-        this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
-        dialogRef.hide();
-      });
-    }
-  }
-  openVVDialog() {
-    const dialogRef = this.modalService.show(VuViecDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
-        this.ID_VV = selectedVV.ID_VV;
-        this.ma_vv = selectedVV.MA_VV;
-        this.ten_vv = selectedVV.TEN_VV;
-        dialogRef.hide();
-      });
-    }
-  }
-  openYTPDialog() {
-    const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
-        this.ID_YTP = selectedYTP.ID_YTP;
-        this.ma_ytp = selectedYTP.MA_YTP;
-        this.ten_ytp = selectedYTP.TEN_YTP;
-        dialogRef.hide();
-      });
-    }
-  }
-  openTTDialog() {
-    const dialogRef = this.modalService.show(TienTeDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
-        this.ID_TT = selectedTT.ID_TT;
-        this.ma_tt = selectedTT.MA_TT;
-        this.ten_tt = selectedTT.TEN_TT;
-        dialogRef.hide();
-      });
-    }
-  }
-  openNDTDialog() {
-    const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
-    if (dialogRef.content) {
-      dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
-        this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
-        this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
-        this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
-        dialogRef.hide();
-      });
-    }
-  }
+  // openTKDialog() {
+  //   const dialogRef = this.modalService.show(TaiKhoanDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.taikhoanSelected.subscribe((ma_tk: string) => {
+  //       this.ma_tk = ma_tk;
+  //       // Close the dialog if needed
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openDTDialog() {
+  //   const dialogRef = this.modalService.show(DoiTuongDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.doiTuongSelected.subscribe((selectedDT: any) => {
+  //       this.ID_DT = selectedDT.ID_DT;
+  //       this.ma_dt = selectedDT.MA_DT;
+  //       this.ten_dt = selectedDT.TEN_DT;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openSPDialog() {
+  //   const dialogRef = this.modalService.show(SanPhamDialogComponent, {
+  //     initialState: {
+  //       bitLoaiNL: 16,
+  //     },
+  //     class: "modal-xl",
+  //   });
+  //   if (dialogRef.content) {
+  //     dialogRef.content.sanPhamSelected.subscribe((selectedSP: any) => {
+  //       this.ID_SP = selectedSP.ID_NL;
+  //       this.ma_sp = selectedSP.MA_NL;
+  //       this.ten_sp = selectedSP.TEN_NL;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openKMDialog() {
+  //   const dialogRef = this.modalService.show(KhoanMucDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.khoanMucSelected.subscribe((selectedKM: any) => {
+  //       this.ID_KM = selectedKM.ID_KM;
+  //       this.ma_km = selectedKM.MA_KM;
+  //       this.ten_km = selectedKM.TEN_KM;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openNSPDialog() {
+  //   const dialogRef = this.modalService.show(NhomSanPhamDialogComponent, {
+  //     initialState: {
+  //       bitLoaiNL: 16,
+  //     },
+  //     class: "modal-xl",
+  //   });
+  //   if (dialogRef.content) {
+  //     dialogRef.content.nhomSanPhamSelected.subscribe((selectedNSP: any) => {
+  //       this.ID_NHOM_SP = selectedNSP.ID_NHOM_NL;
+  //       this.ma_nhom_sp = selectedNSP.MA_NHOM_NL;
+  //       this.ten_nhom_sp = selectedNSP.TEN_NHOM_NL;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openVVDialog() {
+  //   const dialogRef = this.modalService.show(VuViecDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.vuViecSelected.subscribe((selectedVV: any) => {
+  //       this.ID_VV = selectedVV.ID_VV;
+  //       this.ma_vv = selectedVV.MA_VV;
+  //       this.ten_vv = selectedVV.TEN_VV;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openYTPDialog() {
+  //   const dialogRef = this.modalService.show(YeuToPhiDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.yeuToPhiSelected.subscribe((selectedYTP: any) => {
+  //       this.ID_YTP = selectedYTP.ID_YTP;
+  //       this.ma_ytp = selectedYTP.MA_YTP;
+  //       this.ten_ytp = selectedYTP.TEN_YTP;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openTTDialog() {
+  //   const dialogRef = this.modalService.show(TienTeDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.tienTeSelected.subscribe((selectedTT: any) => {
+  //       this.ID_TT = selectedTT.ID_TT;
+  //       this.ma_tt = selectedTT.MA_TT;
+  //       this.ten_tt = selectedTT.TEN_TT;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
+  // openNDTDialog() {
+  //   const dialogRef = this.modalService.show(NhomDoiTuongDialogComponent);
+  //   if (dialogRef.content) {
+  //     dialogRef.content.nhomDoiTuongSelected.subscribe((selectedNDT: any) => {
+  //       this.ID_NHOM_DT = selectedNDT.ID_NHOM_DT;
+  //       this.ma_nhom_dt = selectedNDT.MA_NHOM_DT;
+  //       this.ten_nhom_dt = selectedNDT.TEN_NHOM_DT;
+  //       dialogRef.hide();
+  //     });
+  //   }
+  // }
   onChangePageSize() {
     this.loadData();
   }
@@ -546,67 +557,4 @@ export class SoQuyTienMatComponent implements OnInit {
       Format: "#,##0.##;(#,##0.##);#",
     },
   ];
-
-  filterData: any = {};
-
-  reportFields = [
-    {
-      name: "fromDate",
-      label: "Từ ngày",
-      type: "date",
-    },
-    {
-      name: "toDate",
-      label: "Đến ngày",
-      type: "date",
-    },
-    {
-      name: "ma_tk",
-      label: "Tài khoản",
-      type: "lookup",
-      lookupType: "TAIKHOAN",
-    },
-    {
-      name: "ma_dt",
-      label: "Đối tượng",
-      type: "lookup",
-      lookupType: "DOITUONG",
-    },
-    {
-      name: "ma_vv",
-      label: "Vụ việc",
-      type: "lookup",
-      lookupType: "VUVIEC",
-    },
-  ];
-
-  selectedReportType = "doanhthu";
-
-  onSearch(filter: any) {
-    this.loadData(filter);
-  }
-
-  onLookup(field: any) {
-    switch (field.lookupType) {
-      case "DOITUONG":
-        this.openDTDialog();
-        break;
-
-      case "SANPHAM":
-        this.openSPDialog();
-        break;
-
-      case "TAIKHOAN":
-        this.openTKDialog();
-        break;
-
-      case "VUVIEC":
-        this.openVVDialog();
-        break;
-
-      case "YEUTO":
-        this.openYTPDialog();
-        break;
-    }
-  }
 }

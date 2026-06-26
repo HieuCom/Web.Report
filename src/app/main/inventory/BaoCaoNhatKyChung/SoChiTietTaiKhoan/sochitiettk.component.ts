@@ -16,6 +16,7 @@ import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.compone
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-sochitiettk",
   templateUrl: "./sochitiettk.component.html",
@@ -81,6 +82,7 @@ export class SoChiTietTKComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -89,8 +91,9 @@ export class SoChiTietTKComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ Chi Tiết Tài Khoản");
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
     this.getListTaiKhoan();
     this.loadData();

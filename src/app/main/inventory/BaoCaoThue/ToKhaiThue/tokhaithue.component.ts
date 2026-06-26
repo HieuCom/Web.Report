@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-tokhaithue",
   templateUrl: "./tokhaithue.component.html",
@@ -71,6 +72,7 @@ export class ToKhaiThueComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -79,6 +81,7 @@ export class ToKhaiThueComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Báo Cáo Tờ Khai Thuế");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();

@@ -6,6 +6,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-luuchuyentien-list",
   templateUrl: "./lctt.component.html",
@@ -39,6 +40,7 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -47,8 +49,9 @@ export class LuuChuyenTienTeListComponent2 implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Báo Cáo Lưu Chuyển Tiền Tệ");
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
     this.loadData();
   }

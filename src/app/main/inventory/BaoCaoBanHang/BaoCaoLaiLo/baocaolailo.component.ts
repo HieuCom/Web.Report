@@ -16,6 +16,7 @@ import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.compone
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
 import { TaiKhoanCNDialogComponent } from "../../Dialog/TaiKhoan/taikhoanCN-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-baocaolailo",
   templateUrl: "./baocaolailo.component.html",
@@ -88,9 +89,11 @@ export class BaoCaoLaiLoComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Báo Cáo Lãi Lỗ");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();

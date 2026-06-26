@@ -11,6 +11,7 @@ import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.c
 import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.component";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { KhoDialogComponent } from "../../Dialog/Kho/kho-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-bangkebanhang",
   templateUrl: "./bangkebanhang.component.html",
@@ -82,11 +83,13 @@ export class BangKeBanHangComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Bảng kê bán hàng");
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
   }
 

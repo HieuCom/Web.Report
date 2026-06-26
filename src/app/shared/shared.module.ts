@@ -12,6 +12,8 @@ import { RouterModule } from "@angular/router";
 import { SignalrService } from "../core/services/signalr.service";
 import { ConfirmPopupComponent } from "./confirm-popup/confirm-popup.component";
 import { ReportFilterComponent } from "./FormBaoCaoChung/ReportFilterComponent.component";
+import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { BubbleMenuComponent } from "./bubble-menu/bubble-menu.component";
 
 @NgModule({
   declarations: [
@@ -20,13 +22,21 @@ import { ReportFilterComponent } from "./FormBaoCaoChung/ReportFilterComponent.c
     SimpleTinyComponent,
     ConfirmPopupComponent,
     ReportFilterComponent,
+    BubbleMenuComponent,
   ],
-  imports: [CommonModule, TranslateModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    RouterModule,
+    BsDatepickerModule.forRoot(),
+  ],
   exports: [
     TopMenuComponent,
     SidebarMenuComponent,
     SimpleTinyComponent,
     ReportFilterComponent,
+    BubbleMenuComponent,
   ],
   providers: [DataService, AuthenService, UtilityService, SignalrService],
 })

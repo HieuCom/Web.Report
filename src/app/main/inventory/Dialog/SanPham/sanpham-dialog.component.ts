@@ -22,15 +22,19 @@ export class SanPhamDialogComponent implements OnInit {
   async loadDataSanPham() {
     try {
       const response: any = await this.dataService.get("/NguonLuc").toPromise();
+
       this.danhSachSanPhamGoc = response;
 
+      let data = response;
+
+      // 🔥 filter theo loại nguồn lực
       if (this.bitLoaiNL !== undefined && this.bitLoaiNL !== null) {
-        this.danhSachSanPham = response.filter(
+        data = data.filter(
           (nl) => (nl.BIT_LOAI_NL & this.bitLoaiNL) === this.bitLoaiNL,
         );
-      } else {
-        this.danhSachSanPham = response;
       }
+
+      this.danhSachSanPham = [...data];
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -86,21 +90,38 @@ export class SanPhamDialogComponent implements OnInit {
   filterDanhSachSanPham() {
     const keyword = this.searchTerm?.trim();
 
-    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    // luôn bắt đầu từ data gốc
+    let data = [...this.danhSachSanPhamGoc];
+
+    // 🔥 áp dụng lại filter loại sản phẩm
+    if (this.bitLoaiNL !== undefined && this.bitLoaiNL !== null) {
+      data = data.filter(
+        (nl) => (nl.BIT_LOAI_NL & this.bitLoaiNL) === this.bitLoaiNL,
+      );
+    }
+
+    // nếu không search → return data theo loại
     if (!keyword) {
-      this.danhSachSanPham = [...this.danhSachSanPhamGoc];
+      this.danhSachSanPham = data;
       return;
     }
 
     const rawSearch = keyword.toLowerCase();
     const normalizedSearch = this.normalizeString(keyword);
 
-    this.danhSachSanPham = this.danhSachSanPhamGoc.filter((sanPham) => {
-      const tenRaw = sanPham.TEN_NL.toLowerCase();
-      const tenNormalized = this.normalizeString(sanPham.TEN_NL);
+    this.danhSachSanPham = data.filter((sp) => {
+      const tenRaw = (sp.TEN_NL || "").toLowerCase();
+      const tenNormalized = this.normalizeString(sp.TEN_NL || "");
+
+      const maRaw = (sp.MA_NL || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        // search theo mã sản phẩm
+        maRaw.includes(rawSearch) ||
+        // search theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // search theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
       );
     });
   }

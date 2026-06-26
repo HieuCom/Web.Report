@@ -50,7 +50,7 @@ export class DoiTuongDialogComponent implements OnInit {
   filterDanhSachDoiTuong() {
     const keyword = this.searchTerm?.trim();
 
-    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    // Nếu rỗng → trả lại dữ liệu gốc
     if (!keyword) {
       this.danhSachDoiTuong = [...this.danhSachDoiTuongGoc];
       return;
@@ -59,12 +59,19 @@ export class DoiTuongDialogComponent implements OnInit {
     const rawSearch = keyword.toLowerCase();
     const normalizedSearch = this.normalizeString(keyword);
 
-    this.danhSachDoiTuong = this.danhSachDoiTuongGoc.filter((doiTuong) => {
-      const tenRaw = doiTuong.TEN_DT.toLowerCase();
-      const tenNormalized = this.normalizeString(doiTuong.TEN_DT);
+    this.danhSachDoiTuong = this.danhSachDoiTuongGoc.filter((dt) => {
+      const tenRaw = (dt.TEN_DT || "").toLowerCase();
+      const tenNormalized = this.normalizeString(dt.TEN_DT || "");
+
+      const maRaw = (dt.MA_DT || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        // tìm theo mã đối tượng
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
       );
     });
   }

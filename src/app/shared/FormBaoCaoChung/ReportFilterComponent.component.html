@@ -1,33 +1,482 @@
+<div class="report-form-group">
+  <label id="pick-report">Chọn báo cáo</label>
+
+  <select
+    id="pick-report"
+    class="form-control pick-report"
+    [(ngModel)]="selectedReport"
+    (change)="onReportChange()"
+  >
+    <option value="soquytienmat">Sổ quỹ tiền mặt</option>
+    <option value="soquynganhang">Sổ quỹ ngân hàng</option>
+    <option value="sochitietcongno">Sổ chi tiết công nợ</option>
+  </select>
+</div>
+
+<hr />
+
 <div class="row">
-  <div class="col-md-3" *ngFor="let field of fields">
-    <div class="form-group">
-      <label>{{ field.label }}</label>
+  <!-- Điều kiện chính -->
+  <div class="col-sm-6 col-md-5 col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Điều kiện chính
+        <button
+          type="button"
+          class="btn btn-sm btn-primary show-advanced-btn"
+          style="visibility: hidden"
+        >
+          {{ showAdvanced ? "Ẩn" : "Hiện" }}
+        </button>
+      </div>
 
-      <!-- DATE -->
-      <input
-        *ngIf="field.type === 'date'"
-        class="form-control"
-        bsDatepicker
-        [(ngModel)]="formData[field.name]"
-      />
+      <div class="advanced-panel panel-body">
+        <div class="row">
+          <div class="col-sm-6 col-md-6 col-xs-12">
+            <!-- fromDate -->
+            <div class="form-group" *ngIf="currentFields.includes('fromDate')">
+              <label for="startDate">Từ ngày:</label>
 
-      <!-- TEXT -->
-      <input
-        *ngIf="field.type === 'text'"
-        class="form-control"
-        [(ngModel)]="formData[field.name]"
-      />
+              <input
+                type="text"
+                class="form-control input-no-button"
+                placeholder="{{ 'FromDate| translate' }}"
+                bsDatepicker
+                [(ngModel)]="filter.fromDate"
+                [bsConfig]="bsConfig"
+              />
+            </div>
 
-      <!-- LOOKUP -->
-      <div *ngIf="field.type === 'lookup'" class="input-group">
-        <input class="form-control" [(ngModel)]="formData[field.name]" />
+            <!-- ma_tk -->
+            <div class="form-group" *ngIf="currentFields.includes('ma_tk')">
+              <label for="ma_tk">Tài khoản:</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="filter.ma_tk"
+                  id="ma_tk"
+                />
+                <div class="input-group-btn">
+                  <button class="btn btn-default" (click)="openTKDialog()">
+                    ...
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <div class="input-group-btn">
-          <button class="btn btn-default" (click)="onLookup(field)">...</button>
+          <div class="col-sm-6 col-md-6 col-xs-12">
+            <!-- toDate -->
+            <div class="form-group" *ngIf="currentFields.includes('toDate')">
+              <label for="endDate">Đến ngày:</label>
+
+              <input
+                type="text"
+                class="form-control input-no-button"
+                placeholder="{{ 'ToDate| translate' }}"
+                bsDatepicker
+                [(ngModel)]="filter.toDate"
+                [bsConfig]="bsConfig"
+              />
+            </div>
+            <div class="form-group" *ngIf="currentFields.includes('ma_dt')">
+              <label for="ma_dt">Đối tượng:</label>
+              <div class="input-group">
+                <input
+                  type="text"
+                  [(ngModel)]="filter.ma_dt"
+                  class="form-control"
+                  id="ma_dt"
+                />
+                <div class="input-group-btn">
+                  <button class="btn btn-default" (click)="openDTDialog()">
+                    ...
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <!-- <div class="col-md-2 col-sm-2 col-xs-12">
+          <div class="form-group" *ngIf="currentFields.includes('fromDate')">
+            <label for="startDate">Từ ngày:</label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="{{ 'FromDate| translate' }}"
+              bsDatepicker
+              [(ngModel)]="filter.fromDate"
+              [bsConfig]="bsConfig"
+            />
+          </div>
+
+          <div class="form-group" *ngIf="currentFields.includes('toDate')">
+            <label for="endDate">Đến ngày:</label>
+
+            <input
+              type="text"
+              class="form-control"
+              placeholder="{{ 'ToDate| translate' }}"
+              bsDatepicker
+              [(ngModel)]="filter.toDate"
+              [bsConfig]="bsConfig"
+            />
+          </div>
+
+          <div class="form-group" *ngIf="currentFields.includes('ma_tk')">
+            <label for="ma_tk">Tài khoản:</label>
+
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="filter.ma_tk"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openTKDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-sm-3 col-xs-12">
+          <div class="form-group" *ngIf="currentFields.includes('ma_dt')">
+            <label for="ma_dt">Đối tượng:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_dt"
+                class="form-control"
+                id="ma_dt"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openDTDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('ma_sp')">
+            <label for="ma_sp">Sản phẩm:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_sp"
+                class="form-control"
+                id="ma_sp"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openSPDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('ma_km')">
+            <label for="ma_km">Khoản mục:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_km"
+                class="form-control"
+                id="ma_km"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openKMDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+          <div class="form-group" *ngIf="currentFields.includes('ma_vv')">
+            <label for="ma_vv">Vụ việc:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_vv"
+                class="form-control"
+                id="ma_vv"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openVVDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('ma_ytp')">
+            <label for="ma_ytp">Yếu tố:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_ytp"
+                class="form-control"
+                id="ma_ytp"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openYTPDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('ma_nhom_dt')">
+            <label for="ma_nhom_dt">Nhóm đối tượng:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_nhom_dt"
+                class="form-control"
+                id="ma_nhom_dt"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openNDTDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('don_vi')">
+            <label for="don_vi">Đơn vị:</label>
+
+            <input
+              type="text"
+              [(ngModel)]="filter.don_vi"
+              class="form-control"
+              id="don_vi"
+            />
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12">
+          <div class="form-group" *ngIf="currentFields.includes('ma_nhom_sp')">
+            <label for="ma_nhom_sp">Nhóm sản phẩm:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_nhom_sp"
+                class="form-control"
+                id="ma_nhom_sp"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openNSPDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('nametable')">
+            <label for="td">Tiêu đề:</label>
+
+            <input
+              type="text"
+              [(ngModel)]="filter.nametable"
+              class="form-control"
+              id="td"
+            />
+          </div>
+          <div class="form-group" *ngIf="currentFields.includes('ma_tt')">
+            <label for="ma_tt">Loại tiền:</label>
+            <div class="input-group">
+              <input
+                type="text"
+                [(ngModel)]="filter.ma_tt"
+                class="form-control"
+                id="ma_tt"
+              />
+              <div class="input-group-btn">
+                <button class="btn btn-default" (click)="openTTDialog()">
+                  ...
+                </button>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-7 col-md-7 col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Điều kiện nâng cao
+        <button
+          type="button"
+          class="btn btn-sm btn-primary show-advanced-btn"
+          (click)="showAdvanced = !showAdvanced"
+        >
+          {{ showAdvanced ? "Ẩn" : "Hiện" }}
+        </button>
+      </div>
+      <div class="advanced-panel" [class.disabled-panel]="!showAdvanced">
+        <fieldset [disabled]="!showAdvanced">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-4 col-md-4 col-xs-12">
+                <div class="form-group" *ngIf="currentFields.includes('ma_sp')">
+                  <label for="ma_sp">Sản phẩm:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_sp"
+                      class="form-control"
+                      id="ma_sp"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openSPDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" *ngIf="currentFields.includes('ma_km')">
+                  <label for="ma_km">Khoản mục:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_km"
+                      class="form-control"
+                      id="ma_km"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openKMDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" *ngIf="currentFields.includes('ma_vv')">
+                  <label for="ma_vv">Vụ việc:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_vv"
+                      class="form-control"
+                      id="ma_vv"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openVVDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-xs-12">
+                <div
+                  class="form-group"
+                  *ngIf="currentFields.includes('ma_ytp')"
+                >
+                  <label for="ma_ytp">Yếu tố:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_ytp"
+                      class="form-control"
+                      id="ma_ytp"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openYTPDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="form-group"
+                  *ngIf="currentFields.includes('ma_nhom_dt')"
+                >
+                  <label for="ma_nhom_dt">Nhóm đối tượng:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_nhom_dt"
+                      class="form-control"
+                      id="ma_nhom_dt"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openNDTDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="form-group"
+                  *ngIf="currentFields.includes('don_vi')"
+                >
+                  <label for="don_vi">Đơn vị:</label>
+
+                  <input
+                    type="text"
+                    [(ngModel)]="filter.don_vi"
+                    class="form-control input-no-button"
+                    id="don_vi"
+                  />
+                </div>
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-xs-12">
+                <div
+                  class="form-group"
+                  *ngIf="currentFields.includes('ma_nhom_sp')"
+                >
+                  <label for="ma_nhom_sp">Nhóm sản phẩm:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_nhom_sp"
+                      class="form-control"
+                      id="ma_nhom_sp"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openNSPDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="form-group"
+                  *ngIf="currentFields.includes('nametable')"
+                >
+                  <label for="td">Tiêu đề:</label>
+
+                  <input
+                    type="text"
+                    [(ngModel)]="filter.nametable"
+                    class="form-control input-no-button"
+                    id="td"
+                  />
+                </div>
+                <div class="form-group" *ngIf="currentFields.includes('ma_tt')">
+                  <label for="ma_tt">Loại tiền:</label>
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      [(ngModel)]="filter.ma_tt"
+                      class="form-control"
+                      id="ma_tt"
+                    />
+                    <div class="input-group-btn">
+                      <button class="btn btn-default" (click)="openTTDialog()">
+                        ...
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
       </div>
     </div>
   </div>
 </div>
-
-<button class="btn btn-primary" (click)="onSearch()">Tìm kiếm</button>

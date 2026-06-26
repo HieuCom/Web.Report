@@ -16,6 +16,7 @@ import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.comp
 import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-candoicongno",
   templateUrl: "./cdcn.component.html",
@@ -87,9 +88,11 @@ export class CanDoiCongNoComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Bảng Cân Đối Công Nợ");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();

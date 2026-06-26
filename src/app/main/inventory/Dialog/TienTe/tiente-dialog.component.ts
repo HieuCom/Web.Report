@@ -59,11 +59,15 @@ export class TienTeDialogComponent implements OnInit {
     const normalizedSearch = this.normalizeString(keyword);
 
     this.danhSachTienTe = this.danhSachTienTeGoc.filter((tienTe) => {
-      const tenRaw = tienTe.TEN_TT.toLowerCase();
-      const tenNormalized = this.normalizeString(tienTe.TEN_TT);
+      const tenRaw = (tienTe.TEN_TT || "").toLowerCase();
+      const tenNormalized = this.normalizeString(tienTe.TEN_TT || "");
+
+      const maRaw = (tienTe.MA_TT || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        maRaw.includes(rawSearch) ||
+        tenRaw.includes(rawSearch) ||
+        tenNormalized.includes(normalizedSearch)
       );
     });
   }

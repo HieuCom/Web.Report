@@ -14,6 +14,7 @@ import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.compone
 import { NhomDoiTuongDialogComponent } from "../../Dialog/NhomDoiTuong/nhomdoituong-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
 import { KhoanMucDialogComponent } from "../../Dialog/KhoanMuc/khoanmuc-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-socaitk",
   templateUrl: "./socaitk.component.html",
@@ -83,9 +84,11 @@ export class SoCaiTKComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ Cái Tài Khoản");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
   }

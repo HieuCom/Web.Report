@@ -19,6 +19,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 export class NguonLucDialogComponent implements OnInit {
   @Output() nguonLucSelected = new EventEmitter<number>();
   danhSachNguonLuc: any[];
+  danhSachNguonLucGoc: any[] = [];
   public searchTerm: string = "";
 
   constructor(
@@ -35,6 +36,7 @@ export class NguonLucDialogComponent implements OnInit {
     try {
       const response: any = await this.dataService.get("/NguonLuc").toPromise();
       this.danhSachNguonLuc = response;
+      this.danhSachNguonLucGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -55,14 +57,32 @@ export class NguonLucDialogComponent implements OnInit {
   }
 
   filterDanhSachNguonLuc() {
-    if (!this.searchTerm) {
-      this.loadDataNguonLuc(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachNguonLuc = this.danhSachNguonLuc.filter((nguonLuc) =>
-        this.normalizeString(nguonLuc.TEN_NL).includes(normalizedSearchTerm),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // nếu rỗng → reset data gốc
+    if (!keyword) {
+      this.danhSachNguonLuc = [...this.danhSachNguonLucGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachNguonLuc = this.danhSachNguonLucGoc.filter((nl) => {
+      const tenRaw = (nl.TEN_NL || "").toLowerCase();
+      const tenNormalized = this.normalizeString(nl.TEN_NL || "");
+
+      const maRaw = (nl.MA_NL || "").toLowerCase();
+
+      return (
+        // tìm theo mã nguồn lực
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   public columnInfonhapnguonLuc: any[] = [

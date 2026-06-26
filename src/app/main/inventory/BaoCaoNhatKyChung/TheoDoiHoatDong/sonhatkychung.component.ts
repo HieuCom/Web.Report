@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-sonhatkychung",
   templateUrl: "./sonhatkychung.component.html",
@@ -39,6 +40,7 @@ export class SoNhatKyChungComponent implements OnInit {
   public ma_tk: string;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -47,8 +49,9 @@ export class SoNhatKyChungComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ Nhật Ký Chung");
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
   }
 

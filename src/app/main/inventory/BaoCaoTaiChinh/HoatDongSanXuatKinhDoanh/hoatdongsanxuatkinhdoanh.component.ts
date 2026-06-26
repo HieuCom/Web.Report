@@ -8,6 +8,7 @@ import { NavigationExtras, Router } from "@angular/router";
 import { ColuminfoService } from "src/app/core/services/columinfo.service";
 import { TaiKhoanDialogComponent } from "src/app/main/inventory/Dialog/TaiKhoan/taikhoan-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-hoatdongsanxuatkinhdoanh",
@@ -43,6 +44,7 @@ export class HoaDongListComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -51,6 +53,7 @@ export class HoaDongListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Báo Cáo Kết Quả Hoạt Động Sản Xuất Kinh Doanh");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
 

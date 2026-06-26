@@ -60,16 +60,21 @@ export class NhomDoiTuongDialogComponent implements OnInit {
     const rawSearch = keyword.toLowerCase();
     const normalizedSearch = this.normalizeString(keyword);
 
-    this.danhSachNhomDoiTuong = this.danhSachNhomDoiTuongGoc.filter(
-      (nhomDoiTuong) => {
-        const tenRaw = nhomDoiTuong.TEN_NHOM_DT.toLowerCase();
-        const tenNormalized = this.normalizeString(nhomDoiTuong.TEN_NHOM_DT);
+    this.danhSachNhomDoiTuong = this.danhSachNhomDoiTuongGoc.filter((n) => {
+      const tenRaw = (n.TEN_NHOM_DT || "").toLowerCase();
+      const tenNormalized = this.normalizeString(n.TEN_NHOM_DT || "");
 
-        return (
-          tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
-        );
-      },
-    );
+      const maRaw = (n.MA_NHOM_DT || "").toLowerCase();
+
+      return (
+        // tìm theo mã nhóm đối tượng
+        maRaw.includes(rawSearch) ||
+        // tìm theo tên có dấu
+        tenRaw.includes(rawSearch) ||
+        // tìm theo tên không dấu
+        tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   public columnInfonhapnhomDoiTuong: any[] = [

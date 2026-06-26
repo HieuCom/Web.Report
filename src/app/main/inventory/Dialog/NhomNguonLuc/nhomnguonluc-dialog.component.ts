@@ -10,7 +10,7 @@ import { NotificationService } from "src/app/core/services/notification.service"
 export class NhomNguonLucDialogComponent implements OnInit {
   @Output() nhomNguonLucSelected = new EventEmitter<number>();
   danhSachNhomNguonLuc: any[];
-
+  danhSachNhomNguonLucGoc: any[] = [];
   public searchTerm: string = "";
 
   constructor(
@@ -28,6 +28,7 @@ export class NhomNguonLucDialogComponent implements OnInit {
         .get("/NhomNguonLuc")
         .toPromise();
       this.danhSachNhomNguonLuc = response;
+      this.danhSachNhomNguonLucGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -48,17 +49,36 @@ export class NhomNguonLucDialogComponent implements OnInit {
   }
 
   filterDanhSachNhomNguonLuc() {
-    if (!this.searchTerm) {
-      this.loadDataNhomNguonLuc(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachNhomNguonLuc = this.danhSachNhomNguonLuc.filter(
-        (nhomNguonLuc) =>
-          this.normalizeString(nhomNguonLuc.TEN_NHOM_NL).includes(
-            normalizedSearchTerm,
-          ),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    if (!keyword) {
+      this.danhSachNhomNguonLuc = [...this.danhSachNhomNguonLucGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachNhomNguonLuc = this.danhSachNhomNguonLucGoc.filter(
+      (nhomNguonLuc) => {
+        const tenRaw = (nhomNguonLuc.TEN_NHOM_NL || "").toLowerCase();
+        const tenNormalized = this.normalizeString(
+          nhomNguonLuc.TEN_NHOM_NL || "",
+        );
+
+        const maRaw = (nhomNguonLuc.MA_NHOM_NL || "").toLowerCase();
+
+        return (
+          // 🔥 tìm theo mã nhóm nguồn lực
+          maRaw.includes(rawSearch) ||
+          // 🔥 tìm theo tên có dấu
+          tenRaw.includes(rawSearch) ||
+          // 🔥 tìm theo tên không dấu
+          tenNormalized.includes(normalizedSearch)
+        );
+      },
+    );
   }
 
   public columnInfonhapnhomNguonLuc: any[] = [

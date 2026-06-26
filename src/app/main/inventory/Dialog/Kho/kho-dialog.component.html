@@ -1,4 +1,13 @@
 <h1 class="modal-title">Kho</h1>
+<div class="search-box">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="filterDanhSachKho()"
+    placeholder="Tìm kiếm theo mã hoặc tên kho..."
+    class="form-control"
+  />
+</div>
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>

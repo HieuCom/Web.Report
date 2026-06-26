@@ -1,0 +1,35 @@
+<div class="speed-dial">
+  <div class="actions" [class.open]="isOpen">
+    <div class="action-item">
+      <span class="label">Đăng xuất</span>
+      <button class="action-btn logout-btn" (click)="logout()">
+        <i class="fa fa-sign-out"></i>
+      </button>
+    </div>
+
+    <div class="action-item">
+      <span class="label">Khóa màn hình</span>
+      <button class="action-btn lock-btn" (click)="lockScreen()">
+        <i class="fa fa-lock"></i>
+      </button>
+    </div>
+
+    <div class="action-item">
+      <span class="label">Toàn màn hình</span>
+      <button class="action-btn fullscreen-btn" (click)="toggleFullscreen()">
+        <i class="fa fa-expand"></i>
+      </button>
+    </div>
+
+    <div class="action-item">
+      <span class="label">Cài đặt</span>
+      <button class="action-btn setting-btn" (click)="openSetting()">
+        <i class="fa fa-cog"></i>
+      </button>
+    </div>
+  </div>
+
+  <button class="main-btn" (click)="toggleMenu()">
+    <i class="fa" [ngClass]="isOpen ? 'fa-times' : 'fa-bars'"> </i>
+  </button>
+</div>

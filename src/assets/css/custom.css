@@ -2598,6 +2598,7 @@ button,
 
 .input-group {
   margin-bottom: 10px;
+  width: 200px;
 }
 
 .ln_solid {

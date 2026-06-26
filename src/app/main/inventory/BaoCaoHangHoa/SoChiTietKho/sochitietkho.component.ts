@@ -9,6 +9,7 @@ import { SharedDataService } from "src/app/core/services/shared-data.service";
 import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog.component";
 import { NguonLucDialogComponent } from "src/app/main/inventory/Dialog/NguonLuc/nguonluc-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-sochitietkho",
@@ -51,6 +52,7 @@ export class SoChiTietKhoComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private router: Router,
     private columnInfoService: ColuminfoService,
@@ -60,8 +62,9 @@ export class SoChiTietKhoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ Chi Tiết Hàng Hóa");
     this.fromDate.setDate(1);
-    this.toDate.setDate;
+    this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();
     this.loadData();
   }

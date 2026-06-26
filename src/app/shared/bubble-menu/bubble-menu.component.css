@@ -1,0 +1,127 @@
+.speed-dial {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+}
+
+.main-btn {
+  width: 64px;
+  height: 64px;
+  border: none;
+  border-radius: 50%;
+  background: #1976d2;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.25),
+    0 3px 8px rgba(0, 0, 0, 0.15);
+
+  transition: all 0.35s ease;
+}
+
+.main-btn:hover {
+  transform: scale(1.08);
+}
+
+.actions {
+  position: absolute;
+  bottom: 80px;
+  right: 0;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+
+  opacity: 0;
+  transform: translateY(30px) scale(0.6);
+
+  pointer-events: none;
+
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Hiện menu */
+.actions.open .action-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Delay từng nút */
+.actions.open .action-item:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.actions.open .action-item:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.actions.open .action-item:nth-child(3) {
+  transition-delay: 0.15s;
+}
+
+.actions.open .action-item:nth-child(4) {
+  transition-delay: 0.2s;
+}
+
+/* Label */
+.label {
+  margin-right: 12px;
+  padding: 8px 14px;
+
+  background: white;
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* Nút con */
+.action-btn {
+  width: 52px;
+  height: 52px;
+
+  border: none;
+  border-radius: 50%;
+
+  color: white;
+  cursor: pointer;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+  transition: all 0.25s ease;
+}
+
+.action-btn:hover {
+  transform: scale(1.12);
+}
+
+/* Màu từng chức năng */
+.setting-btn {
+  background: #1976d2;
+}
+
+.fullscreen-btn {
+  background: #00897b;
+}
+
+.lock-btn {
+  background: #fb8c00;
+}
+
+.logout-btn {
+  background: #e53935;
+}

@@ -16,6 +16,7 @@ import { SanPhamDialogComponent } from "../../Dialog/SanPham/sanpham-dialog.comp
 import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-bangkechungtu",
   templateUrl: "./bangkechungtu.component.html",
@@ -87,6 +88,7 @@ export class BangKeChungTuComponent implements OnInit {
   bsModalRef!: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -95,6 +97,7 @@ export class BangKeChungTuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Bảng Kê Chứng Từ");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
   }

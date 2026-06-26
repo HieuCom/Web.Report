@@ -10,6 +10,7 @@ import { NotificationService } from "src/app/core/services/notification.service"
 export class VuViecDialogComponent implements OnInit {
   @Output() vuViecSelected = new EventEmitter<number>();
   danhSachVuViec: any[];
+  danhSachVuViecGoc: any[] = [];
   public searchTerm: string = "";
 
   constructor(
@@ -25,6 +26,7 @@ export class VuViecDialogComponent implements OnInit {
     try {
       const response: any = await this.dataService.get("/VuViec").toPromise();
       this.danhSachVuViec = response;
+      this.danhSachVuViecGoc = response;
     } catch (error) {
       console.error("An error occurred:", error);
     }
@@ -45,14 +47,29 @@ export class VuViecDialogComponent implements OnInit {
   }
 
   filterDanhSachVuViec() {
-    if (!this.searchTerm) {
-      this.loadDataVuViec(); // Reload the original list if the search term is empty
-    } else {
-      const normalizedSearchTerm = this.normalizeString(this.searchTerm);
-      this.danhSachVuViec = this.danhSachVuViec.filter((vuViec) =>
-        this.normalizeString(vuViec.TEN_VV).includes(normalizedSearchTerm),
-      );
+    const keyword = this.searchTerm?.trim();
+
+    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
+    if (!keyword) {
+      this.danhSachVuViec = [...this.danhSachVuViecGoc];
+      return;
     }
+
+    const rawSearch = keyword.toLowerCase();
+    const normalizedSearch = this.normalizeString(keyword);
+
+    this.danhSachVuViec = this.danhSachVuViecGoc.filter((vuViec) => {
+      const tenRaw = (vuViec.TEN_VV || "").toLowerCase();
+      const tenNormalized = this.normalizeString(vuViec.TEN_VV || "");
+
+      const maRaw = (vuViec.MA_VV || "").toLowerCase();
+
+      return (
+        maRaw.includes(rawSearch) ||
+        tenRaw.includes(rawSearch) ||
+        tenNormalized.includes(normalizedSearch)
+      );
+    });
   }
 
   public columnInfonhapvuViec: any[] = [

@@ -10,6 +10,7 @@ import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
 import { NhomNguonLucDialogComponent } from "../../Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { NguonLucDialogComponent } from "../../Dialog/NguonLuc/nguonluc-dialog.component";
+import { Title } from "@angular/platform-browser";
 @Component({
   selector: "app-thekho",
   templateUrl: "./thekho.component.html",
@@ -50,6 +51,7 @@ export class TheKhoComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   constructor(
+    private titleService: Title,
     private dataService: DataService,
     private _notificationService: NotificationService,
     private router: Router,
@@ -58,6 +60,7 @@ export class TheKhoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Thẻ Kho");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.updateColumnInfo();

@@ -17,44 +17,6 @@
         <!-- sidebar menu -->
         <app-sidebar-menu></app-sidebar-menu>
         <!-- /sidebar menu -->
-
-        <!-- /menu footer buttons -->
-        <div class="sidebar-footer hidden-small">
-          <a data-toggle="tooltip" data-placement="top" title="Cài đặt">
-            <span
-              id="icon"
-              class="glyphicon glyphicon-cog"
-              aria-hidden="true"
-            ></span>
-          </a>
-          <a data-toggle="tooltip" data-placement="top" title="Toàn màn hình">
-            <span
-              id="icon"
-              class="glyphicon glyphicon-fullscreen"
-              aria-hidden="true"
-            ></span>
-          </a>
-          <a data-toggle="tooltip" data-placement="top" title="Khóa màn hình">
-            <span
-              id="icon"
-              class="glyphicon glyphicon-eye-close"
-              aria-hidden="true"
-            ></span>
-          </a>
-          <a
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Đăng xuất"
-            (click)="logout()"
-          >
-            <span
-              id="icon"
-              class="glyphicon glyphicon-off"
-              aria-hidden="true"
-            ></span>
-          </a>
-        </div>
-        <!-- /menu footer buttons -->
       </div>
     </div>
 
@@ -66,6 +28,7 @@
     <div class="right_col" role="main">
       <div class="">
         <router-outlet></router-outlet>
+        <app-bubble-menu></app-bubble-menu>
       </div>
     </div>
     <!-- /page content -->

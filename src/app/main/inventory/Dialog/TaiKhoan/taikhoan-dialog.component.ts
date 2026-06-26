@@ -29,22 +29,6 @@ export class TaiKhoanDialogComponent implements OnInit {
     }
   }
 
-  public columnInfonhapTaiKhoan: any[] = [
-    {
-      Name: "MA_TK",
-      Caption: "Mã TK",
-      Width: 80,
-      Format: "",
-    },
-
-    {
-      Name: "TEN_TK",
-      Caption: "Tên tài khoản",
-      Width: 80,
-      Format: "",
-    },
-  ];
-
   chonTaiKhoan(maTaiKhoan: string) {
     const selectedTaiKhoan = this.danhSachTaiKhoan.find(
       (TaiKhoan) => TaiKhoan.MA_TK === maTaiKhoan,
@@ -64,7 +48,6 @@ export class TaiKhoanDialogComponent implements OnInit {
   filterDanhSachTaiKhoan() {
     const keyword = this.searchTerm?.trim();
 
-    // Nếu ô tìm kiếm rỗng → trả lại danh sách gốc
     if (!keyword) {
       this.danhSachTaiKhoan = [...this.danhSachTaiKhoanGoc];
       return;
@@ -74,12 +57,34 @@ export class TaiKhoanDialogComponent implements OnInit {
     const normalizedSearch = this.normalizeString(keyword);
 
     this.danhSachTaiKhoan = this.danhSachTaiKhoanGoc.filter((taikhoan) => {
-      const tenRaw = taikhoan.TEN_TK.toLowerCase();
-      const tenNormalized = this.normalizeString(taikhoan.TEN_TK);
+      const tenRaw = (taikhoan.TEN_TK || "").toLowerCase();
+      const tenNormalized = this.normalizeString(taikhoan.TEN_TK || "");
+
+      const maRaw = (taikhoan.MA_TK || "").toLowerCase();
 
       return (
-        tenRaw.includes(rawSearch) || tenNormalized.includes(normalizedSearch)
+        // tìm theo tên có dấu / không dấu
+        tenRaw.includes(rawSearch) ||
+        tenNormalized.includes(normalizedSearch) ||
+        // 🔥 thêm tìm theo mã tài khoản
+        maRaw.includes(rawSearch)
       );
     });
   }
+
+  public columnInfonhapTaiKhoan: any[] = [
+    {
+      Name: "MA_TK",
+      Caption: "Mã TK",
+      Width: 80,
+      Format: "",
+    },
+
+    {
+      Name: "TEN_TK",
+      Caption: "Tên tài khoản",
+      Width: 80,
+      Format: "",
+    },
+  ];
 }

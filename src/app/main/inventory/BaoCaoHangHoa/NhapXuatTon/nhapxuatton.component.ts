@@ -11,6 +11,7 @@ import { KhoDialogComponent } from "src/app/main/inventory/Dialog/Kho/kho-dialog
 import { NguonLucDialogComponent } from "src/app/main/inventory/Dialog/NguonLuc/nguonluc-dialog.component";
 import { NhomNguonLucDialogComponent } from "../../Dialog/NhomNguonLuc/nhomnguonluc-dialog.component";
 import { BsDatepickerConfig } from "ngx-bootstrap/datepicker";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-nhapxuatton",
@@ -64,11 +65,12 @@ export class NhapXuatTonComponent implements OnInit {
     private router: Router,
     private columnInfoService: ColuminfoService,
     private sharedDataService: SharedDataService,
-
+    private titleService: Title,
     private modalService: BsModalService,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Nhập Xuất Tồn");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
   }

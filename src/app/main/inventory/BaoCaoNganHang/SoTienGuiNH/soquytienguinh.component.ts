@@ -13,6 +13,7 @@ import { NhomSanPhamDialogComponent } from "../../Dialog/NhomSanPham/nhomsanpham
 import { TienTeDialogComponent } from "../../Dialog/TienTe/tiente-dialog.component";
 import { VuViecDialogComponent } from "../../Dialog/VuViec/vuviec-dialog.component";
 import { YeuToPhiDialogComponent } from "../../Dialog/YeuToPhi/yeutophi-dialog.component";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-soquytienguinh",
@@ -89,9 +90,11 @@ export class SoQuyTienGuiNHComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private modalService: BsModalService,
+    private titleService: Title,
   ) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Sổ quỹ ngân hàng");
     this.fromDate.setDate(1);
     this.toDate.setDate(new Date().getDate());
     this.loadnodauky();
